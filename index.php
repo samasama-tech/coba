@@ -11,7 +11,7 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+<nav class="navbar navbar-expand-lg navbar- light bg-light px-4">
     <a class="navbar-brand fw-bold" href="#">Get Hotels</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -20,9 +20,9 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a class="nav-link active" href="home.php">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="rooms.php">Rooms</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Facilities</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Contact us</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="facilities.php">Facilities</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.php">Contact us</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
         </ul>
         <!-- Trigger Login Modal -->
         <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
@@ -117,6 +117,7 @@
   </div>
 </div>
 
+<!-- Regist -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">

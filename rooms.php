@@ -35,7 +35,7 @@ $rooms = [
 </head>
 <body>
 
-Navbar
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
     <a class="navbar-brand fw-bold" href="#">Get Hotels</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -45,8 +45,8 @@ Navbar
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="rooms.php">Rooms</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Facilities</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="facilities.php">Facilities</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.php">Contact Us</a></li>
             <li class="nav-item"><a class="nav-link" href="#">About</a></li>
         </ul>
         <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
