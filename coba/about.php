@@ -98,7 +98,7 @@
                 <a href="https://twitter.com/nekopoi" class="text-info" target="_blank">
                     <i class="bi bi-twitter"></i>
                 </a>
-                <a href="https://wa.me/6285893093202" class="text-success" target="_blank">
+                <a href="https://wa.me/" class="text-success" target="_blank">
                     <i class="bi bi-whatsapp"></i>
                 </a>
                 <a href="mailto:qpp439@gmail.com" class="text-dark" target="_blank">

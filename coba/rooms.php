@@ -71,7 +71,10 @@ $rooms = [
             </li>
         </ul>
         <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-        <button class="btn btn-primary">Register</button>
+        
+<!-- Perbaikan (BENAR) -->
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+
     </div>
 </nav>
 

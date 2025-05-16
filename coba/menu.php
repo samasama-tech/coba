@@ -49,10 +49,8 @@
                     <a class="nav-link" href="about.php">About</a>
                 </li>
             </ul>
-            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                data-bs-target="#loginModal">Login</button>
             <!-- Perbaikan (BENAR) -->
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+            <a href="logot.php" class="btn btn-primary">Logout</a>
 
         </div>
     </nav>
@@ -86,9 +84,8 @@
                         <option value="Deluxe Room">Deluxe Room</option>
                     </select>
                 </div>
-
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-success w-100">Submit</button>
+                    <a href="kamar.php" class="btn btn-success w-100">Submit</a>
                 </div>
             </form>
         </div>
@@ -117,79 +114,6 @@
             echo '</div></div></div>';
         }
         ?>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">
-                        <i class="bi bi-box-arrow-in-right me-2"></i> User Login
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="login.php" method="POST">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-dark w-100">LOGIN</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">
-                        <i class="bi bi-person-plus me-2"></i> User Registration
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <form action="register.php" method="POST" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label">Phone Number</label>
-                                <input type="text" name="phone" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Confirm Password</label>
-                                <input type="password" name="cpassword" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-dark w-100">REGISTER</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 
