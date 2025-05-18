@@ -43,38 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="container my-5">
     <h2 class="mb-4">Pencarian Kamar Hotel</h2>
 
-    <form method="post" class="mb-5">
-        <div class="mb-3">
-            <label for="tipe" class="form-label">Tipe Kamar</label>
-            <select name="tipe" id="tipe" class="form-select" required>
-                <option value="">-- Pilih Tipe --</option>
-                <option value="Deluxe Room" <?= $tipe == 'Deluxe Room' ? 'selected' : '' ?>>Deluxe Room</option>
-                <option value="Luxury Room" <?= $tipe == 'Luxury Room' ? 'selected' : '' ?>>Luxury Room</option>
-                <option value="Supreme Deluxe Room" <?= $tipe == 'Supreme Deluxe Room' ? 'selected' : '' ?>>Supreme
-                    Deluxe Room</option>
-                <!-- Tambahkan tipe lain sesuai database jika perlu -->
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label for="kap" class="form-label">Kapasitas (orang)</label>
-            <input type="number" name="kap" id="kap" class="form-control" min="1" value="<?= htmlspecialchars($kap) ?>"
-                required>
-        </div>
-
-        <div class="mb-3">
-            <label for="ci" class="form-label">Check-in</label>
-            <input type="date" name="ci" id="ci" class="form-control" value="<?= htmlspecialchars($ci) ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="co" class="form-label">Check-out</label>
-            <input type="date" name="co" id="co" class="form-control" value="<?= htmlspecialchars($co) ?>" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Cari Kamar</button>
-    </form>
-
     <h4 class="mb-3">Hasil Pencarian</h4>
     <div class="mb-3">
         <p><strong>Tipe Kamar:</strong> <?= htmlspecialchars($tipe ?: '-') ?></p>
