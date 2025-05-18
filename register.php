@@ -1,21 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>User Registration</title>
-</head>
-<body>
-    <h2>User Registration</h2>
-    <form action="process_register.php" method="POST" enctype="multipart/form-data">
-        Name: <input type="text" name="name" required><br><br>
-        Email: <input type="email" name="email" required><br><br>
-        Phone Number: <input type="text" name="phone" required><br><br>
-        Address: <input type="text" name="address" required><br><br>
-        Pincode: <input type="text" name="pincode" required><br><br>
-        Date of Birth: <input type="date" name="dob" required><br><br>
-        Picture: <input type="file" name="picture" accept="image/*"><br><br>
-        Password: <input type="password" name="password" required><br><br>
-        Confirm Password: <input type="password" name="confirm_password" required><br><br>
-        <button type="submit">Register</button>
-    </form>
-</body>
-</html>
+<?php
+require 'koneksi.php';
+
+// Tangkap data dari form
+$nama = $_POST['nama'] ?? '';
+$email = $_POST['email'] ?? '';
+$no_hp = $_POST['no_hp'] ?? '';
+$password = $_POST['password'] ?? '';
+$cpassword = $_POST['cpassword'] ?? '';
+
+// Validasi password dan konfirmasi password
+if ($password !== $cpassword) {
+    die("Password dan Confirm Password tidak cocok.");
+}
+
+// Hash password
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+// Prepare statement untuk insert data
+$stmt = $conn->prepare("INSERT INTO cust (nama, email, no_hp, password) VALUES (?, ?, ?, ?)");
+if (!$stmt) {
+    die("Prepare failed: " . $conn->error);
+}
+
+// Bind parameters
+$stmt->bind_param("ssss", $nama, $email, $no_hp, $hashed_password);
+
+// Eksekusi query
+if ($stmt->execute()) {
+    echo "Registrasi berhasil! Silakan <a href='home.php'>login</a>.";
+} else {
+    // Cek error duplicate email
+    if ($conn->errno === 1062) {
+        echo "Email sudah terdaftar.";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+}
+
+// Tutup statement dan koneksi
+$stmt->close();
+$conn->close();
+?>

@@ -1,20 +1,36 @@
 <?php
 session_start();
 
-$valid_user = "admin";
-$valid_pass = "123456";
-
+require 'koneksi.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
+    $email = $_POST["email"];
     $password = $_POST["password"];
 
-    if ($username === $valid_user && $password === $valid_pass) {
-        $_SESSION["loggedin"] = true;
-        $_SESSION["username"] = $username;
-        header("Location: dashboard.php");
-        exit();
+    // Cek apakah user dengan email ini ada
+    $stmt = $conn->prepare("SELECT * FROM cust WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Jika ada user dengan email tsb
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+
+        // Cek apakah password cocok
+        if (password_verify($password, $user['password'])) {
+            $_SESSION["loggedin"] = true;
+            $_SESSION["email"] = $user["email"];
+            $_SESSION["name"] = $user["name"];
+            header("Location: menu.php");
+            exit();
+        } else {
+            echo "<script>alert('Password salah!'); window.history.back();</script>";
+        }
     } else {
-        echo "<script>alert('Login gagal!'); window.history.back();</script>";
+        echo "<script>alert('Email tidak ditemukan!'); window.history.back();</script>";
     }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
