@@ -1,3 +1,8 @@
+<?php
+session_start();
+$username = isset($_SESSION['nama']) ? $_SESSION['nama'] : 'Guest';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,20 +14,20 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-    .custom-navbar {
-        background-color: #ced4da;
-        /* Abu-abu terang agak gelap */
-    }
+        .custom-navbar {
+            background-color: #ced4da;
+            /* Abu-abu terang agak gelap */
+        }
 
-    .nav-pills .nav-link {
-        color: black;
-    }
+        .nav-pills .nav-link {
+            color: black;
+        }
 
-    .nav-pills .nav-link.active {
-        background-color: #adb5bd;
-        /* Abu-abu lebih gelap untuk tab aktif */
-        color: black !important;
-    }
+        .nav-pills .nav-link.active {
+            background-color: #adb5bd;
+            /* Abu-abu lebih gelap untuk tab aktif */
+            color: black !important;
+        }
     </style>
 </head>
 
@@ -50,7 +55,11 @@
                 </li>
             </ul>
             <!-- Perbaikan (BENAR) -->
-            <a href="logot.php" class="btn btn-primary">Logout</a>
+            <div class="d-flex align-items-center">
+                <span class="me-3 fw-semibold">Hi, <?php echo htmlspecialchars($username); ?></span>
+                <a href="logot.php" class="btn btn-primary">Logout</a>
+            </div>
+
 
         </div>
     </nav>
@@ -71,7 +80,8 @@
                 <div class="col-md-2">
                     <label class="form-label">Kapasitas</label>
                     <select name="adults" class="form-select">
-                        <?php for ($i = 1; $i <= 10; $i++) echo "<option>$i</option>"; ?>
+                        <?php for ($i = 1; $i <= 10; $i++)
+                            echo "<option>$i</option>"; ?>
                     </select>
                 </div>
                 <!-- Tambahkan di dalam <form> sebelum tombol Submit -->
@@ -96,24 +106,24 @@
         <h2 class="text-center mb-4">Our Rooms</h2>
         <div class="row g-4">
             <?php
-        $rooms = [
-            ["title" => "Supreme deluxe room", "price" => 900, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Wifi", "Air conditioner", "Room Heater", "Geyser"]],
-            ["title" => "Luxury Room", "price" => 600, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Wifi", "Air conditioner", "Room Heater"]],
-            ["title" => "Deluxe Room", "price" => 500, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Air conditioner", "Room Heater", "Geyser"]],
-        ];
+            $rooms = [
+                ["title" => "Supreme deluxe room", "price" => 900, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Wifi", "Air conditioner", "Room Heater", "Geyser"]],
+                ["title" => "Luxury Room", "price" => 600, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Wifi", "Air conditioner", "Room Heater"]],
+                ["title" => "Deluxe Room", "price" => 500, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Air conditioner", "Room Heater", "Geyser"]],
+            ];
 
-        foreach ($rooms as $room) {
-            echo '<div class="col-md-4">';
-            echo '<div class="card shadow-sm h-100">';
-            echo '<img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Room Image">';
-            echo '<div class="card-body">';
-            echo "<h5 class='card-title'>{$room['title']}</h5>";
-            echo "<p class='card-text fw-bold'>₹{$room['price']} per night</p>";
-            echo "<p><strong>Features:</strong> " . implode(", ", $room['features']) . "</p>";
-            echo "<p><strong>Facilities:</strong> " . implode(", ", $room['facilities']) . "</p>";
-            echo '</div></div></div>';
-        }
-        ?>
+            foreach ($rooms as $room) {
+                echo '<div class="col-md-4">';
+                echo '<div class="card shadow-sm h-100">';
+                echo '<img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Room Image">';
+                echo '<div class="card-body">';
+                echo "<h5 class='card-title'>{$room['title']}</h5>";
+                echo "<p class='card-text fw-bold'>₹{$room['price']} per night</p>";
+                echo "<p><strong>Features:</strong> " . implode(", ", $room['features']) . "</p>";
+                echo "<p><strong>Facilities:</strong> " . implode(", ", $room['facilities']) . "</p>";
+                echo '</div></div></div>';
+            }
+            ?>
         </div>
     </div>
 

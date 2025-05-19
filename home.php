@@ -104,31 +104,20 @@ $result = null;
         </div>
     </div>
 
-    <!-- Rooms Section -->
-    <div class="container my-5">
-        <h2 class="text-center mb-4">Our Rooms</h2>
-        <div class="row g-4">
-            <?php
-            $rooms = [
-                ["title" => "Supreme deluxe room", "price" => 900, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Wifi", "Air conditioner", "Room Heater", "Geyser"]],
-                ["title" => "Luxury Room", "price" => 600, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Wifi", "Air conditioner", "Room Heater"]],
-                ["title" => "Deluxe Room", "price" => 500, "features" => ["bedroom", "balcony", "kitchen"], "facilities" => ["Air conditioner", "Room Heater", "Geyser"]],
-            ];
 
-            foreach ($rooms as $room) {
-                echo '<div class="col-md-4">';
-                echo '<div class="card shadow-sm h-100">';
-                echo '<img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Room Image">';
-                echo '<div class="card-body">';
-                echo "<h5 class='card-title'>{$room['title']}</h5>";
-                echo "<p class='card-text fw-bold'>₹{$room['price']} per night</p>";
-                echo "<p><strong>Features:</strong> " . implode(", ", $room['features']) . "</p>";
-                echo "<p><strong>Facilities:</strong> " . implode(", ", $room['facilities']) . "</p>";
-                echo '</div></div></div>';
-            }
-            ?>
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Lokasi Kami</h2>
+            <div class="ratio ratio-16x9 shadow-sm rounded">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1178.8201746556047!2d106.82556891102848!3d-6.385918137982336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69eb6817164f0f%3A0x56bc7452dcaac286!2sApartemen%20Mares!5e0!3m2!1sid!2sid!4v1747631028110!5m2!1sid!2sid"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            </div>
+            <p class="text-center mt-3">Terletak di pusat kota dengan akses mudah ke berbagai tempat menarik.</p>
         </div>
-    </div>
+    </section>
 
     <!-- Login Modal -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -174,7 +163,7 @@ $result = null;
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" required>
+                                <input type="text" name="nama" class="form-control" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Email</label>

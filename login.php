@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $user['password'])) {
             $_SESSION["loggedin"] = true;
             $_SESSION["email"] = $user["email"];
-            $_SESSION["name"] = $user["name"];
+            $_SESSION["nama"] = $user["nama"];
             header("Location: menu.php");
             exit();
         } else {

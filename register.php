@@ -1,5 +1,6 @@
 <?php
 require 'koneksi.php';
+session_start(); // Mulai session
 
 // Tangkap data dari form
 $nama = $_POST['nama'] ?? '';
@@ -27,7 +28,12 @@ $stmt->bind_param("ssss", $nama, $email, $no_hp, $hashed_password);
 
 // Eksekusi query
 if ($stmt->execute()) {
-    echo "Registrasi berhasil! Silakan <a href='home.php'>login</a>.";
+    // Simpan username ke session
+    $_SESSION['nama'] = $nama;
+
+    // Redirect ke home.php (agar session langsung berlaku di halaman utama)
+    header("Location: home.php");
+    exit;
 } else {
     // Cek error duplicate email
     if ($conn->errno === 1062) {
