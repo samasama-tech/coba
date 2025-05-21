@@ -1,8 +1,8 @@
 <?php
 require 'koneksi.php';
-session_start(); // Mulai session
+session_start();
 
-// Tangkap data dari form
+
 $nama = $_POST['nama'] ?? '';
 $email = $_POST['email'] ?? '';
 $no_hp = $_POST['no_hp'] ?? '';

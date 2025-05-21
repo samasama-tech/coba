@@ -18,7 +18,6 @@ $result = null;
     <style>
         .custom-navbar {
             background-color: #ced4da;
-            /* Abu-abu terang agak gelap */
         }
 
         .nav-pills .nav-link {
@@ -27,7 +26,6 @@ $result = null;
 
         .nav-pills .nav-link.active {
             background-color: #adb5bd;
-            /* Abu-abu lebih gelap untuk tab aktif */
             color: black !important;
         }
     </style>
@@ -58,7 +56,6 @@ $result = null;
             </ul>
             <button class="btn btn-outline-primary me-2" data-bs-toggle="modal"
                 data-bs-target="#loginModal">Login</button>
-            <!-- Perbaikan (BENAR) -->
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
 
         </div>
@@ -84,7 +81,6 @@ $result = null;
                     <input type="number" name="kap" id="kap" class="form-control" min="1"
                         value="<?= htmlspecialchars($kap) ?>" required>
                 </div>
-                <!-- Tambahkan di dalam <form> sebelum tombol Submit -->
                 <div class="col-md-2">
                     <label for="tipe" class="form-label">Tipe Kamar</label>
                     <select name="tipe" id="tipe" class="form-select" required>
@@ -93,7 +89,6 @@ $result = null;
                         <option value="Luxury Room" <?= $tipe == 'Luxury Room' ? 'selected' : '' ?>>Luxury Room</option>
                         <option value="Supreme Deluxe Room" <?= $tipe == 'Supreme Deluxe Room' ? 'selected' : '' ?>>Supreme
                             Deluxe Room</option>
-                        <!-- Tambahkan tipe lain sesuai database jika perlu -->
                     </select>
                 </div>
 
@@ -104,7 +99,7 @@ $result = null;
         </div>
     </div>
 
-
+    <!-- Lokasi -->
     <section class="bg-light py-5">
         <div class="container">
             <h2 class="text-center mb-4">Lokasi Kami</h2>
@@ -119,7 +114,7 @@ $result = null;
         </div>
     </section>
 
-    <!-- Login Modal -->
+    <!-- Login -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -148,6 +143,7 @@ $result = null;
         </div>
     </div>
 
+    <!-- Register -->
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
