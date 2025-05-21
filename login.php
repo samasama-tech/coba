@@ -21,8 +21,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["loggedin"] = true;
             $_SESSION["email"] = $user["email"];
             $_SESSION["nama"] = $user["nama"];
-            header("Location: menu.php");
-            exit();
+            if (isset($_SESSION['last_page'])) {
+                $redirect = $_SESSION['last_page'];
+                header("Location: $redirect");
+                exit;
+            } else {
+                // Redirect ke halaman default
+                header("Location: index.php");
+                exit;
+            }
         } else {
             echo "<script>alert('Password salah!'); window.history.back();</script>";
         }

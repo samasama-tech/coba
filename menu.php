@@ -3,6 +3,7 @@ session_start();
 $username = isset($_SESSION['nama']) ? $_SESSION['nama'] : 'Guest';
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,7 +54,7 @@ $username = isset($_SESSION['nama']) ? $_SESSION['nama'] : 'Guest';
                 </li>
             </ul>
             <div class="d-flex align-items-center">
-                <span class="me-3 fw-semibold">Hi, <?php echo htmlspecialchars($username); ?></span>
+                <span class="fw-bold me-2">Hi, <?php echo htmlspecialchars($username); ?></span>
                 <a href="logout.php" class="btn btn-primary">Logout</a>
             </div>
         </div>

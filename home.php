@@ -1,4 +1,7 @@
 <?php
+session_start();
+$_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
+
 $tipe = "";
 $kap = "";
 $ci = "";
@@ -54,10 +57,14 @@ $result = null;
                     <a class="nav-link" href="about.php">About</a>
                 </li>
             </ul>
-            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                data-bs-target="#loginModal">Login</button>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
-
+            <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
+                <span class="fw-bold me-2">Hi, <?= htmlspecialchars($_SESSION['nama']) ?></span>
+                <a href="logout.php" class="btn btn-primary">Logout</a>
+            <?php else: ?>
+                <button class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">Login</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+            <?php endif; ?>
         </div>
     </nav>
 
