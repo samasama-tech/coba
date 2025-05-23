@@ -55,37 +55,8 @@ $rooms = [
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg custom-navbar px-4">
-        <a class="navbar-brand fw-bold" href="#">Get Hotels</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="nav nav-pills me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="home.php">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="rooms.php">Rooms</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="facilities.php">Facilities</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="about.php">About</a>
-                </li>
-            </ul>
-            <?php if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true): ?>
-                <span class="fw-bold me-2">Hi, <?= htmlspecialchars($_SESSION['nama']) ?></span>
-                <a href="logout.php" class="btn btn-primary">Logout</a>
-            <?php else: ?>
-                <button class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                    data-bs-target="#loginModal">Login</button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
-            <?php endif; ?>
-        </div>
-    </nav>
+    <?php include 'navbar.php'
+    ?>
 
     <!-- Rooms Section -->
     <div class="container my-5">
