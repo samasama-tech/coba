@@ -1,7 +1,8 @@
 <?php
 session_start();
-$username = isset($_SESSION['nama']) ? $_SESSION['nama'] : 'Guest';
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
+$activePages = ['home'];
 ?>
 
 
@@ -15,20 +16,7 @@ $_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        .custom-navbar {
-            background-color: #ced4da;
-        }
-
-        .nav-pills .nav-link {
-            color: black;
-        }
-
-        .nav-pills .nav-link.active {
-            background-color: #adb5bd;
-            color: black !important;
-        }
-    </style>
+    
 </head>
 
 <body>

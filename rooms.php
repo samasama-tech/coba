@@ -1,7 +1,7 @@
 <?php
 session_start();
 $_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
-
+$activePages = ['rooms'];
 $rooms = [
     [
         "title" => "Supreme Deluxe Room",
