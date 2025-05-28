@@ -80,7 +80,7 @@ $activePages = ['about'];
                     <a href="#" class="text-primary" target="_blank">
                         <i class="bi bi-facebook"></i>
                     </a>
-                    <a href="#" class="text-danger" target="_blank">
+                    <a href="https://www.instagram.com/kawaii.nayaa/" class="text-danger" target="_blank">
                         <i class="bi bi-instagram"></i>
                     </a>
                     <a href="https://twitter.com/nekopoi" class="text-info" target="_blank">

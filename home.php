@@ -16,13 +16,13 @@ $activePages = ['home'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    
+
 </head>
 
 <body>
 
     <?php include 'navbar.php'
-    ?>
+        ?>
 
     <!-- Booking Form -->
     <div class="container my-5">
@@ -66,10 +66,9 @@ $activePages = ['home'];
             <h2 class="text-center mb-4">Lokasi Kami</h2>
             <div class="ratio ratio-16x9 shadow-sm rounded">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1178.8201746556047!2d106.82556891102848!3d-6.385918137982336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69eb6817164f0f%3A0x56bc7452dcaac286!2sApartemen%20Mares!5e0!3m2!1sid!2sid!4v1747631028110!5m2!1sid!2sid"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.992047245303!2d115.1374700501162!3d-8.786816156588177!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd2448af6f410a5%3A0x313ee67691a146ca!2sAYANA%20Resort%20Bali!5e0!3m2!1sid!2sid!4v1748408708735!5m2!1sid!2sid"
                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
-
             </div>
             <p class="text-center mt-3">Terletak di pusat kota dengan akses mudah ke berbagai tempat menarik.</p>
         </div>

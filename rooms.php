@@ -24,8 +24,8 @@ $rooms = [
         "facilities" => ["Wifi, Ac, Luas 35m²"],
         "image" => "img/king.png"
     ]
-    
-    
+
+
 ];
 ?>
 
@@ -52,13 +52,18 @@ $rooms = [
             /* Abu-abu lebih gelap untuk tab aktif */
             color: black !important;
         }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
     </style>
 </head>
 
 <body>
 
     <?php include 'navbar.php'
-    ?>
+        ?>
 
     <!-- Rooms Section -->
     <div class="container my-5">

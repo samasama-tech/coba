@@ -14,7 +14,7 @@ if ($password !== $cpassword) {
     die("Password dan Confirm Password tidak cocok.");
 }
 
-// Hash password
+// Hash/enkripsi password
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // Prepare statement untuk insert data

@@ -28,6 +28,7 @@ if (empty($room) || empty($tipe) || empty($ci) || empty($co) || empty($total_har
     <meta charset="UTF-8" />
     <title>Transaksi Pemesanan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="img/icon.ico" type="image/x-icon" />
 </head>
 
@@ -89,7 +90,7 @@ if (empty($room) || empty($tipe) || empty($ci) || empty($co) || empty($total_har
             </div>
 
             <button type="submit" class="btn btn-success">Lanjutkan Pembayaran</button>
-            <a href="kamar.php" class="btn btn-secondary">Kembali</a>
+            <a href="home.php" class="btn btn-secondary">Kembali</a>
 
         </form>
     </div>
