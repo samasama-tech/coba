@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2025 at 04:55 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- Generation Time: May 28, 2025 at 04:49 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,7 +35,7 @@ CREATE TABLE `admin` (
   `tlp` bigint(15) NOT NULL,
   `user` varchar(255) NOT NULL,
   `pas` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -45,18 +45,20 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `cust` (
   `id_cust` int(12) NOT NULL,
-  `nama` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `no_hp` varchar(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `cust`
 --
 
-INSERT INTO `cust` (`id_cust`, `nama`, `email`, `password`, `no_hp`) VALUES
-(2, '', 'ppp@hakha.com', '$2y$10$UEvRmZzLPGzyJFpXMMty3.BXJ7NnOCPEgHmxuJ21mJ.WEHzJ1L.yC', '');
+INSERT INTO `cust` (`id_cust`, `username`, `email`, `password`, `no_hp`) VALUES
+(2, '', 'ppp@hakha.com', '$2y$10$UEvRmZzLPGzyJFpXMMty3.BXJ7NnOCPEgHmxuJ21mJ.WEHzJ1L.yC', ''),
+(8, 'alek', 'ppp@gamil.com', '$2y$10$Nk8kurKyQXw3uwCWFCPe5uc.DLS3M4y.8BfXS/3/CE/W0K3Is2CVa', ''),
+(9, 'lpkojihug', 'hhh@jhk.com', '$2y$10$XDOL59fn8fRYc4egNdfWQuSWHykNWI4EaHPXsDFgkeYH5KMlQ2sYG', '');
 
 -- --------------------------------------------------------
 
@@ -72,19 +74,28 @@ CREATE TABLE `kmr` (
   `kap` varchar(255) NOT NULL,
   `status` varchar(20) NOT NULL,
   `fasilitas` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `kmr`
 --
 
 INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilitas`) VALUES
-(6, '0001', 'Deluxe Room', 500000, '2', 'Kosong', 'Air conditioner, shower air panas/dingin, TV LED 32 inci, Brankas kecil'),
-(7, '0002', 'Deluxe Room', 500000, '2', 'Terisi', 'Air conditioner, shower air panas/dingin, TV LED 32 inci, Brankas kecil'),
-(8, '001', 'Luxury Room', 1000000, '3', 'Kosong', 'Air conditioner, shower air panas/dingin, TV LED 32 inci, Brankas kecil, Mesin kopi espresso dan pilihan teh premium'),
-(9, '002', 'Luxury Room', 1000000, '3', 'Terisi', 'Air conditioner, shower air panas/dingin, TV LED 32 inci, Brankas kecil, Mesin kopi espresso dan pilihan teh premium'),
-(10, '01', 'Supreme Deluxe Room', 1500000, '5', 'Kosong', 'Air conditioner, shower air panas/dingin, TV LED 32 inci, Brankas kecil, Mesin kopi espresso dan pilihan teh premium, Minibar lengkap dengan minuman premium dan snack gourmet\r\n'),
-(11, '02', 'Supreme Deluxe Room', 1500000, '5', 'Terisi', 'Air conditioner, shower air panas/dingin, TV LED 32 inci, Brankas kecil, Mesin kopi espresso dan pilihan teh premium, Minibar lengkap dengan minuman premium dan snack gourmet\r\n');
+(12, '001', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
+(13, '002', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
+(14, '003', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
+(15, '004', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
+(16, '005', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
+(17, '011', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(18, '012', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(19, '013', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(20, '014', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(21, '015', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(22, '021', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
+(25, '022', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
+(26, '023', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
+(27, '024', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
+(28, '025', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²');
 
 -- --------------------------------------------------------
 
@@ -99,7 +110,7 @@ CREATE TABLE `transaksi` (
   `harga` bigint(20) NOT NULL,
   `id_cust` int(12) NOT NULL,
   `tipe_kmr` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -139,13 +150,13 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `cust`
 --
 ALTER TABLE `cust`
-  MODIFY `id_cust` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_cust` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `kmr`
 --
 ALTER TABLE `kmr`
-  MODIFY `idkmr` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idkmr` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
