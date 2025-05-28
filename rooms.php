@@ -4,26 +4,28 @@ $_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
 $activePages = ['rooms'];
 $rooms = [
     [
-        "title" => "Supreme Deluxe Room",
-        "price" => 900,
-        "features" => ["Bedroom", "Balcony", "Kitchen"],
-        "facilities" => ["Wifi", "Air conditioner", "Room Heater", "Geyser"],
-        "image" => "img/deluxe.jpg"
-    ],
-    [
-        "title" => "Luxury Room",
-        "price" => 600,
-        "features" => ["Bedroom", "Balcony", "Kitchen"],
-        "facilities" => ["Wifi", "Air conditioner", "Room Heater"],
-        "image" => "img/sdkamar.jpg"
-    ],
-    [
         "title" => "Deluxe Room",
-        "price" => 500,
-        "features" => ["Bedroom", "Balcony", "Kitchen"],
-        "facilities" => ["Air conditioner", "Room Heater", "Geyser"],
-        "image" => "img/murahan.jpg"
+        "price" => 600000,
+        "features" => ["Double Bed", "Balcony", "Kitchen"],
+        "facilities" => ["Wifi, Ac, Luas 28m²"],
+        "image" => "img/double.png"
     ],
+    [
+        "title" => "Suite Room",
+        "price" => 500000,
+        "features" => ["Twin Bed", "Balcony", "Kitchen"],
+        "facilities" => ["Wifi, Ac, Luas 20m²"],
+        "image" => "img/twin.png"
+    ],
+    [
+        "title" => "Executive Room",
+        "price" => 700000,
+        "features" => ["King Bed", "Balcony", "Kitchen"],
+        "facilities" => ["Wifi, Ac, Luas 35m²"],
+        "image" => "img/king.png"
+    ]
+    
+    
 ];
 ?>
 
@@ -68,7 +70,7 @@ $rooms = [
                         <img src="<?= $room['image'] ?>" class="card-img-top" alt="Room Image">
                         <div class="card-body">
                             <h5 class="card-title"><?= $room['title'] ?></h5>
-                            <p class="card-text fw-bold">₹<?= $room['price'] ?> per night</p>
+                            <p class="card-text fw-bold">Rp<?= $room['price'] ?> per night</p>
                             <p><strong>Features:</strong> <?= implode(", ", $room['features']) ?></p>
                             <p><strong>Facilities:</strong> <?= implode(", ", $room['facilities']) ?></p>
                         </div>

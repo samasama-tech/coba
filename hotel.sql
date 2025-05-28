@@ -81,21 +81,21 @@ CREATE TABLE `kmr` (
 --
 
 INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilitas`) VALUES
-(12, '001', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
-(13, '002', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
-(14, '003', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
-(15, '004', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
-(16, '005', 'Deluxe Room', 600000, '2', '', 'king bed,wifi,ac,luas 28m²'),
-(17, '011', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(18, '012', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(19, '013', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(20, '014', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(21, '015', 'Standar Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(22, '021', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
-(25, '022', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
-(26, '023', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
-(27, '024', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²'),
-(28, '025', 'Executive Room', 700000, '2', '', 'double bed,wifi,ac,luas 32m²');
+(12, '001', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
+(13, '002', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
+(14, '003', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
+(15, '004', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
+(16, '005', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
+(17, '011', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(18, '012', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(19, '013', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(20, '014', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(21, '015', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
+(22, '021', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
+(25, '022', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
+(26, '023', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
+(27, '024', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
+(28, '025', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²');
 
 -- --------------------------------------------------------
 

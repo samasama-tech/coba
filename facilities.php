@@ -48,13 +48,13 @@ $activePages = ['facilities'];
             <?php
             $facilities = [
                 ["icon" => "wifi", "name" => "Free Wi-Fi", "desc" => "High-speed internet access in all rooms and public areas."],
-                ["icon" => "cup-straw", "name" => "Restaurant", "desc" => "Delicious cuisine from our in-house chefs."],
+                ["icon" => "cup-hot", "name" => "Restaurant", "desc" => "Delicious cuisine from our in-house chefs."],
                 ["icon" => "snow", "name" => "Air Conditioner", "desc" => "Comfortable cooling system for a relaxing stay."],
                 ["icon" => "tv", "name" => "Flat-screen TV", "desc" => "Entertainment options with cable access."],
-                ["icon" => "person-swimming", "name" => "Swimming Pool", "desc" => "Outdoor pool perfect for leisure and relaxation."],
-                ["icon" => "car-front", "name" => "Free Parking", "desc" => "Spacious parking area for guests."],
-                ["icon" => "dumbbell", "name" => "Gym", "desc" => "Stay fit with our well-equipped fitness center."],
-                ["icon" => "door-closed", "name" => "Room Service", "desc" => "24/7 service to your room for your convenience."],
+                ["icon" => "water", "name" => "Swimming Pool", "desc" => "Outdoor pool perfect for leisure and relaxation."],
+                ["icon" => "car-front-fill", "name" => "Free Parking", "desc" => "Spacious parking area for guests."],
+                ["icon" => "activity", "name" => "Gym", "desc" => "Stay fit with our well-equipped fitness center."],
+                ["icon" => "bell-fill", "name" => "Room Service", "desc" => "24/7 service to your room for your convenience."],
             ];
 
             foreach ($facilities as $f) {
