@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $user['password'])) {
             $_SESSION["loggedin"] = true;
             $_SESSION["email"] = $user["email"];
-            $_SESSION["username"] = $user["username"];
+            $_SESSION["nama"] = $user["nama"];
             if (isset($_SESSION['last_page'])) {
                 $redirect = $_SESSION['last_page'];
                 header("Location: $redirect");

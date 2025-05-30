@@ -2,71 +2,202 @@
 session_start();
 require('koneksi.php');
 
-$room = $_POST['room'] ?? '';
-$tipe = $_POST['tipe'] ?? '';
-$ci = $_POST['ci'] ?? '';
-$co = $_POST['co'] ?? '';
-$total = $_POST['total'] ?? 0;
-$metode = $_POST['metode_pembayaran'] ?? '';
-
-$metodeLabel = '';
-switch ($metode) {
-    case 'qris_shopeepay':
-        $metodeLabel = 'ShopeePay (QRIS)';
-        break;
-    case 'qris_linkaja':
-        $metodeLabel = 'LinkAja (QRIS)';
-        break;
-    case 'qris_ovo':
-        $metodeLabel = 'OVO (QRIS)';
-        break;
-    case 'va_bca':
-        $metodeLabel = 'Virtual Account BCA';
-        break;
-    case 'bank_bca':
-        $metodeLabel = 'Transfer Bank BCA';
-        break;
-    // Tambahkan lainnya sesuai opsi
-    default:
-        $metodeLabel = 'Metode tidak dikenal';
+// Validasi data POST
+if (!isset($_POST['room'], $_POST['tipe'], $_POST['ci'], $_POST['co'], $_POST['total'], $_POST['metode_pembayaran'])) {
+    die("Data tidak lengkap.");
 }
 
-// Simulasi kode pembayaran unik
-$kodePembayaran = strtoupper(substr(md5(uniqid()), 0, 10));
-$isi_qr = "Pembayaran Hotel GetHotels\nMetode: $metodeLabel\nKode: $kodePembayaran\nTotal: Rp " . number_format($total, 0, ',', '.');
+$room = htmlspecialchars($_POST['room']);
+$tipe = htmlspecialchars($_POST['tipe']);
+$ci = htmlspecialchars($_POST['ci']);
+$co = htmlspecialchars($_POST['co']);
+$total = (float)$_POST['total'];
+$metode = htmlspecialchars($_POST['metode_pembayaran']);
+
+// Mapping metode pembayaran ke label yang lebih deskriptif
+$metodeLabels = [
+    'qris_shopeepay' => 'ShopeePay (QRIS)',
+    'qris_dana' => 'Dana (QRIS)',
+    'qris_ovo' => 'OVO (QRIS)',
+    'va_bca' => 'Virtual Account BCA',
+    'va_bni' => 'Virtual Account BNI',
+    'va_mandiri' => 'Virtual Account Mandiri',
+    'bank_bca' => 'Transfer Bank BCA',
+    'bank_seabank' => 'Transfer ke SeaBank',
+    'bank_bni' => 'Transfer ke BNI',
+    'bank_bri' => 'Transfer ke BRI',
+    'cs_alfamart' => 'Alfamart',
+    'cs_indomaret' => 'Indomaret'
+];
+
+$metodeLabel = $metodeLabels[$metode] ?? 'Metode tidak dikenal';
+
+// Generate kode pembayaran unik
+$kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
+$metode_pembayaran = $_POST['metode_pembayaran']; // Input dari form
+
+switch ($metode_pembayaran) {
+    // QRIS (umumnya 1 link QR universal)
+    case 'qris_shopeepay':
+        $isi_qr = "soon ";
+        break;
+    case 'qris_dana':
+        $isi_qr = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012022050100222768 ";
+        break;
+    case 'qris_ovo':
+        $isi_qr = "https://gopay.co.id/app/scanqr?deeplink_source=request_money"; // Ganti dengan link QRIS sesuai integrasi kamu
+        break;
+
+    // Virtual Account
+    case 'va_bca':
+        $isi_qr = "https://va.bca.co.id/pay?va=500215190369";
+        break;
+    case 'va_bni':
+        $isi_qr = "https://va.bni.co.id/pay?va=$kodePembayaran";
+        break;
+    case 'va_mandiri':
+        $isi_qr = "https://va.mandiri.co.id/pay?va=$kodePembayaran";
+        break;
+
+    // Transfer Bank
+    case 'bank_bca':
+        $isi_qr = "https://transfer.bca.co.id/transfer?kode=$kodePembayaran";
+        break;
+    case 'bank_seabank':
+        $isi_qr = "https://seabank.co.id/transfer?kode=$kodePembayaran";
+        break;
+    case 'bank_bni':
+        $isi_qr = "https://bni.co.id/transfer?kode=$kodePembayaran";
+        break;
+    case 'bank_bri':
+        $isi_qr = "https://bri.co.id/transfer?kode=$kodePembayaran";
+        break;
+
+    // Convenience Store
+    case 'cs_alfamart':
+        $isi_qr = "https://pay.alfamart.co.id/?kode=$kodePembayaran";
+        break;
+    case 'cs_indomaret':
+        $isi_qr = "https://pay.indomaret.co.id/?kode=$kodePembayaran";
+        break;
+
+    default:
+        $isi_qr = "Metode pembayaran tidak dikenali.";
+        break;
+}
+
+// Generate QR code URL
+$qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($isi_qr);
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Pembayaran</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-5">
-    <h3>Instruksi Pembayaran</h3>
-    <div class="card p-4 mb-4">
-        <p><strong>Metode:</strong> <?= $metodeLabel ?></p>
-        <p><strong>Kode Pembayaran:</strong></p>
-        <div class="bg-light p-3 rounded border text-center fs-4 fw-bold"><?= $kodePembayaran ?></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+    .payment-card {
+        max-width: 600px;
+        margin: 0 auto;
+    }
 
-        <?php if (str_starts_with($metode, 'qris_')): ?>
-            <p class="mt-4"><strong>Scan QR untuk membayar:</strong></p>
-            <div class="text-center">
-                <img src="https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl=<?= urlencode($isi_qr) ?>" alt="QR Pembayaran">
+    .qr-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+    }
+
+    .payment-steps {
+        text-align: left;
+        margin-top: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <?php include 'navbar.php'; ?>
+
+    <div class="container mt-5">
+        <div class="card payment-card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Instruksi Pembayaran</h4>
             </div>
-            <p class="text-muted mt-2 text-center">Gunakan aplikasi e-wallet Anda untuk scan QR</p>
-        <?php else: ?>
-            <p class="mt-4"><strong>Langkah Pembayaran:</strong></p>
-            <ul>
-                <li>Gunakan metode: <strong><?= $metodeLabel ?></strong></li>
-                <li>Transfer sejumlah <strong>Rp <?= number_format($total, 0, ',', '.') ?></strong></li>
-                <li>Ke rekening / VA sesuai petunjuk (simulasi)</li>
-            </ul>
-        <?php endif; ?>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <?php if (str_starts_with($metode, 'qris_')): ?>
+                    <h5 class="text-success"><i class="bi bi-qr-code-scan"></i> Pembayaran QRIS</h5>
+                    <?php else: ?>
+                    <h5 class="text-primary"><i class="bi bi-credit-card"></i> Pembayaran <?= $metodeLabel ?></h5>
+                    <?php endif; ?>
+                </div>
+
+                <div class="text-center">
+                    <div class="qr-container mb-3">
+                        <img src="<?= $qrCodeUrl ?>" alt="QR Pembayaran" class="img-fluid">
+                    </div>
+                    <p class="text-muted">Scan QR code di atas untuk melakukan pembayaran</p>
+                </div>
+
+                <div class="payment-details mt-4">
+                    <h5>Detail Pembayaran</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>No. Kamar</th>
+                                <td><?= $room ?></td>
+                            </tr>
+                            <tr>
+                                <th>Tipe Kamar</th>
+                                <td><?= $tipe ?></td>
+                            </tr>
+                            <tr>
+                                <th>Check-in</th>
+                                <td><?= date('d F Y', strtotime($ci)) ?></td>
+                            </tr>
+                            <tr>
+                                <th>Check-out</th>
+                                <td><?= date('d F Y', strtotime($co)) ?></td>
+                            </tr>
+                            <tr>
+                                <th>Total Pembayaran</th>
+                                <td class="fw-bold">Rp <?= number_format($total, 0, ',', '.') ?></td>
+                            </tr>
+                            <tr>
+                                <th>Kode Pembayaran</th>
+                                <td class="text-danger fw-bold"><?= $kodePembayaran ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <?php if (!str_starts_with($metode, 'qris_')): ?>
+                <div class="payment-steps">
+                    <h5>Langkah Pembayaran:</h5>
+                    <ol>
+                        <li>Buka aplikasi mobile banking atau e-wallet Anda</li>
+                        <li>Pilih metode pembayaran <strong><?= $metodeLabel ?></strong></li>
+                        <li>Masukkan kode pembayaran: <strong><?= $kodePembayaran ?></strong></li>
+                        <li>Transfer sejumlah <strong>Rp <?= number_format($total, 0, ',', '.') ?></strong></li>
+                        <li>Simpan bukti pembayaran Anda</li>
+                    </ol>
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="card-footer text-center">
+                <a href="home.php" class="btn btn-primary">Kembali ke Beranda</a>
+                <button class="btn btn-success" onclick="window.print()">
+                    <i class="bi bi-printer"></i> Cetak Instruksi
+                </button>
+            </div>
+        </div>
     </div>
-    <a href="home.php" class="btn btn-secondary">Kembali ke Beranda</a>
-</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

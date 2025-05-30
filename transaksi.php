@@ -67,7 +67,7 @@ if (empty($room) || empty($tipe) || empty($ci) || empty($co) || empty($total_har
                 <label for="metode_pembayaran" class="form-label">Pilih Metode Pembayaran</label>
                 <select name="metode_pembayaran" id="metode_pembayaran" class="form-select" required>
                     <optgroup label="QRIS">
-                        <option value="qris_linkaja">LinkAja</option>
+                        <option value="qris_dana">Dana</option>
                         <option value="qris_shopeepay">ShopeePay</option>
                         <option value="qris_ovo">OVO</option>
                     </optgroup>

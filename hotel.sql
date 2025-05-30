@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2025 at 04:49 AM
+-- Generation Time: May 28, 2025 at 07:52 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -58,7 +58,7 @@ CREATE TABLE `cust` (
 INSERT INTO `cust` (`id_cust`, `username`, `email`, `password`, `no_hp`) VALUES
 (2, '', 'ppp@hakha.com', '$2y$10$UEvRmZzLPGzyJFpXMMty3.BXJ7NnOCPEgHmxuJ21mJ.WEHzJ1L.yC', ''),
 (8, 'alek', 'ppp@gamil.com', '$2y$10$Nk8kurKyQXw3uwCWFCPe5uc.DLS3M4y.8BfXS/3/CE/W0K3Is2CVa', ''),
-(9, 'lpkojihug', 'hhh@jhk.com', '$2y$10$XDOL59fn8fRYc4egNdfWQuSWHykNWI4EaHPXsDFgkeYH5KMlQ2sYG', '');
+(9, 'sugi', 'hhh@jhk.com', '$2y$10$XDOL59fn8fRYc4egNdfWQuSWHykNWI4EaHPXsDFgkeYH5KMlQ2sYG', '');
 
 -- --------------------------------------------------------
 
@@ -105,11 +105,11 @@ INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilita
 
 CREATE TABLE `transaksi` (
   `id_trans` int(11) NOT NULL,
-  `no_kmr` int(11) NOT NULL,
+  `nokmr` int(11) NOT NULL,
   `fasilitas` varchar(255) NOT NULL,
   `harga` bigint(20) NOT NULL,
   `id_cust` int(12) NOT NULL,
-  `tipe_kmr` varchar(25) NOT NULL
+  `tipe` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -140,7 +140,8 @@ ALTER TABLE `kmr`
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_trans`),
   ADD KEY `id_cust` (`id_cust`),
-  ADD KEY `no_kmr` (`no_kmr`);
+  ADD KEY `no_kmr` (`nokmr`),
+  ADD KEY `nokmr` (`nokmr`);
 
 --
 -- AUTO_INCREMENT for dumped tables

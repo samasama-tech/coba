@@ -27,8 +27,9 @@ $stmt->close();
 
 // Handle form submit (update data)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $newUsername = trim($_POST['username'] ?? '');
+  $newUsername = trim($_POST['nama'] ?? '');
   $newEmail = trim($_POST['email'] ?? '');
+  $newNoHp = trim($_POST['no_hp'] ?? '');
   $newPassword = trim($_POST['password'] ?? '');
   $newPasswordConfirm = trim($_POST['password_confirm'] ?? '');
 
@@ -51,16 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
       if ($newPassword !== '') {
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("UPDATE cust SET username = ?, email = ?, password = ? WHERE id_cust = ?");
-        $stmt->bind_param("sssi", $newUsername, $newEmail, $hashedPassword, $userId);
+        $stmt = $conn->prepare("UPDATE cust SET nama = ?, email = ?, password = ?, no_hp = ? WHERE id_cust = ?");
+        $stmt->bind_param("ssssi", $newUsername, $newEmail, $hashedPassword, $newNoHp, $userId);
       } else {
-        $stmt = $conn->prepare("UPDATE cust SET username = ?, email = ? WHERE id_cust = ?");
-        $stmt->bind_param("ssi", $newUsername, $newEmail, $userId);
+        $stmt = $conn->prepare("UPDATE cust SET nama = ?, email = ?, no_hp = ? WHERE id_cust = ?");
+        $stmt->bind_param("sssi", $newUsername, $newEmail, $newNoHp, $userId);
       }
 
       if ($stmt->execute()) {
         $_SESSION['email'] = $newEmail;
-        $_SESSION['username'] = $newUsername;
+        $_SESSION['nama'] = $newUsername;
         header("Location: profile.php?success=1");
         exit;
       } else {
@@ -72,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Ambil ulang data user untuk ditampilkan di form
-$stmt = $conn->prepare("SELECT username, email FROM cust WHERE id_cust = ?");
+$stmt = $conn->prepare("SELECT nama, email, no_hp FROM cust WHERE id_cust = ?");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -82,57 +83,64 @@ $stmt->close();
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Edit Profil</title>
-  <!-- Bootstrap 5 CSS -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit Profil</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
-  <?php include 'navbar.php' ?>
+    <?php include 'navbar.php' ?>
 
-  <div class="container py-4" style="max-width: 480px;">
-    <h2 class="mb-4">Edit Profil</h2>
+    <div class="container py-4" style="max-width: 480px;">
+        <h2 class="mb-4">Edit Profil</h2>
 
-    <?php if (isset($_GET['success'])): ?>
-      <div class="alert alert-success">Profil berhasil diperbarui.</div>
-    <?php elseif ($message): ?>
-      <div class="alert alert-info"><?= htmlspecialchars($message) ?></div>
-    <?php endif; ?>
+        <?php if (isset($_GET['success'])): ?>
+        <div class="alert alert-success">Profil berhasil diperbarui.</div>
+        <?php elseif ($message): ?>
+        <div class="alert alert-info"><?= htmlspecialchars($message) ?></div>
+        <?php endif; ?>
 
-    <form method="POST" action="profile.php" novalidate>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required
-          value="<?= htmlspecialchars($userData['username']) ?>" />
-      </div>
+        <form method="POST" action="profile.php" novalidate>
+            <div class="mb-3">
+                <label for="nama" class="form-label">Username</label>
+                <input type="text" class="form-control" id="nama" name="nama" required
+                    value="<?= htmlspecialchars($userData['nama']) ?>" />
+            </div>
 
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required
-          value="<?= htmlspecialchars($userData['email']) ?>" />
-      </div>
+            <div class="mb-3">
+                <label for="no_hp" class="form-label">No Hp</label>
+                <input type="text" class="form-control" id="no_hp" name="no_hp" required
+                    value="<?= htmlspecialchars($userData['no_hp']) ?>" />
+            </div>
 
-      <div class="mb-3">
-        <label for="password" class="form-label">Password Baru (kosongkan jika tidak ingin ganti)</label>
-        <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" />
-      </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required
+                    value="<?= htmlspecialchars($userData['email']) ?>" />
+            </div>
 
-      <div class="mb-3">
-        <label for="password_confirm" class="form-label">Konfirmasi Password Baru</label>
-        <input type="password" class="form-control" id="password_confirm" name="password_confirm"
-          autocomplete="new-password" />
-      </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password Baru (kosongkan jika tidak ingin ganti)</label>
+                <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" />
+            </div>
 
-      <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
-    </form>
-  </div>
+            <div class="mb-3">
+                <label for="password_confirm" class="form-label">Konfirmasi Password Baru</label>
+                <input type="password" class="form-control" id="password_confirm" name="password_confirm"
+                    autocomplete="new-password" />
+            </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

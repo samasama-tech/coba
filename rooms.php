@@ -5,82 +5,78 @@ $activePages = ['rooms'];
 $rooms = [
     [
         "title" => "Deluxe Room",
-        "price" => 600000,
+        "price" => 600000, // Hapus titik dan ubah ke integer
         "features" => ["Double Bed", "Balcony", "Kitchen"],
         "facilities" => ["Wifi, Ac, Luas 28m²"],
         "image" => "img/double.png"
     ],
     [
         "title" => "Suite Room",
-        "price" => 500000,
+        "price" => 500000, // Hapus titik dan ubah ke integer
         "features" => ["Twin Bed", "Balcony", "Kitchen"],
         "facilities" => ["Wifi, Ac, Luas 20m²"],
         "image" => "img/twin.png"
     ],
     [
         "title" => "Executive Room",
-        "price" => 700000,
+        "price" => 700000, // Hapus titik dan ubah ke integer
         "features" => ["King Bed", "Balcony", "Kitchen"],
         "facilities" => ["Wifi, Ac, Luas 35m²"],
         "image" => "img/king.png"
     ]
-
-
 ];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Rooms - Get Hotels</title>
+    <title>Rooms - Nexus Hotels</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        .custom-navbar {
-            background-color: #ced4da;
-            /* Abu-abu terang agak gelap */
-        }
+    .custom-navbar {
+        background-color: #ced4da;
+        /* Abu-abu terang agak gelap */
+    }
 
-        .nav-pills .nav-link {
-            color: black;
-        }
+    .nav-pills .nav-link {
+        color: black;
+    }
 
-        .nav-pills .nav-link.active {
-            background-color: #adb5bd;
-            /* Abu-abu lebih gelap untuk tab aktif */
-            color: black !important;
-        }
+    .nav-pills .nav-link.active {
+        background-color: #adb5bd;
+        /* Abu-abu lebih gelap untuk tab aktif */
+        color: black !important;
+    }
 
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
-        }
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
     </style>
 </head>
 
 <body>
 
-    <?php include 'navbar.php'
-        ?>
+    <?php include 'navbar.php' ?>
 
     <!-- Rooms Section -->
     <div class="container my-5">
         <h2 class="text-center mb-4">Our Rooms</h2>
         <div class="row g-4">
             <?php foreach ($rooms as $room): ?>
-                <div class="col-md-4">
-                    <div class="card shadow-sm h-100">
-                        <img src="<?= $room['image'] ?>" class="card-img-top" alt="Room Image">
-                        <div class="card-body">
-                            <h5 class="card-title"><?= $room['title'] ?></h5>
-                            <p class="card-text fw-bold">Rp<?= $room['price'] ?> per night</p>
-                            <p><strong>Features:</strong> <?= implode(", ", $room['features']) ?></p>
-                            <p><strong>Facilities:</strong> <?= implode(", ", $room['facilities']) ?></p>
-                        </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100">
+                    <img src="<?= $room['image'] ?>" class="card-img-top" alt="Room Image">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $room['title'] ?></h5>
+                        <p class="card-text fw-bold">Rp. <?= number_format($room['price'], 0, ',', '.') ?> per night</p>
+                        <p><strong>Features:</strong> <?= implode(", ", $room['features']) ?></p>
+                        <p><strong>Facilities:</strong> <?= implode(", ", $room['facilities']) ?></p>
                     </div>
                 </div>
+            </div>
             <?php endforeach; ?>
         </div>
     </div>
