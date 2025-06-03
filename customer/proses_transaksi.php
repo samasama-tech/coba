@@ -7,12 +7,22 @@ if (!isset($_POST['room'], $_POST['tipe'], $_POST['ci'], $_POST['co'], $_POST['t
     die("Data tidak lengkap.");
 }
 
-$room = htmlspecialchars($_POST['room']);
-$tipe = htmlspecialchars($_POST['tipe']);
-$ci = htmlspecialchars($_POST['ci']);
-$co = htmlspecialchars($_POST['co']);
-$total = (float)$_POST['total'];
-$metode = htmlspecialchars($_POST['metode_pembayaran']);
+// Store payment data in session for receipt page
+$_SESSION['payment_data'] = [
+    'room' => htmlspecialchars($_POST['room']),
+    'tipe' => htmlspecialchars($_POST['tipe']),
+    'ci' => htmlspecialchars($_POST['ci']),
+    'co' => htmlspecialchars($_POST['co']),
+    'total' => (float)$_POST['total'],
+    'metode' => htmlspecialchars($_POST['metode_pembayaran'])
+];
+
+$room = $_SESSION['payment_data']['room'];
+$tipe = $_SESSION['payment_data']['tipe'];
+$ci = $_SESSION['payment_data']['ci'];
+$co = $_SESSION['payment_data']['co'];
+$total = $_SESSION['payment_data']['total'];
+$metode = $_SESSION['payment_data']['metode'];
 
 // Mapping metode pembayaran ke label yang lebih deskriptif
 $metodeLabels = [
@@ -34,9 +44,8 @@ $metodeLabel = $metodeLabels[$metode] ?? 'Metode tidak dikenal';
 
 // Generate kode pembayaran unik
 $kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
-$metode_pembayaran = $_POST['metode_pembayaran']; // Input dari form
 
-switch ($metode_pembayaran) {
+switch ($metode) {
     // QRIS (umumnya 1 link QR universal)
     case 'qris_shopeepay':
         $isi_qr = "soon ";
@@ -45,7 +54,7 @@ switch ($metode_pembayaran) {
         $isi_qr = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012022050100222768 ";
         break;
     case 'qris_ovo':
-        $isi_qr = "https://gopay.co.id/app/scanqr?deeplink_source=request_money"; // Ganti dengan link QRIS sesuai integrasi kamu
+        $isi_qr = "https://gopay.co.id/app/scanqr?deeplink_source=request_money";
         break;
 
     // Virtual Account
@@ -115,6 +124,18 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
     .payment-steps {
         text-align: left;
         margin-top: 20px;
+    }
+
+    .btn-next {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .btn-next.active {
+        background-color: #28a745;
+        border-color: #28a745;
+        cursor: pointer;
     }
     </style>
 </head>
@@ -189,15 +210,37 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
                 <?php endif; ?>
             </div>
             <div class="card-footer text-center">
-                <a href="home.php" class="btn btn-primary">Kembali ke Beranda</a>
-                <button class="btn btn-success" onclick="window.print()">
-                    <i class="bi bi-printer"></i> Cetak Instruksi
-                </button>
+                <div class="d-flex justify-content-between">
+                    <a href="home.php" class="btn btn-primary">Kembali ke Beranda</a>
+                    <div>
+                        <button id="printBtn" class="btn btn-success me-2">
+                            <i class="bi bi-printer"></i> Cetak Instruksi
+                        </button>
+                        <a href="struk.php" id="nextBtn" class="btn btn-next disabled">
+                            Selanjutnya
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const printBtn = document.getElementById('printBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        printBtn.addEventListener('click', function() {
+            // Trigger print dialog
+            window.print();
+
+            // Enable the next button
+            nextBtn.classList.remove('disabled', 'btn-next');
+            nextBtn.classList.add('btn-success');
+        });
+    });
+    </script>
 </body>
 
 </html>

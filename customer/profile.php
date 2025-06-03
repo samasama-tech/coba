@@ -27,7 +27,7 @@ $stmt->close();
 
 // Handle form submit (update data)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $newUsername = trim($_POST['nama'] ?? '');
+  $newUsername = trim($_POST['username'] ?? '');
   $newEmail = trim($_POST['email'] ?? '');
   $newNoHp = trim($_POST['no_hp'] ?? '');
   $newPassword = trim($_POST['password'] ?? '');
@@ -51,17 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $message = "Email sudah digunakan oleh pengguna lain.";
     } else {
       if ($newPassword !== '') {
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare("UPDATE cust SET nama = ?, email = ?, password = ?, no_hp = ? WHERE id_cust = ?");
-        $stmt->bind_param("ssssi", $newUsername, $newEmail, $hashedPassword, $newNoHp, $userId);
+        // $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt = $conn->prepare("UPDATE cust SET username = ?, email = ?, password = ?, no_hp = ? WHERE id_cust = ?");
+        $stmt->bind_param("ssssi", $newUsername, $newEmail, $newPassword, $newNoHp, $userId);
       } else {
-        $stmt = $conn->prepare("UPDATE cust SET nama = ?, email = ?, no_hp = ? WHERE id_cust = ?");
+        $stmt = $conn->prepare("UPDATE cust SET username = ?, email = ?, no_hp = ? WHERE id_cust = ?");
         $stmt->bind_param("sssi", $newUsername, $newEmail, $newNoHp, $userId);
       }
 
       if ($stmt->execute()) {
         $_SESSION['email'] = $newEmail;
-        $_SESSION['nama'] = $newUsername;
+        $_SESSION['username'] = $newUsername;
         header("Location: profile.php?success=1");
         exit;
       } else {
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Ambil ulang data user untuk ditampilkan di form
-$stmt = $conn->prepare("SELECT nama, email, no_hp FROM cust WHERE id_cust = ?");
+$stmt = $conn->prepare("SELECT username, email, no_hp FROM cust WHERE id_cust = ?");
 $stmt->bind_param("i", $userId);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -108,9 +108,9 @@ $stmt->close();
 
         <form method="POST" action="profile.php" novalidate>
             <div class="mb-3">
-                <label for="nama" class="form-label">Username</label>
-                <input type="text" class="form-control" id="nama" name="nama" required
-                    value="<?= htmlspecialchars($userData['nama']) ?>" />
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required
+                    value="<?= htmlspecialchars($userData['username']) ?>" />
             </div>
 
             <div class="mb-3">

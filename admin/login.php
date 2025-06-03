@@ -1,35 +1,38 @@
 <?php
 session_start();
+require '../customer/koneksi.php';
 
-require 'koneksi.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    // Cek apakah user dengan email ini ada
     $stmt = $conn->prepare("SELECT * FROM cust WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Jika ada user dengan email tsb
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        // Cek apakah password cocok
-        if (password_verify($password, $user['password'])) {
+        if ($password === $user['password']) { // Ganti dengan password_verify() jika pakai hash
+            // Set session berdasarkan role
             $_SESSION["loggedin"] = true;
             $_SESSION["email"] = $user["email"];
-            $_SESSION["nama"] = $user["nama"];
-            if (isset($_SESSION['last_page'])) {
-                $redirect = $_SESSION['last_page'];
-                header("Location: $redirect");
-                exit;
+            $_SESSION["username"] = $user["username"];
+            
+            // Redirect berdasarkan role
+            if ($user['role'] === 'admin') {
+                $_SESSION["is_admin"] = true;
+                header("Location: dashboard.php");
             } else {
-                // Redirect ke halaman default
-                header("Location: index.php");
-                exit;
+                $_SESSION["is_admin"] = false;
+                if (isset($_SESSION['last_page'])) {
+                    header("Location: " . $_SESSION['last_page']);
+                } else {
+                    header("Location: ../customer/home.php");
+                }
             }
+            exit;
         } else {
             echo "<script>alert('Password salah!'); window.history.back();</script>";
         }

@@ -69,7 +69,7 @@ if (empty($room) || empty($tipe) || empty($ci) || empty($co) || empty($total_har
                     <optgroup label="QRIS">
                         <option value="qris_dana">Dana</option>
                         <option value="qris_shopeepay">ShopeePay</option>
-                        <option value="qris_ovo">OVO</option>
+                        <option value="qris_gopay">Gopay</option>
                     </optgroup>
                     <optgroup label="Virtual Account">
                         <option value="va_bca">BCA</option>

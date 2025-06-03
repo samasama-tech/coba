@@ -3,7 +3,7 @@ require 'koneksi.php';
 session_start();
 
 
-$nama = $_POST['nama'] ?? '';
+$nama = $_POST['username'] ?? '';
 $email = $_POST['email'] ?? '';
 $no_hp = $_POST['no_hp'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -29,7 +29,7 @@ $stmt->bind_param("ssss", $nama, $email, $no_hp, $password);
 // Eksekusi query
 if ($stmt->execute()) {
     // Simpan username ke session
-    $_SESSION['nama'] = $nama;
+    $_SESSION['username'] = $nama;
 
     // Redirect ke home.php (agar session langsung berlaku di halaman utama)
     header("Location: home.php");

@@ -34,7 +34,7 @@
 </head>
 
 <body>
-    <?php include("home.php");
+    <?php include("customer/home.php");
     ?>
 
 </body>
