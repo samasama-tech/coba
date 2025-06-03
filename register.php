@@ -15,16 +15,16 @@ if ($password !== $cpassword) {
 }
 
 // Hash/enkripsi password
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+// $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // Prepare statement untuk insert data
-$stmt = $conn->prepare("INSERT INTO cust (nama, email, no_hp, password) VALUES (?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO cust (username, email, no_hp, password) VALUES (?, ?, ?, ?)");
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
 // Bind parameters
-$stmt->bind_param("ssss", $nama, $email, $no_hp, $hashed_password);
+$stmt->bind_param("ssss", $nama, $email, $no_hp, $password);
 
 // Eksekusi query
 if ($stmt->execute()) {
