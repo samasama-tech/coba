@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["username"] = $user["username"];
             if ($user['role'] === 'admin') {
                 $_SESSION["is_admin"] = true;
-                header("Location: ../admin/dashboard.php");
+                header("Location: admin/dashboard.php");
             } else {
                 $_SESSION["is_admin"] = false;
                 if (isset($_SESSION['last_page'])) {

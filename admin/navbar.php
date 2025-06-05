@@ -12,7 +12,7 @@ requireAdmin();
                     <a class="nav-link" href="dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=".../admin/home.php">Customers</a>
+                    <a class="nav-link" href="">Custome</a>
                 </li>
             </ul>
             <span class="navbar-text text-white me-3">

@@ -8,7 +8,7 @@ $rooms = [
         "price" => 600000,
         "features" => ["Double Bed", "Balcony", "Kitchen"],
         "facilities" => ["Wifi, Ac, Luas 28m²"],
-        "image" => "../img/double.png",
+        "image" => "img/double.png",
         "rating" => 4.5 // Added rating
     ],
     [
@@ -16,7 +16,7 @@ $rooms = [
         "price" => 500000,
         "features" => ["Twin Bed", "Balcony", "Kitchen"],
         "facilities" => ["Wifi, Ac, Luas 20m²"],
-        "image" => "../img/twin.png",
+        "image" => "img/twin.png",
         "rating" => 4.0 // Added rating
     ],
     [
@@ -24,7 +24,7 @@ $rooms = [
         "price" => 700000,
         "features" => ["King Bed", "Balcony", "Kitchen"],
         "facilities" => ["Wifi, Ac, Luas 35m²"],
-        "image" => "../img/king.png",
+        "image" => "img/king.png",
         "rating" => 4.8 // Added rating
     ]
 ];

@@ -46,7 +46,7 @@ $activePages = ['about'];
 
         <div class="row align-items-center">
             <div class="col-md-6">
-                <img src="../img/hotel.png" class="img-fluid rounded shadow" alt="Hotel Image">
+                <img src="img/hotel.png" class="img-fluid rounded shadow" alt="Hotel Image">
             </div>
             <div class="col-md-6">
                 <h4>Who We Are</h4>

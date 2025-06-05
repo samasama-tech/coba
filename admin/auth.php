@@ -3,7 +3,7 @@ session_start();
 
 function requireAdmin() {
     if (!isset($_SESSION['loggedin']) || !$_SESSION['is_admin']) {
-        header("Location: ../customer/login.php");
+        header("Location: ../login.php");
         exit;
     }
 }
