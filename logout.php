@@ -1,15 +1,9 @@
 <?php
 session_start();
-
-$redirect = 'home.php'; // Default redirect
-
-// Jika sebelumnya di halaman admin, redirect ke login
-if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
-    $redirect = 'login.php';
-}
-
+$redirect = isset($_SESSION['last_page']) ? $_SESSION['last_page'] : 'home.php';
 session_unset();
 session_destroy();
+header("Location: home.php"); // Redirect ke halaman login
 header("Location: $redirect");
 exit;
 ?>

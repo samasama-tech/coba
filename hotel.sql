@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2025 at 07:52 AM
+-- Generation Time: Jun 05, 2025 at 10:49 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -28,14 +28,19 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `id` varchar(12) NOT NULL,
-  `nm_ptgs` varchar(255) NOT NULL,
-  `tgl` date NOT NULL,
-  `almt` varchar(255) NOT NULL,
-  `tlp` bigint(15) NOT NULL,
-  `user` varchar(255) NOT NULL,
-  `pas` varchar(200) NOT NULL
+  `id_admin` int(12) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `telp` bigint(15) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id_admin`, `nama`, `telp`, `email`, `password`) VALUES
+(1, 'admin', 123, 'admin@gmail.com', 'admin');
 
 -- --------------------------------------------------------
 
@@ -48,17 +53,18 @@ CREATE TABLE `cust` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `no_hp` varchar(15) NOT NULL
+  `no_hp` varchar(15) NOT NULL,
+  `role` enum('customer','admin') DEFAULT 'customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `cust`
 --
 
-INSERT INTO `cust` (`id_cust`, `username`, `email`, `password`, `no_hp`) VALUES
-(2, '', 'ppp@hakha.com', '$2y$10$UEvRmZzLPGzyJFpXMMty3.BXJ7NnOCPEgHmxuJ21mJ.WEHzJ1L.yC', ''),
-(8, 'alek', 'ppp@gamil.com', '$2y$10$Nk8kurKyQXw3uwCWFCPe5uc.DLS3M4y.8BfXS/3/CE/W0K3Is2CVa', ''),
-(9, 'sugi', 'hhh@jhk.com', '$2y$10$XDOL59fn8fRYc4egNdfWQuSWHykNWI4EaHPXsDFgkeYH5KMlQ2sYG', '');
+INSERT INTO `cust` (`id_cust`, `username`, `email`, `password`, `no_hp`, `role`) VALUES
+(11, 'admin', 'admin@gmail.com', 'admin', '123', 'admin'),
+(12, 'alek', 'hhaihdijw@knjec.knscs', '1', '1234', 'customer'),
+(13, 'lpkojihug', 'ppp@gamil.com', '1', '12', 'customer');
 
 -- --------------------------------------------------------
 
@@ -81,21 +87,36 @@ CREATE TABLE `kmr` (
 --
 
 INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilitas`) VALUES
-(12, '001', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
-(13, '002', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
-(14, '003', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
-(15, '004', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
-(16, '005', 'Deluxe Room', 600000, '2', '', 'double bed,wifi,ac,luas 28m²'),
-(17, '011', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(18, '012', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(19, '013', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(20, '014', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(21, '015', 'Suite Room', 500000, '1', '', 'twin bed,wifi,ac,luas 20m²'),
-(22, '021', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
-(25, '022', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
-(26, '023', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
-(27, '024', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²'),
-(28, '025', 'Executive Room', 700000, '2', '', 'king bed,wifi,ac,luas 32m²');
+(12, '001', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
+(13, '002', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
+(14, '003', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
+(15, '004', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
+(16, '005', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
+(17, '011', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
+(18, '012', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
+(19, '013', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
+(20, '014', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
+(21, '015', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
+(22, '021', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
+(25, '022', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
+(26, '023', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
+(27, '024', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
+(28, '025', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `id_review` int(11) NOT NULL,
+  `id_cust` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `komen` longtext NOT NULL,
+  `bintang` float NOT NULL,
+  `idkmr` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -106,7 +127,7 @@ INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilita
 CREATE TABLE `transaksi` (
   `id_trans` int(11) NOT NULL,
   `nokmr` int(11) NOT NULL,
-  `fasilitas` varchar(255) NOT NULL,
+  `no_hp` varchar(15) NOT NULL,
   `harga` bigint(20) NOT NULL,
   `id_cust` int(12) NOT NULL,
   `tipe` varchar(25) NOT NULL
@@ -120,19 +141,29 @@ CREATE TABLE `transaksi` (
 -- Indexes for table `admin`
 --
 ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_admin`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `cust`
 --
 ALTER TABLE `cust`
-  ADD PRIMARY KEY (`id_cust`);
+  ADD PRIMARY KEY (`id_cust`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `kmr`
 --
 ALTER TABLE `kmr`
   ADD PRIMARY KEY (`idkmr`);
+
+--
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`id_review`),
+  ADD KEY `id_cust` (`id_cust`),
+  ADD KEY `idkmr` (`idkmr`);
 
 --
 -- Indexes for table `transaksi`
@@ -148,16 +179,44 @@ ALTER TABLE `transaksi`
 --
 
 --
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id_admin` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `cust`
 --
 ALTER TABLE `cust`
-  MODIFY `id_cust` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_cust` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `kmr`
 --
 ALTER TABLE `kmr`
   MODIFY `idkmr` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `admin`
+--
+ALTER TABLE `admin`
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`email`) REFERENCES `cust` (`email`);
+
+--
+-- Constraints for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_cust`) REFERENCES `cust` (`id_cust`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
