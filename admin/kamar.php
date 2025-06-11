@@ -229,8 +229,12 @@ $result = $conn->query($sql);
                     <td>
                       <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
                         data-bs-target="#editModal<?= $row['nokmr'] ?>">
-                        <i class="fas fa-edit"></i> Ubah
+                        <i class="fas fa-edit"></i> Edit
                       </button>
+                      <a href="hapus.php?nokmr=<?= htmlspecialchars($row['nokmr']) ?>"
+                        onclick="return confirm('Yakin ingin menghapus kamar ini?')" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Hapus
+                      </a>
 
                       <!-- Modal Edit -->
                       <div class="modal fade" id="editModal<?= $row['nokmr'] ?>" tabindex="-1"
@@ -245,10 +249,26 @@ $result = $conn->query($sql);
                               <form action="update.php" method="POST">
                                 <input type="hidden" name="nokmr" value="<?= htmlspecialchars($row['nokmr']) ?>">
                                 <div class="mb-3">
+                                  <label for="tipe" class="form-label">Type:</label>
+                                  <select class="form-select" name="tipe" required>  
+                                    <option value="Deluxe" <?= $row['tipe'] == 'Deluxe' ? 'selected' : '' ?>>Deluxe Room</option>
+                                    <option value="Suite" <?= $row['tipe'] == 'Suite' ? 'selected' : '' ?>>Suite Room</option>
+                                    <option value="Standard" <?= $row['tipe'] == 'Standard' ? 'selected' : '' ?>>Executive Room</option>
+                                  </select>
+                                </div>
+
+                                <div class="mb-3">
+                                  <label for="fasilitas" class="form-label">Fasilitas:</label>
+                                  <input type="text" class="form-control" name="fasilitas"
+                                    value="<?= htmlspecialchars($row['fasilitas']) ?>" required>
+                                </div>
+
+                                <div class="mb-3">
                                   <label for="harga" class="form-label">Harga:</label>
                                   <input type="number" class="form-control" name="harga"
                                     value="<?= htmlspecialchars($row['harga']) ?>" required>
                                 </div>
+
                                 <div class="mb-3">
                                   <label for="status" class="form-label">Status:</label>
                                   <select class="form-select" name="status" required>
@@ -258,6 +278,7 @@ $result = $conn->query($sql);
                                       Maintenance</option>
                                   </select>
                                 </div>
+
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                   <button type="submit" class="btn btn-primary">Simpan</button>
@@ -269,6 +290,7 @@ $result = $conn->query($sql);
                       </div>
 
                     </td>
+
                   </tr>
                 <?php endwhile; ?>
               <?php else: ?>

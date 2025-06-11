@@ -1,212 +1,161 @@
 <?php
 include '../koneksi.php';
+$currentPage = 'tambah';
 
-// Proses tambah kamar
-if (isset($_POST['tambah'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nokmr = $_POST['nokmr'];
     $tipe = $_POST['tipe'];
     $fasilitas = $_POST['fasilitas'];
     $status = $_POST['status'];
     $harga = $_POST['harga'];
-    
-    $sql = "INSERT INTO kmr (nokmr, tipe, fasilitas, status, harga) VALUES ('$nokmr', '$tipe', '$fasilitas', '$status', '$harga')";
-    
-    if ($conn->query($sql)) {
-        $success = "Kamar berhasil ditambahkan!";
-    } else {
-        $error = "Error: " . $conn->error;
-    }
-}
 
-// Proses hapus kamar
-if (isset($_GET['hapus'])) {
-    $nokmr = $_GET['hapus'];
-    $sql = "DELETE FROM kmr WHERE nokmr='$nokmr'";
-    
-    if ($conn->query($sql)) {
-        $success = "Kamar berhasil dihapus!";
-    } else {
-        $error = "Error: " . $conn->error;
-    }
-}
+    $stmt = $conn->prepare("INSERT INTO kmr (nokmr, tipe, fasilitas, status, harga) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssd", $nokmr, $tipe, $fasilitas, $status, $harga);
 
-// Ambil data kamar
-$sql = "SELECT * FROM kmr";
-$result = $conn->query($sql);
+    if ($stmt->execute()) {
+        header("Location: kamar.php");
+        exit();
+    } else {
+        $error = "Gagal menambahkan kamar: " . $stmt->error;
+    }
+    $stmt->close();
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manajemen Kamar Hotel</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tambah Kamar - Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    body {
-      background-color: #f8f9fa;
-      padding-top: 20px;
-    }
-    .card {
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-    .table th {
-      background-color: #f1f1f1;
-    }
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    .nav-link.active { font-weight: bold; color: #0d6efd !important; }
+    .card-header { background-color: #0d6efd; color: white; border-radius: 10px 10px 0 0; }
+    .offcanvas-custom { width: 50%; max-width: 250px; }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="header-container">
-      <h2>Manajemen Kamar Hotel</h2>
-      <a href="dashboard.php" class="btn btn-secondary">Kembali ke Dashboard</a>
-    </div>
-    
-    <!-- Notifikasi -->
-    <?php if (isset($success)): ?>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <?php echo $success; ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <?php endif; ?>
-    
-    <?php if (isset($error)): ?>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <?php echo $error; ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <?php endif; ?>
-    
-    <!-- Card Tambah Kamar -->
-    <div class="card mb-4">
-      <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Tambah Kamar Baru</h5>
-      </div>
-      <div class="card-body">
-        <form method="POST" action="">
-          <div class="row g-3">
-            <div class="col-md-2">
-              <label for="nokmr" class="form-label">No Kamar</label>
-              <input type="text" class="form-control" id="nokmr" name="nokmr" required>
-            </div>
-            
-            <div class="col-md-3">
-              <label for="tipe" class="form-label">Tipe Kamar</label>
-              <select class="form-select" id="tipe" name="tipe" required>
-                <option value="Standard">Standard</option>
-                <option value="Deluxe">Deluxe</option>
-                <option value="Suite">Suite</option>
-                <option value="Executive">Executive</option>
-              </select>
-            </div>
-            
-            <div class="col-md-3">
-              <label for="status" class="form-label">Status</label>
-              <select class="form-select" id="status" name="status" required>
-                <option value="Kosong">Kosong</option>
-                <option value="Terisi">Terisi</option>
-                <option value="Maintenance">Maintenance</option>
-              </select>
-            </div>
-            
-            <div class="col-md-2">
-              <label for="harga" class="form-label">Harga</label>
-              <input type="number" class="form-control" id="harga" name="harga" required>
-            </div>
-            
-            <div class="col-md-2 d-flex align-items-end">
-              <button type="submit" name="tambah" class="btn btn-primary w-100">Tambah</button>
-            </div>
-          </div>
-          
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <label for="fasilitas" class="form-label">Fasilitas</label>
-              <textarea class="form-control" id="fasilitas" name="fasilitas" rows="2" required></textarea>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-    
-    <!-- Daftar Kamar -->
-    <div class="card">
-      <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Daftar Kamar</h5>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th>No Kamar</th>
-                <th>Tipe</th>
-                <th>Fasilitas</th>
-                <th>Status</th>
-                <th>Harga</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php if ($result->num_rows > 0): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                  <tr>
-                    <td><?php echo $row['nokmr']; ?></td>
-                    <td><?php echo $row['tipe']; ?></td>
-                    <td><?php echo $row['fasilitas']; ?></td>
-                    <td>
-                      <span class="badge 
-                        <?php 
-                          if ($row['status'] == 'Kosong') echo 'bg-success';
-                          elseif ($row['status'] == 'Terisi') echo 'bg-danger';
-                          else echo 'bg-warning text-dark';
-                        ?>">
-                        <?php echo $row['status']; ?>
-                      </span>
-                    </td>
-                    <td>Rp <?php echo number_format($row['harga'], 0, ',', '.'); ?></td>
-                    <td>
-                      <a href="?hapus=<?php echo $row['nokmr']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus kamar ini?')">
-                        Hapus
-                      </a>
-                    </td>
-                  </tr>
-                <?php endwhile; ?>
-              <?php else: ?>
-                <tr>
-                  <td colspan="6" class="text-center">Tidak ada data kamar</td>
-                </tr>
-              <?php endif; ?>
-            </tbody>
-          </table>
-        </div>
-      </div>
+
+<!-- Navbar Desktop -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-none d-lg-flex">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="dashboard.php">Nexus Hotel</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link <?php if ($currentPage == 'dashboard') echo 'active'; ?>" href="dashboard.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle <?php if ($currentPage == 'kamar' || $currentPage == 'tambah') echo 'active'; ?>" data-bs-toggle="dropdown" href="#"><i class="fas fa-bed"></i> &nbsp;Kamar</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item <?php if ($currentPage == 'tambah') echo 'active'; ?>" href="tambah.php">Tambah Kamar</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item <?php if ($currentPage == 'kamar') echo 'active'; ?>" href="kamar.php">Daftar Kamar</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle <?php if ($currentPage == 'dtadmin' || $currentPage == 'dtcust') echo 'active'; ?>" data-bs-toggle="dropdown" href="#"><i class="fas fa-user-tie"></i>&nbsp; Data Account</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item <?php if ($currentPage == 'dtadmin') echo 'active'; ?>" href="dtadmin.php">Data Admin</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item <?php if ($currentPage == 'dtcust') echo 'active'; ?>" href="dtcust.php">Data Customers</a></li>
+          </ul>
+        </li>
+      </ul>
+      <a href="../logout.php" class="btn btn-outline-light btn-sm"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
     </div>
   </div>
+</nav>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Auto close alert setelah 5 detik
-    window.setTimeout(function() {
-      document.querySelectorAll(".alert").forEach(function(alert) {
-        alert.style.transition = "opacity 0.5s";
-        alert.style.opacity = "0";
-        setTimeout(function() {
-          alert.remove();
-        }, 500);
-      });
-    }, 5000);
-  </script>
+<!-- Navbar Mobile -->
+<nav class="navbar navbar-dark bg-dark d-lg-none">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar"><span class="navbar-toggler-icon"></span></button>
+    <a class="navbar-brand ms-2" href="#">Nexus Hotel</a>
+  </div>
+</nav>
+
+<!-- Offcanvas Sidebar Mobile -->
+<div class="offcanvas offcanvas-start text-bg-dark d-lg-none offcanvas-custom" id="mobileSidebar">
+  <div class="offcanvas-header"><h5 class="offcanvas-title">Nexus Hotel</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button></div>
+  <div class="offcanvas-body">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a class="nav-link" href="dashboard.php"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#menuKamar"><div><i class="fas fa-bed"></i>&nbsp;Kamar</div><i class="fas fa-chevron-down"></i></a>
+        <div class="collapse" id="menuKamar">
+          <ul class="nav flex-column ms-3">
+            <li><a class="nav-link active" href="tambah.php">Tambah Kamar</a></li>
+            <li><a class="nav-link" href="kamar.php">Daftar Kamar</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#menuAccount"><div><i class="fas fa-user-tie"></i>&nbsp; Data Account</div><i class="fas fa-chevron-down ms-2"></i></a>
+        <div class="collapse" id="menuAccount">
+          <ul class="nav flex-column ms-3">
+            <li><a class="nav-link" href="dtadmin.php">Data Admin</a></li>
+            <li><a class="nav-link" href="dtcust.php">Data Customers</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item mt-3"><a class="nav-link text-danger" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+    </ul>
+  </div>
+</div>
+
+<main class="container my-5">
+  <div class="card shadow-lg">
+    <div class="card-header"><h3><i class="fas fa-plus"></i> Tambah Kamar Baru</h3></div>
+    <div class="card-body">
+      <?php if (isset($error)): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+      <?php endif; ?>
+
+      <form method="POST">
+        <div class="mb-3">
+          <label>No Kamar</label>
+          <input type="text" name="nokmr" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label>Tipe Kamar</label>
+          <select name="tipe" class="form-select" required>
+            <option value="">-- Pilih Tipe --</option>
+            <option value="Deluxe">Deluxe Room</option>
+            <option value="Suite">Suite Room</option>
+            <option value="Standard">Executive Room</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label>Fasilitas</label>
+          <textarea name="fasilitas" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label>Status</label>
+          <select name="status" class="form-select" required>
+            <option value="Kosong">Kosong</option>
+            <option value="Terisi">Terisi</option>
+            <option value="Maintenance">Maintenance</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label>Harga per Malam (Rp)</label>
+          <input type="number" name="harga" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

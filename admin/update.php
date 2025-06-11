@@ -1,19 +1,24 @@
 <?php
 include '../koneksi.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST['nokmr'])) {
     $nokmr = $_POST['nokmr'];
+    $tipe = $_POST['tipe'];
+    $fasilitas = $_POST['fasilitas'];
     $harga = $_POST['harga'];
     $status = $_POST['status'];
 
-    $sql = "UPDATE kmr SET harga='$harga', status='$status' WHERE nokmr='$nokmr'";
+    $sql = "UPDATE kmr SET tipe=?, fasilitas=?, harga=?, status=? WHERE nokmr=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssdss", $tipe, $fasilitas, $harga, $status, $nokmr);
 
-    if ($conn->query($sql) === TRUE) {
-        header("Location: kamar.php"); // redirect ke halaman utama
+    if ($stmt->execute()) {
+        header("Location: kamar.php?update=berhasil");
+        exit();
     } else {
-        echo "Error updating record: " . $conn->error;
+        echo "Error: " . $conn->error;
     }
+} else {
+    header("Location: kamar.php");
 }
-
-$conn->close();
 ?>

@@ -11,8 +11,8 @@ $admin_data = $result->fetch_assoc();
 
 if (!$admin_data) {
     $admin_data = [
-        'nama' => 'Admin Default',
-        'telp' => '',
+        'username' => 'Admin Default',
+        'no_hp' => '',
         'email' => '',
         'password' => ''
     ];
@@ -36,6 +36,8 @@ $stats = [
     <title>Dashboard - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <style>
         /* Hybrid Layout Styling */
         .offcanvas-custom {
@@ -80,6 +82,9 @@ $stats = [
         .container {
             margin-left: auto;
         }
+        .card-body p {
+        font-size: 1.1rem;
+    }
     </style>
 </head>
 
@@ -92,47 +97,40 @@ $stats = [
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link <?php if ($currentPage == 'dashboard')
-                            echo 'active'; ?>"
-                            href="dashboard.php">
+                            echo 'active'; ?>" href="dashboard.php">
                             <i class="fas fa-tachometer-alt me-2"></i> Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle <?php if ($currentPage == 'kamar' || $currentPage == 'tambah')
-                            echo 'active'; ?>"
-                            data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            echo 'active'; ?>" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                             <i class="fas fa-bed"></i> &nbsp; Kamar
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item <?php if ($currentPage == 'tambah')
-                                echo 'active'; ?>"
-                                    href="tambah.php">Tambah Kamar</a></li>
+                                echo 'active'; ?>" href="tambah.php">Tambah Kamar</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item <?php if ($currentPage == 'kamar')
-                                echo 'active'; ?>"
-                                    href="kamar.php">Daftar Kamar</a></li>
+                                echo 'active'; ?>" href="kamar.php">Daftar Kamar</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle <?php if ($currentPage == 'dtadmin' || $currentPage == 'dtcust')
-                            echo 'active'; ?>"
-                            data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                            echo 'active'; ?>" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                             <i class="fas fa-user-tie"></i>&nbsp; Data Account
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item <?php if ($currentPage == 'dtadmin')
-                                echo 'active'; ?>"
-                                    href="dtadmin.php">Data Admin</a></li>
+                                echo 'active'; ?>" href="dtadmin.php">Data Admin</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item <?php if ($currentPage == 'dtcust')
-                                echo 'active'; ?>"
-                                    href="dtcust.php">Data Customers</a></li>
+                                echo 'active'; ?>" href="dtcust.php">Data Customers</a></li>
                         </ul>
                     </li>
 
@@ -270,22 +268,29 @@ $stats = [
                 <div class="card-header bg-primary text-white">
                     <h5 class="mb-0"><i class="bi bi-person-circle"></i> Detail Login</h5>
                 </div>
-                <div class="card-body row">
+                <div class="card-body row align-items-center">
                     <div class="col-md-4 text-center">
-                        <img src="profile.jpg" class="img-thumbnail rounded-circle mb-3" width="150">
-                        <p><strong><?= htmlspecialchars($admin_data['nama']) ?></strong></p>
+                        <div class="mb-3">
+                            <i class="bi bi-person-circle" style="font-size: 100px; color: #6c757d;"></i>
+                        </div class="mb-3">
+                        <p class="mb-2"><strong><?= htmlspecialchars($admin_data['username']) ?></strong></p>
                     </div>
                     <div class="col-md-8">
-                        <p><strong>Email:</strong> <?= htmlspecialchars($admin_data['email'] ?? '-') ?></p>
-                        <p><strong>Telepon:</strong> <?= htmlspecialchars($admin_data['telp'] ?? '-') ?></p>
-                        <p><strong>Login Tools:</strong> <span id="loginTools">Loading...</span></p>
+                        <div class="mb-3">
+                            <p class="mb-2"><strong>Email:</strong> <?= htmlspecialchars($admin_data['email'] ?? '-') ?>
+                            </p>
+                            <p class="mb-2"><strong>Telepon:</strong>
+                                <?= htmlspecialchars($admin_data['no_hp'] ?? '-') ?></p>
+                            <p class="mb-2"><strong>Login Tools:</strong> <span id="loginTools">Loading...</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
 
 
+
             <footer class="mt-4 text-center text-muted">
-                <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($admin_data['nama']) ?> - Admin Ne Hotel</p>
+                <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($admin_data['username']) ?> - Admin Ne Hotel</p>
             </footer>
         </div>
     </main>
