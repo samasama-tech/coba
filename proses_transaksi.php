@@ -7,6 +7,52 @@ if (!isset($_POST['room'], $_POST['tipe'], $_POST['ci'], $_POST['co'], $_POST['t
     die("Data tidak lengkap.");
 }
 
+// ---- PENAMBAHAN KODE SIMPAN KE DATABASE TRANSAKSI ----
+
+// Pastikan user sudah login
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit();
+}
+
+// Ambil id_cust dari session berdasarkan email
+$email = $_SESSION['email'];
+$stmt = $conn->prepare("SELECT id_cust FROM cust WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$id_cust = $user['id_cust'];
+$stmt->close();
+
+// Ambil no_hp user dari database
+$stmt = $conn->prepare("SELECT no_hp FROM cust WHERE id_cust = ?");
+$stmt->bind_param("i", $id_cust);
+$stmt->execute();
+$result = $stmt->get_result();
+$cust_data = $result->fetch_assoc();
+$no_hp = $cust_data['no_hp'];
+$stmt->close();
+
+// Ambil data yang sudah di POST
+$room = $_POST['room'];
+$tipe = $_POST['tipe'];
+$total = $_POST['total'];
+
+// Simpan ke tabel transaksi
+$stmt = $conn->prepare("INSERT INTO transaksi (nokmr, no_hp, harga, id_cust, tipe) VALUES (?, ?, ?, ?, ?)");
+$stmt->bind_param("ssdis", $room, $no_hp, $total, $id_cust, $tipe);
+$stmt->execute();
+$stmt->close();
+
+// Update status kamar menjadi 'Terisi'
+$stmt = $conn->prepare("UPDATE kmr SET status = 'Terisi' WHERE nokmr = ?");
+$stmt->bind_param("s", $room);
+$stmt->execute();
+$stmt->close();
+
+// ---------------------------------------------------------
+
 // Store payment data in session for receipt page
 $_SESSION['payment_data'] = [
     'room' => htmlspecialchars($_POST['room']),
@@ -17,6 +63,7 @@ $_SESSION['payment_data'] = [
     'metode' => htmlspecialchars($_POST['metode_pembayaran'])
 ];
 
+// --- lanjut kode kamu di bawah ini ---
 $room = $_SESSION['payment_data']['room'];
 $tipe = $_SESSION['payment_data']['tipe'];
 $ci = $_SESSION['payment_data']['ci'];
@@ -46,7 +93,6 @@ $metodeLabel = $metodeLabels[$metode] ?? 'Metode tidak dikenal';
 $kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
 
 switch ($metode) {
-    // QRIS (umumnya 1 link QR universal)
     case 'qris_shopeepay':
         $isi_qr = "soon ";
         break;
@@ -56,8 +102,6 @@ switch ($metode) {
     case 'qris_ovo':
         $isi_qr = "https://gopay.co.id/app/scanqr?deeplink_source=request_money";
         break;
-
-    // Virtual Account
     case 'va_bca':
         $isi_qr = "https://va.bca.co.id/pay?va=500215190369";
         break;
@@ -67,8 +111,6 @@ switch ($metode) {
     case 'va_mandiri':
         $isi_qr = "https://va.mandiri.co.id/pay?va=$kodePembayaran";
         break;
-
-    // Transfer Bank
     case 'bank_bca':
         $isi_qr = "https://transfer.bca.co.id/transfer?kode=$kodePembayaran";
         break;
@@ -81,23 +123,20 @@ switch ($metode) {
     case 'bank_bri':
         $isi_qr = "https://bri.co.id/transfer?kode=$kodePembayaran";
         break;
-
-    // Convenience Store
     case 'cs_alfamart':
         $isi_qr = "https://pay.alfamart.co.id/?kode=$kodePembayaran";
         break;
     case 'cs_indomaret':
         $isi_qr = "https://pay.indomaret.co.id/?kode=$kodePembayaran";
         break;
-
     default:
         $isi_qr = "Metode pembayaran tidak dikenali.";
         break;
 }
 
-// Generate QR code URL
 $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($isi_qr);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">

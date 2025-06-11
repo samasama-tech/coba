@@ -22,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["loggedin"] = true;
             $_SESSION["email"] = $user["email"];
             $_SESSION["username"] = $user["username"];
+            $_SESSION["id_cust"] = $user["id_cust"];  // <-- tambahan penting ini
+
             if ($user['role'] === 'admin') {
                 $_SESSION["is_admin"] = true;
                 header("Location: admin/dashboard.php");
