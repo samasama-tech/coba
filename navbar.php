@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-  session_start();
+session_start();
 }
 
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -24,7 +24,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 <nav class="navbar navbar-expand-lg custom-navbar px-4">
     <a class="navbar-brand fw-bold" href="home.php">
-        <img src="img/favicon.ico" alt="Nexus Hotels Logo"style="width:60px; height:60px; margin-top:-30px; margin-bottom:-20px; margin-left:-15px">
+        <img src="img/favicon.ico" alt="Nexus Hotels Logo"
+            style="width:60px; height:60px; margin-top:-30px; margin-bottom:-20px; margin-left:-15px">
         Nexus Hotels
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

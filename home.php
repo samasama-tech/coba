@@ -110,28 +110,28 @@ $activePages = ['home'];
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const isLoggedIn = <?= (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) ? 'true' : 'false' ?>;
+    const isLoggedIn = <?= (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) ? 'true' : 'false' ?>;
 
-        document.getElementById('bookingForm').addEventListener('submit', function (event) {
-            if (!isLoggedIn) {
-                event.preventDefault();
-                const alertLoginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                alertLoginModal.show();
-                return;
-            }
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+        if (!isLoggedIn) {
+            event.preventDefault();
+            const alertLoginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            alertLoginModal.show();
+            return;
+        }
 
-            const ci = document.getElementById('ci').value;
-            const co = document.getElementById('co').value;
+        const ci = document.getElementById('ci').value;
+        const co = document.getElementById('co').value;
 
-            if (ci === '' || co === '') {
-                return;
-            }
+        if (ci === '' || co === '') {
+            return;
+        }
 
-            if (ci > co) {
-                event.preventDefault();
-                alert('Tanggal check-out harus lebih besar dari tanggal check-in!');
-            }
-        });
+        if (ci > co) {
+            event.preventDefault();
+            alert('Tanggal check-out harus lebih besar dari tanggal check-in!');
+        }
+    });
     </script>
 
 
