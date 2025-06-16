@@ -21,6 +21,24 @@ $activePages = ['home'];
 </head>
 
 <body>
+    <!-- alert review -->
+    <?php if (isset($_GET['review']) && $_GET['review'] == 'success'): ?>
+        <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3"
+            role="alert" style="z-index: 9999;">
+            Review berhasil dikirim!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <script>
+            setTimeout(function () {
+                var alert = document.querySelector('.alert');
+                if (alert) {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                }
+            }, 3000); // Hilang otomatis setelah 3 detik
+        </script>
+    <?php endif; ?>
 
     <?php include 'navbar.php'
         ?>
@@ -110,28 +128,28 @@ $activePages = ['home'];
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    const isLoggedIn = <?= (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) ? 'true' : 'false' ?>;
+        const isLoggedIn = <?= (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) ? 'true' : 'false' ?>;
 
-    document.getElementById('bookingForm').addEventListener('submit', function(event) {
-        if (!isLoggedIn) {
-            event.preventDefault();
-            const alertLoginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-            alertLoginModal.show();
-            return;
-        }
+        document.getElementById('bookingForm').addEventListener('submit', function (event) {
+            if (!isLoggedIn) {
+                event.preventDefault();
+                const alertLoginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                alertLoginModal.show();
+                return;
+            }
 
-        const ci = document.getElementById('ci').value;
-        const co = document.getElementById('co').value;
+            const ci = document.getElementById('ci').value;
+            const co = document.getElementById('co').value;
 
-        if (ci === '' || co === '') {
-            return;
-        }
+            if (ci === '' || co === '') {
+                return;
+            }
 
-        if (ci > co) {
-            event.preventDefault();
-            alert('Tanggal check-out harus lebih besar dari tanggal check-in!');
-        }
-    });
+            if (ci > co) {
+                event.preventDefault();
+                alert('Tanggal check-out harus lebih besar dari tanggal check-in!');
+            }
+        });
     </script>
 
 

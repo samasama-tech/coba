@@ -251,9 +251,9 @@ $result = $conn->query($sql);
                                 <div class="mb-3">
                                   <label for="tipe" class="form-label">Type:</label>
                                   <select class="form-select" name="tipe" required>  
-                                    <option value="Deluxe" <?= $row['tipe'] == 'Deluxe' ? 'selected' : '' ?>>Deluxe Room</option>
-                                    <option value="Suite" <?= $row['tipe'] == 'Suite' ? 'selected' : '' ?>>Suite Room</option>
-                                    <option value="Standard" <?= $row['tipe'] == 'Standard' ? 'selected' : '' ?>>Executive Room</option>
+                                    <option value="Deluxe Room" <?= $row['tipe'] == 'Deluxe Room' ? 'selected' : '' ?>>Deluxe Room</option>
+                                    <option value="Suite Room" <?= $row['tipe'] == 'Suite Room' ? 'selected' : '' ?>>Suite Room</option>
+                                    <option value="Executive Room" <?= $row['tipe'] == 'Executive Room' ? 'selected' : '' ?>>Executive Room</option>
                                   </select>
                                 </div>
 

@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="">-- Pilih Tipe --</option>
             <option value="Deluxe">Deluxe Room</option>
             <option value="Suite">Suite Room</option>
-            <option value="Standard">Executive Room</option>
+            <option value="Executive">Executive Room</option>
           </select>
         </div>
 

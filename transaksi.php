@@ -68,23 +68,23 @@ if (empty($room) || empty($tipe) || empty($ci) || empty($co) || empty($total_har
                 <select name="metode_pembayaran" id="metode_pembayaran" class="form-select" required>
                     <optgroup label="QRIS">
                         <option value="qris_dana">Dana</option>
-                        <option value="qris_shopeepay">ShopeePay</option>
-                        <option value="qris_gopay">Gopay</option>
+                        <!-- <option value="qris_shopeepay">ShopeePay</option>
+                        <option value="qris_gopay">Gopay</option> -->
                     </optgroup>
                     <optgroup label="Virtual Account">
-                        <option value="va_bca">BCA</option>
-                        <option value="va_bni">BNI</option>
-                        <option value="va_mandiri">Mandiri</option>
+                        <option value="#">Coming Soon</option>
+                        <!-- <option value="va_bni">BNI</option>
+                        <option value="va_mandiri">Mandiri</option> -->
                     </optgroup>
                     <optgroup label="Convenience Store">
-                        <option value="cs_alfamart">Alfamart</option>
-                        <option value="cs_indomaret">Indomaret</option>
+                        <option value="#">Coming Soon</option>
+                        <!-- <option value="cs_indomaret">Indomaret</option> -->
                     </optgroup>
                     <optgroup label="Transfer Bank">
-                        <option value="bank_bca">Transfer ke BCA</option>
-                        <option value="bank_seabank">Transfer ke SeaBank</option>
+                        <option value="#">Coming Soon</option>
+                        <!-- <option value="bank_seabank">Transfer ke SeaBank</option>
                         <option value="bank_bni">Transfer ke BNI</option>
-                        <option value="bank_bri">Transfer ke BRI</option>
+                        <option value="bank_bri">Transfer ke BRI</option> -->
                     </optgroup>
                 </select>
             </div>
