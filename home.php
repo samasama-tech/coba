@@ -10,7 +10,7 @@ $activePages = ['home'];
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Nexus Hotels</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,26 +44,27 @@ $activePages = ['home'];
         ?>
 
     <!-- Booking Form -->
-    <div class="container my-5">
+    <div class="container my-4">
         <div class="bg-light p-4 rounded shadow">
             <h4>Check Booking Availability</h4>
-            <form action="kamar.php" id="bookingForm" method="POST" class="row g-3 align-items-end">
-                <div class="col-md-3">
+            <form action="kamar.php" id="bookingForm" method="POST"
+                class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-3">
+                <div class="col">
                     <label class="form-label">Check-in</label>
                     <input type="date" name="ci" id="ci" class="form-control" required>
                 </div>
-                <div class="col-md-3">
+                <div class="col">
                     <label class="form-label">Check-out</label>
                     <input type="date" name="co" id="co" class="form-control" required>
                 </div>
-                <div class="col-md-2">
+                <div class="col">
                     <label class="form-label">Kapasitas</label>
                     <select name="kap" class="form-select">
                         <?php for ($i = 1; $i <= 2; $i++)
                             echo "<option>$i</option>"; ?>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col">
                     <label class="form-label">Tipe Kamar</label>
                     <select name="tipe" class="form-select" required>
                         <option value="">Pilih Tipe</option>
@@ -72,7 +73,7 @@ $activePages = ['home'];
                         <option value="Executive Room">Executive Room</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col d-flex align-items-end">
                     <button type="submit" id="bookingSubmit" class="btn btn-success w-100">Submit</button>
                 </div>
             </form>
@@ -80,7 +81,7 @@ $activePages = ['home'];
     </div>
 
     <!--Lokasi Kami-->
-    <section class="container my-5">
+    <section class="container my-4">
         <div class="row">
             <div class="col-12">
                 <div class="card shadow-sm">
@@ -124,6 +125,23 @@ $activePages = ['home'];
             </div>
         </div>
     </section>
+
+    <footer class="bg-light text-center text-lg-start border-top mt-5">
+        <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+                reserved.</p>
+
+            <div class="d-flex align-items-center">
+                <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
+                        class="bi bi-instagram fs-5"></i></a>
+                <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
+                <a href="https://facebook.com/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

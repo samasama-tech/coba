@@ -7,27 +7,27 @@ $activePages = ['about'];
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>About Us - Nexus Hotels</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-    .custom-navbar {
-        background-color: #ced4da;
-        /* Abu-abu terang agak gelap */
-    }
+        .custom-navbar {
+            background-color: #ced4da;
+            /* Abu-abu terang agak gelap */
+        }
 
-    .nav-pills .nav-link {
-        color: black;
-    }
+        .nav-pills .nav-link {
+            color: black;
+        }
 
-    .nav-pills .nav-link.active {
-        background-color: #adb5bd;
-        /* Abu-abu lebih gelap untuk tab aktif */
-        color: black !important;
-    }
+        .nav-pills .nav-link.active {
+            background-color: #adb5bd;
+            /* Abu-abu lebih gelap untuk tab aktif */
+            color: black !important;
+        }
     </style>
 
 </head>
@@ -35,7 +35,7 @@ $activePages = ['about'];
 <body>
 
     <?php include 'navbar.php'
-    ?>
+        ?>
 
     <!-- About Content -->
     <div class="container my-5">
@@ -96,6 +96,19 @@ $activePages = ['about'];
                 </div>
             </div>
         </div>
+
+        <footer class="bg-light text-center text-lg-start border-top mt-5">
+            <div class="container py-3">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                    <p class="mb-2 mb-md-0 text-muted mb-0">
+                        &copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights reserved.
+                    </p>
+                    <img src="img/favicon.ico" alt="Nexus Hotels Logo" class="img-fluid ms-md-3"
+                        style="width: 40px; height: 40px;">
+                </div>
+            </div>
+        </footer>
+
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
