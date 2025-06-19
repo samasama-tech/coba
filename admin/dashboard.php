@@ -303,7 +303,7 @@ $stats = [
 
 
             <footer class="mt-4 text-center text-muted">
-                <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($admin_data['username']) ?> - Admin Ne Hotel</p>
+                <p>&copy; <?= date('Y') ?> <?= htmlspecialchars($admin_data['username']) ?> - Admin Nexus Hotel</p>
             </footer>
         </div>
     </main>

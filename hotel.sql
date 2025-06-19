@@ -3,13 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2025 at 04:59 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Waktu pembuatan: 19 Jun 2025 pada 10.17
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `admin`
+-- Struktur dari tabel `admin`
 --
 
 CREATE TABLE `admin` (
@@ -35,18 +36,19 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `admin`
+-- Dumping data untuk tabel `admin`
 --
 
 INSERT INTO `admin` (`id_admin`, `username`, `email`, `password`, `no_hp`) VALUES
 (1, 'Keysa', 'keysa@gmail.com', '1', 123),
 (3, 'irul', 'irul@gmail.com', '123', 989887678),
-(19, 'adnan', 'adonan@gmail.com', '1', 897654389);
+(19, 'adnan', 'adonan@gmail.com', '1', 897654389),
+(23, 'admin', 'admin@gmail.com', 'admin123', 8898978678);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cust`
+-- Struktur dari tabel `cust`
 --
 
 CREATE TABLE `cust` (
@@ -59,18 +61,20 @@ CREATE TABLE `cust` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `cust`
+-- Dumping data untuk tabel `cust`
 --
 
 INSERT INTO `cust` (`id_cust`, `username`, `email`, `password`, `no_hp`, `role`) VALUES
 (1, 'Keysa', 'keysa@gmail.com', '1', '123', 'admin'),
 (3, 'irul', 'irul@gmail.com', '123', '0989887678', 'admin'),
 (12, 'alek', 'hhaihdijw@knjec.knscs', '1', '1234', 'customer'),
-(13, 'lpkojihug', 'ppp@gamil.com', '1', '12', 'customer'),
-(19, 'adnan', 'adonan@gmail.com', '1', '897654389', 'admin');
+(13, 'ajojing', 'ppp@gamil.com', '1', '12', 'customer'),
+(19, 'adnan', 'adonan@gmail.com', '1', '897654389', 'admin'),
+(22, 'sugi', 'hhh@jhk.com', '1', '12', 'customer'),
+(23, 'admin', 'admin@gmail.com', 'admin123', '08898978678', 'admin');
 
 --
--- Triggers `cust`
+-- Trigger `cust`
 --
 DELIMITER $$
 CREATE TRIGGER `after_insert_admin` AFTER INSERT ON `cust` FOR EACH ROW BEGIN
@@ -102,7 +106,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kmr`
+-- Struktur dari tabel `kmr`
 --
 
 CREATE TABLE `kmr` (
@@ -116,21 +120,21 @@ CREATE TABLE `kmr` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `kmr`
+-- Dumping data untuk tabel `kmr`
 --
 
 INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilitas`) VALUES
-(12, '001', 'Deluxe Room', 600000, '2', 'Terisi', 'double bed,wifi,ac,luas 28m²'),
-(13, '002', 'Deluxe Room', 600000, '2', 'Terisi', 'double bed,wifi,ac,luas 28m²'),
+(12, '001', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
+(13, '002', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
 (14, '003', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
 (15, '004', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
 (16, '005', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
-(17, '011', 'Suite Room', 500000, '1', 'Terisi', 'twin bed,wifi,ac,luas 20m²'),
-(18, '012', 'Suite Room', 500000, '1', 'Terisi', 'twin bed,wifi,ac,luas 20m²'),
+(17, '011', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
+(18, '012', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
 (19, '013', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
 (20, '014', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
 (21, '015', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
-(22, '021', 'Executive Room', 700000, '2', 'Terisi', 'king bed,wifi,ac,luas 32m²'),
+(22, '021', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
 (25, '022', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
 (26, '023', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
 (27, '024', 'Executive Room', 700000, '2', 'Kosong', 'king bed,wifi,ac,luas 32m²'),
@@ -139,7 +143,7 @@ INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilita
 -- --------------------------------------------------------
 
 --
--- Table structure for table `review`
+-- Struktur dari tabel `review`
 --
 
 CREATE TABLE `review` (
@@ -152,22 +156,10 @@ CREATE TABLE `review` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `review`
---
-
-INSERT INTO `review` (`id_review`, `idkmr`, `nokmr`, `id_cust`, `bintang`, `komen`, `created_at`) VALUES
-(5, 18, 0, 13, 5, 'gut', '2025-06-11 14:35:44'),
-(6, 13, 2, 13, 4, 'nais', '2025-06-11 14:56:30'),
-(7, 18, 12, 13, 4, 'ok', '2025-06-11 14:56:46'),
-(8, 17, 11, 13, 5, 'gutt', '2025-06-11 14:56:55'),
-(9, 12, 1, 13, 5, 'boleh', '2025-06-11 14:57:05'),
-(10, 22, 21, 13, 5, 'gokil', '2025-06-11 14:57:14');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaksi`
+-- Struktur dari tabel `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -176,47 +168,37 @@ CREATE TABLE `transaksi` (
   `no_hp` varchar(15) NOT NULL,
   `harga` bigint(20) NOT NULL,
   `id_cust` int(12) NOT NULL,
-  `tipe` varchar(25) NOT NULL
+  `tipe` varchar(25) NOT NULL,
+  `check_out` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `transaksi`
---
-
-INSERT INTO `transaksi` (`id_trans`, `nokmr`, `no_hp`, `harga`, `id_cust`, `tipe`) VALUES
-(1, 12, '12', 1000000, 13, 'Suite Room'),
-(2, 11, '12', 444000000, 13, 'Suite Room'),
-(3, 1, '12', 596400000, 13, 'Deluxe Room'),
-(4, 21, '12', 2534000000, 13, 'Executive Room'),
-(5, 2, '12', 1200000, 13, 'Deluxe Room');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `admin`
+-- Indeks untuk tabel `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id_admin`),
   ADD UNIQUE KEY `id_admin` (`id_admin`);
 
 --
--- Indexes for table `cust`
+-- Indeks untuk tabel `cust`
 --
 ALTER TABLE `cust`
   ADD PRIMARY KEY (`id_cust`),
   ADD UNIQUE KEY `id_cust` (`id_cust`);
 
 --
--- Indexes for table `kmr`
+-- Indeks untuk tabel `kmr`
 --
 ALTER TABLE `kmr`
   ADD PRIMARY KEY (`idkmr`),
   ADD UNIQUE KEY `idkmr` (`idkmr`);
 
 --
--- Indexes for table `review`
+-- Indeks untuk tabel `review`
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`id_review`),
@@ -224,7 +206,7 @@ ALTER TABLE `review`
   ADD KEY `id_cust` (`id_cust`);
 
 --
--- Indexes for table `transaksi`
+-- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_trans`),
@@ -233,52 +215,52 @@ ALTER TABLE `transaksi`
   ADD KEY `nokmr` (`nokmr`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `cust`
+-- AUTO_INCREMENT untuk tabel `cust`
 --
 ALTER TABLE `cust`
-  MODIFY `id_cust` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_cust` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `kmr`
+-- AUTO_INCREMENT untuk tabel `kmr`
 --
 ALTER TABLE `kmr`
   MODIFY `idkmr` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
--- AUTO_INCREMENT for table `review`
+-- AUTO_INCREMENT untuk tabel `review`
 --
 ALTER TABLE `review`
-  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
--- AUTO_INCREMENT for table `transaksi`
+-- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `admin`
+-- Ketidakleluasaan untuk tabel `admin`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`id_admin`) REFERENCES `cust` (`id_cust`);
 
 --
--- Constraints for table `review`
+-- Ketidakleluasaan untuk tabel `review`
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`idkmr`) REFERENCES `kmr` (`idkmr`),
   ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`id_cust`) REFERENCES `cust` (`id_cust`);
 
 --
--- Constraints for table `transaksi`
+-- Ketidakleluasaan untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_cust`) REFERENCES `cust` (`id_cust`);
