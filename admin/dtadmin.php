@@ -66,16 +66,15 @@ if (isset($_POST['ubah_password'])) {
 if (isset($_GET['hapus'])) {
   $id = $_GET['hapus'];
 
-  $stmt = $conn->prepare("DELETE FROM cust WHERE id_cust=? AND role='admin'");
-  $stmt->bind_param("i", $id);
-  $stmt->execute();
-  $stmt->close();
-
-  // Hapus juga dari tabel admin
   $stmt2 = $conn->prepare("DELETE FROM admin WHERE id_admin=?");
   $stmt2->bind_param("i", $id);
   $stmt2->execute();
   $stmt2->close();
+
+  $stmt = $conn->prepare("DELETE FROM cust WHERE id_cust=? AND role='admin'");
+  $stmt->bind_param("i", $id);
+  $stmt->execute();
+  $stmt->close();
 
 }
 
