@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Redirect dengan query string
     $_SESSION['flash_review'] = true;
-    header("Location: home.php");
+    header("Location: index.php");
     exit();
 
 }

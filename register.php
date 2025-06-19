@@ -2,48 +2,45 @@
 require 'koneksi.php';
 session_start();
 
-
-$nama = $_POST['username'] ?? '';
-$email = $_POST['email'] ?? '';
-$no_hp = $_POST['no_hp'] ?? '';
+$nama     = $_POST['username'] ?? '';
+$email    = $_POST['email'] ?? '';
+$no_hp    = $_POST['no_hp'] ?? '';
 $password = $_POST['password'] ?? '';
 $cpassword = $_POST['cpassword'] ?? '';
 
-// Validasi password dan konfirmasi password
-if ($password !== $cpassword) {
-    die("Password dan Confirm Password tidak cocok.");
-}
-
 // Hash/enkripsi password
 // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+// Validasi password dan konfirmasi password
+if ($password !== $cpassword) {
+    die("Password dan Konfirmasi Password tidak cocok.");
+}
 
-// Prepare statement untuk insert data
-$stmt = $conn->prepare("INSERT INTO cust (username, email, no_hp, password) VALUES (?, ?, ?, ?)");
+// Set role secara otomatis
+$role = 'customer';
+
+// Siapkan query insert
+$stmt = $conn->prepare("INSERT INTO cust (username, email, no_hp, password, role) VALUES (?, ?, ?, ?, ?)");
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
 
-// Bind parameters
-$stmt->bind_param("ssss", $nama, $email, $no_hp, $password);
+// Bind parameter
+$stmt->bind_param("sssss", $nama, $email, $no_hp, $password, $role);
 
 // Eksekusi query
 if ($stmt->execute()) {
-    // Simpan username ke session
     $_SESSION['username'] = $nama;
-
-    // Redirect ke home.php (agar session langsung berlaku di halaman utama)
-    header("Location: home.php");
+    header("Location: index.php");
     exit;
 } else {
-    // Cek error duplicate email
     if ($conn->errno === 1062) {
         echo "Email sudah terdaftar.";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Terjadi kesalahan: " . $conn->error;
     }
 }
 
-// Tutup statement dan koneksi
+// Tutup koneksi
 $stmt->close();
 $conn->close();
 ?>

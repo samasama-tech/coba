@@ -7,7 +7,7 @@ $_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
 
 // Check if payment data exists in session
 if (!isset($_SESSION['payment_data'])) {
-  header('Location: home.php');
+  header('Location: index.php');
   exit();
 }
 
@@ -223,8 +223,7 @@ date_default_timezone_set('Asia/Jakarta');
         };
 
         html2pdf().set(opt).from(element).save().then(() => {
-          // Setelah download selesai, redirect ke home.php
-          window.location.href = 'home.php';
+          window.location.href = 'index.php';
         });
       });
     });

@@ -90,7 +90,7 @@ if (empty($room) || empty($tipe) || empty($ci) || empty($co) || empty($total_har
             </div>
 
             <button type="submit" class="btn btn-success">Lanjutkan Pembayaran</button>
-            <a href="home.php" class="btn btn-secondary">Kembali</a>
+            <a href="index.php" class="btn btn-secondary">Kembali</a>
 
         </form>
     </div>

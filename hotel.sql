@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Jun 2025 pada 10.17
+-- Waktu pembuatan: 19 Jun 2025 pada 11.21
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -72,36 +72,6 @@ INSERT INTO `cust` (`id_cust`, `username`, `email`, `password`, `no_hp`, `role`)
 (19, 'adnan', 'adonan@gmail.com', '1', '897654389', 'admin'),
 (22, 'sugi', 'hhh@jhk.com', '1', '12', 'customer'),
 (23, 'admin', 'admin@gmail.com', 'admin123', '08898978678', 'admin');
-
---
--- Trigger `cust`
---
-DELIMITER $$
-CREATE TRIGGER `after_insert_admin` AFTER INSERT ON `cust` FOR EACH ROW BEGIN
-    IF NEW.role = 'admin' THEN
-        INSERT INTO admin (id_admin, username, email, password, no_hp)
-        VALUES (NEW.id_cust, NEW.username, NEW.email, NEW.password, NEW.no_hp);
-    END IF;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `delete_admin_after_cust_delete` AFTER DELETE ON `cust` FOR EACH ROW BEGIN
-  DELETE FROM admin WHERE id_admin = OLD.id_cust;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `update_admin_after_cust_update` AFTER UPDATE ON `cust` FOR EACH ROW BEGIN
-  UPDATE admin 
-  SET 
-    username = NEW.username, 
-    email = NEW.email,
-    no_hp = NEW.no_hp
-  WHERE id_admin = NEW.id_cust;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -234,13 +204,13 @@ ALTER TABLE `kmr`
 -- AUTO_INCREMENT untuk tabel `review`
 --
 ALTER TABLE `review`
-  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

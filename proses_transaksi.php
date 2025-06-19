@@ -252,7 +252,7 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
             </div>
             <div class="card-footer text-center">
                 <div class="d-flex justify-content-between">
-                    <a href="home.php" class="btn btn-primary">Kembali ke Beranda</a>
+                    <a href="index.php" class="btn btn-primary">Kembali ke Beranda</a>
                     <div>
                         <button id="printBtn" class="btn btn-secondary me-2">
                             <i class="bi bi-printer"></i> Cetak QR

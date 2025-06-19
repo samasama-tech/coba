@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-$redirect = '../home.php'; // Default redirect
+$redirect = '../index.php'; // Default redirect
 
 // Jika sebelumnya di halaman admin, redirect ke login
 if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
-    $redirect = '../home.php';
+    $redirect = '../index.php';
 }
 
 session_unset();

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (isset($_SESSION['last_page'])) {
                     header("Location: " . $_SESSION['last_page']);
                 } else {
-                    header("Location: home.php");
+                    header("Location: index.php");
                 }
             }
             exit;

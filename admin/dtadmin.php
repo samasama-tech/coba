@@ -13,7 +13,15 @@ if (isset($_POST['tambah'])) {
   $stmt = $conn->prepare("INSERT INTO cust (username, no_hp, email, password, role) VALUES (?, ?, ?, ?, ?)");
   $stmt->bind_param("sssss", $username, $no_hp, $email, $password, $role);
   $stmt->execute();
+  $id_cust = $conn->insert_id;
   $stmt->close();
+
+  // Insert juga ke tabel admin
+  $stmt2 = $conn->prepare("INSERT INTO admin (id_admin, username, email, password, no_hp) VALUES (?, ?, ?, ?, ?)");
+  $stmt2->bind_param("issss", $id_cust, $username, $email, $password, $no_hp);
+  $stmt2->execute();
+  $stmt2->close();
+
 }
 
 // Edit Admin
@@ -27,6 +35,13 @@ if (isset($_POST['edit'])) {
   $stmt->bind_param("sssi", $username, $no_hp, $email, $id);
   $stmt->execute();
   $stmt->close();
+
+  // Update juga ke tabel admin
+  $stmt2 = $conn->prepare("UPDATE admin SET username=?, no_hp=?, email=? WHERE id_admin=?");
+  $stmt2->bind_param("sssi", $username, $no_hp, $email, $id);
+  $stmt2->execute();
+  $stmt2->close();
+
 }
 
 // Ubah Password
@@ -38,17 +53,30 @@ if (isset($_POST['ubah_password'])) {
   $stmt->bind_param("si", $password, $id);
   $stmt->execute();
   $stmt->close();
+
+  // Update juga password admin
+  $stmt2 = $conn->prepare("UPDATE admin SET password=? WHERE id_admin=?");
+  $stmt2->bind_param("si", $password, $id);
+  $stmt2->execute();
+  $stmt2->close();
+
 }
 
 // Hapus Admin
 if (isset($_GET['hapus'])) {
   $id = $_GET['hapus'];
 
-  // Hapus dari cust (karena trigger akan otomatis hapus dari admin)
   $stmt = $conn->prepare("DELETE FROM cust WHERE id_cust=? AND role='admin'");
   $stmt->bind_param("i", $id);
   $stmt->execute();
   $stmt->close();
+
+  // Hapus juga dari tabel admin
+  $stmt2 = $conn->prepare("DELETE FROM admin WHERE id_admin=?");
+  $stmt2->bind_param("i", $id);
+  $stmt2->execute();
+  $stmt2->close();
+
 }
 
 // Ambil data admin (dari cust karena yang utama tabel cust)
@@ -78,11 +106,13 @@ $result = $conn->query("SELECT * FROM cust WHERE role='admin'");
       .stat-card {
         margin-bottom: 15px;
       }
+
       td,
       th {
         font-size: medium;
         white-space: nowrap;
       }
+
       .btn-sm {
         padding: 0.25rem 0.4rem;
         font-size: 0.75rem;

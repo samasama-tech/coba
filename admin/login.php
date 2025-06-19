@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../customer/koneksi.php';
+require '../koneksi.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (isset($_SESSION['last_page'])) {
                     header("Location: " . $_SESSION['last_page']);
                 } else {
-                    header("Location: ../customer/home.php");
+                    header("Location: ../index.php");
                 }
             }
             exit;

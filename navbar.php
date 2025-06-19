@@ -72,7 +72,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 </style>
 
 <nav class="navbar navbar-expand-lg custom-navbar px-4 py-2">
-    <a class="navbar-brand d-flex align-items-center gap-2" href="home.php">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.php">
         <img src="img/favicon.ico" alt="Nexus Hotels Logo" class="img-fluid" style="width: 40px; height: 40px;">
         <span class="fs-5 fw-bold">Nexus Hotels</span>
     </a>
@@ -83,7 +83,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav nav-pills me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link <?= in_array('home', $activePages ?? []) ? 'active' : '' ?>" href="home.php">Home</a>
+                <a class="nav-link <?= in_array('home', $activePages ?? []) ? 'active' : '' ?>" href="index.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= in_array('rooms', $activePages ?? []) ? 'active' : '' ?>"
