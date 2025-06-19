@@ -95,6 +95,21 @@ if (empty($room) || empty($tipe) || empty($ci) || empty($co) || empty($total_har
         </form>
     </div>
 
+    <footer class="bg-light text-center text-lg-start border-top mt-5">
+        <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+                reserved.</p>
+
+            <div class="d-flex align-items-center">
+                <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
+                        class="bi bi-instagram fs-5"></i></a>
+                <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
+                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

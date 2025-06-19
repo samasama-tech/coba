@@ -1,22 +1,35 @@
 <?php
 // Include file koneksi
+session_start();
 require_once '../koneksi.php';
-
 $currentPage = 'dashboard';
 
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: ../login.php");
+    exit();
+}
+
 // Query untuk mengambil data admin (contoh: ambil admin pertama)
-$sql = "SELECT * FROM admin LIMIT 1";
-$result = $conn->query($sql);
-$admin_data = $result->fetch_assoc();
+$email = $_SESSION['email'] ?? '';
+
+if ($email) {
+    $stmt = $conn->prepare("SELECT * FROM cust WHERE email = ? AND role = 'admin' LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $admin_data = $result->fetch_assoc();
+    $stmt->close();
+}
 
 if (!$admin_data) {
     $admin_data = [
         'username' => 'Admin Default',
-        'no_hp' => '',
-        'email' => '',
-        'password' => ''
+        'no_hp' => '-',
+        'email' => '-',
+        'password' => '-'
     ];
 }
+
 
 // Query statistik
 $stats = [

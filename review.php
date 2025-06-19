@@ -28,20 +28,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 
     // Redirect dengan query string
-    header("Location: home.php?review=success");
+    $_SESSION['flash_review'] = true;
+    header("Location: home.php");
     exit();
+
 }
 
-
-
 $stmt = $conn->prepare("
-    SELECT k.idkmr, k.nokmr, k.tipe, k.harga, r.id_review
-    FROM transaksi t
+    SELECT DISTINCT k.tipe, k.nokmr, k.idkmr, k.harga
+    FROM transaksi t 
     JOIN kmr k ON t.nokmr = k.nokmr
-    LEFT JOIN review r ON r.nokmr = k.nokmr AND r.id_cust = ?
-    WHERE t.id_cust = ?
+    LEFT JOIN review r ON r.nokmr = t.nokmr AND r.id_cust = t.id_cust
+    WHERE t.id_cust = ? 
+      AND r.id_review IS NULL
 ");
-$stmt->bind_param("ii", $id_cust, $id_cust);
+
+$stmt->bind_param("i", $id_cust); // ✅ Cuma satu parameter
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -69,72 +71,81 @@ $result = $stmt->get_result();
 
 <body class="bg-light">
 
-<div class="container py-5">
-    <h2 class="mb-4 text-center">Beri Review Kamar</h2>
+    <div class="container pt-4">
+        <a href="rooms.php" class="btn btn-outline-dark px-4 py-2 rounded-pill shadow-sm">
+            <i class="bi bi-arrow-left me-2"></i> Kembali
+        </a>
+    </div>
 
-    <?php if ($result->num_rows > 0): ?>
-        <div class="row justify-content-center">
-            <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="col-md-6">
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-body">
+    <div class="container py-5">
+        <h2 class="mb-4 text-center">Beri Review Kamar</h2>
 
-                            <h5 class="mb-3">Kamar: <?= htmlspecialchars($row['nokmr']) ?> - <?= htmlspecialchars($row['tipe']) ?></h5>
-                            <p>Harga: Rp <?= number_format($row['harga'], 0, ',', '.') ?></p>
+        <?php if ($result->num_rows > 0): ?>
+            <div class="row justify-content-center">
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <div class="col-md-6">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
 
-                            <?php if (empty($row['id_review'])): ?>
-                                <form method="POST" class="review-form">
-                                    <input type="hidden" name="idkmr" value="<?= $row['idkmr'] ?>">
-                                    <input type="hidden" name="nokmr" value="<?= $row['nokmr'] ?>">
+                                <h5 class="mb-3">Kamar: <?= htmlspecialchars($row['nokmr']) ?> -
+                                    <?= htmlspecialchars($row['tipe']) ?>
+                                </h5>
+                                <p>Harga: Rp <?= number_format($row['harga'], 0, ',', '.') ?></p>
 
-                                    <div class="mb-3">
-                                        <label class="form-label">Bintang:</label><br>
-                                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                                            <i class="bi bi-star star" data-value="<?= $i ?>"></i>
-                                        <?php endfor; ?>
-                                        <input type="hidden" name="bintang" class="bintang-value" required>
+                                <?php if (empty($row['id_review'])): ?>
+                                    <form method="POST" class="review-form">
+                                        <input type="hidden" name="idkmr" value="<?= $row['idkmr'] ?>">
+                                        <input type="hidden" name="nokmr" value="<?= $row['nokmr'] ?>">
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Bintang:</label><br>
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <i class="bi bi-star star" data-value="<?= $i ?>"></i>
+                                            <?php endfor; ?>
+                                            <input type="hidden" name="bintang" class="bintang-value" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Komentar:</label>
+                                            <textarea name="komen" class="form-control" rows="3" required></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-dark w-100">Kirim Review</button>
+                                    </form>
+                                <?php else: ?>
+                                    <div class="alert alert-success mb-0">
+                                        Review untuk kamar ini sudah dikirim.
                                     </div>
+                                <?php endif; ?>
 
-                                    <div class="mb-3">
-                                        <label class="form-label">Komentar:</label>
-                                        <textarea name="komen" class="form-control" rows="3" required></textarea>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-dark w-100">Kirim Review</button>
-                                </form>
-                            <?php else: ?>
-                                <div class="alert alert-success mb-0">
-                                    Review untuk kamar ini sudah dikirim.
-                                </div>
-                            <?php endif; ?>
-
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endwhile; ?>
-        </div>
-    <?php else: ?>
-        <div class="alert alert-info text-center">Belum ada transaksi yang bisa direview.</div>
-    <?php endif; ?>
-</div>
+                <?php endwhile; ?>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-info text-center">Belum ada transaksi yang bisa direview.</div>
+        <?php endif; ?>
+    </div>
 
-<script>
-    document.querySelectorAll('.review-form').forEach(form => {
-        const stars = form.querySelectorAll('.star');
-        const bintangInput = form.querySelector('.bintang-value');
+    <script>
+        document.querySelectorAll('.review-form').forEach(form => {
+            const stars = form.querySelectorAll('.star');
+            const bintangInput = form.querySelector('.bintang-value');
 
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                const value = star.dataset.value;
-                bintangInput.value = value;
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const value = star.dataset.value;
+                    bintangInput.value = value;
 
-                stars.forEach(s => {
-                    s.classList.toggle('selected', s.dataset.value <= value);
+                    stars.forEach(s => {
+                        s.classList.toggle('selected', s.dataset.value <= value);
+                    });
                 });
             });
         });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>

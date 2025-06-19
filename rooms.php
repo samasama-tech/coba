@@ -53,6 +53,37 @@ while ($row = $result->fetch_assoc()) {
     ];
 }
 
+$reviewableRooms = [];
+
+if ($loggedIn) {
+    $email = $_SESSION['email'];
+    $stmt = $conn->prepare("SELECT id_cust FROM cust WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $idResult = $stmt->get_result()->fetch_assoc();
+    $id_cust = $idResult['id_cust'];
+    $stmt->close();
+
+    // Ambil tipe kamar yang sudah bayar dan belum di-review oleh user ini
+    $stmt = $conn->prepare("
+    SELECT DISTINCT k.tipe, t.id_trans
+    FROM transaksi t 
+    JOIN kmr k ON t.nokmr = k.nokmr
+    LEFT JOIN review r ON r.nokmr = t.nokmr AND r.id_cust = t.id_cust
+    WHERE t.id_cust = ? 
+      AND r.id_review IS NULL
+");
+    $stmt->bind_param("i", $id_cust); // ✅ Cuma satu parameter
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    while ($row = $res->fetch_assoc()) {
+        $reviewableRooms[] = $row['tipe'];
+    }
+    $stmt->close();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -120,13 +151,18 @@ while ($row = $result->fetch_assoc()) {
                             </div>
 
                             <p><strong>Facilities:</strong> <?= htmlspecialchars($room['fasilitas']) ?></p>
+
+                            <?php if ($loggedIn && in_array($room['tipe'], $reviewableRooms)): ?>
+                                <a href="review.php" class="btn btn-outline-dark review-btn mt-2">Tulis Review</a>
+                            <?php endif; ?>
+
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
-    
+
     <footer class="bg-light text-center text-lg-start border-top mt-5">
         <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
             <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
@@ -137,7 +173,7 @@ while ($row = $result->fetch_assoc()) {
                 <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
                         class="bi bi-instagram fs-5"></i></a>
                 <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
-                <a href="https://facebook.com/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
             </div>
         </div>
     </footer>

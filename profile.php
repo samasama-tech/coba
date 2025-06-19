@@ -85,62 +85,77 @@ $stmt->close();
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Edit Profil</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Edit Profil</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
-    <?php include 'navbar.php' ?>
+  <?php include 'navbar.php' ?>
 
-    <div class="container py-4" style="max-width: 480px;">
-        <h2 class="mb-4">Edit Profil</h2>
+  <div class="container py-4" style="max-width: 480px;">
+    <h2 class="mb-4">Edit Profil</h2>
 
-        <?php if (isset($_GET['success'])): ?>
-        <div class="alert alert-success">Profil berhasil diperbarui.</div>
-        <?php elseif ($message): ?>
-        <div class="alert alert-info"><?= htmlspecialchars($message) ?></div>
-        <?php endif; ?>
+    <?php if (isset($_GET['success'])): ?>
+      <div class="alert alert-success">Profil berhasil diperbarui.</div>
+    <?php elseif ($message): ?>
+      <div class="alert alert-info"><?= htmlspecialchars($message) ?></div>
+    <?php endif; ?>
 
-        <form method="POST" action="profile.php" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required
-                    value="<?= htmlspecialchars($userData['username']) ?>" />
-            </div>
+    <form method="POST" action="profile.php" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required
+          value="<?= htmlspecialchars($userData['username']) ?>" />
+      </div>
 
-            <div class="mb-3">
-                <label for="no_hp" class="form-label">No Hp</label>
-                <input type="text" class="form-control" id="no_hp" name="no_hp" required
-                    value="<?= htmlspecialchars($userData['no_hp']) ?>" />
-            </div>
+      <div class="mb-3">
+        <label for="no_hp" class="form-label">No Hp</label>
+        <input type="text" class="form-control" id="no_hp" name="no_hp" required
+          value="<?= htmlspecialchars($userData['no_hp']) ?>" />
+      </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required
-                    value="<?= htmlspecialchars($userData['email']) ?>" />
-            </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required
+          value="<?= htmlspecialchars($userData['email']) ?>" />
+      </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password Baru (kosongkan jika tidak ingin ganti)</label>
-                <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" />
-            </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password Baru (kosongkan jika tidak ingin ganti)</label>
+        <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" />
+      </div>
 
-            <div class="mb-3">
-                <label for="password_confirm" class="form-label">Konfirmasi Password Baru</label>
-                <input type="password" class="form-control" id="password_confirm" name="password_confirm"
-                    autocomplete="new-password" />
-            </div>
+      <div class="mb-3">
+        <label for="password_confirm" class="form-label">Konfirmasi Password Baru</label>
+        <input type="password" class="form-control" id="password_confirm" name="password_confirm"
+          autocomplete="new-password" />
+      </div>
 
-            <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
-        </form>
+      <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
+    </form>
+  </div>
+
+  <footer class="bg-light text-center text-lg-start border-top mt-5">
+    <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+        reserved.</p>
+
+      <div class="d-flex align-items-center">
+        <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+        <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i class="bi bi-instagram fs-5"></i></a>
+        <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
+        <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i
+            class="bi bi-facebook fs-5"></i></a>
+      </div>
     </div>
+  </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -78,13 +78,13 @@ $activePages = ['about'];
             <div class="col-md-6">
                 <p class="mb-4">Follow us on our social media for the latest updates and offers:</p>
                 <div class="d-flex justify-content-center gap-4 fs-3">
-                    <a href="#" class="text-primary" target="_blank">
+                    <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary" target="_blank">
                         <i class="bi bi-facebook"></i>
                     </a>
-                    <a href="https://www.instagram.com/kawaii.nayaa/" class="text-danger" target="_blank">
+                    <a href="https://www.instagram.com/nexushotel" class="text-danger" target="_blank">
                         <i class="bi bi-instagram"></i>
                     </a>
-                    <a href="https://twitter.com/nekopoi" class="text-info" target="_blank">
+                    <a href="https://twitter.com/nexushotel" class="text-info" target="_blank">
                         <i class="bi bi-twitter"></i>
                     </a>
                     <a href="https://wa.me/" class="text-success" target="_blank">

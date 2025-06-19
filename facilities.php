@@ -79,7 +79,7 @@ $activePages = ['facilities'];
                 <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
                         class="bi bi-instagram fs-5"></i></a>
                 <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
-                <a href="https://facebook.com/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
             </div>
         </div>
     </footer>

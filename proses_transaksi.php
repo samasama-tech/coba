@@ -38,10 +38,12 @@ $stmt->close();
 $room = $_POST['room'];
 $tipe = $_POST['tipe'];
 $total = $_POST['total'];
+$ci = $_POST['ci'];
+$co = $_POST['co'];
 
 // Simpan ke tabel transaksi
-$stmt = $conn->prepare("INSERT INTO transaksi (nokmr, no_hp, harga, id_cust, tipe) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("ssdis", $room, $no_hp, $total, $id_cust, $tipe);
+$stmt = $conn->prepare("INSERT INTO transaksi (nokmr, no_hp, harga, id_cust, tipe, check_out) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssisss", $room, $no_hp, $total, $id_cust, $tipe, $co);
 $stmt->execute();
 $stmt->close();
 
@@ -59,7 +61,7 @@ $_SESSION['payment_data'] = [
     'tipe' => htmlspecialchars($_POST['tipe']),
     'ci' => htmlspecialchars($_POST['ci']),
     'co' => htmlspecialchars($_POST['co']),
-    'total' => (float)$_POST['total'],
+    'total' => (float) $_POST['total'],
     'metode' => htmlspecialchars($_POST['metode_pembayaran'])
 ];
 
@@ -99,7 +101,7 @@ switch ($metode) {
     case 'qris_dana':
         $isi_qr = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012022050100222768 ";
         break;
-    case 'qris_ovo':
+    case 'qris_gopay':
         $isi_qr = "https://gopay.co.id/app/scanqr?deeplink_source=request_money";
         break;
     case 'va_bca':
@@ -147,35 +149,35 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
-    .payment-card {
-        max-width: 600px;
-        margin: 0 auto;
-    }
+        .payment-card {
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-    .qr-container {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        display: inline-block;
-    }
+        .qr-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
 
-    .payment-steps {
-        text-align: left;
-        margin-top: 20px;
-    }
+        .payment-steps {
+            text-align: left;
+            margin-top: 20px;
+        }
 
-    .btn-next {
-        background-color: #6c757d;
-        border-color: #6c757d;
-        cursor: not-allowed;
-    }
+        .btn-next {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            cursor: not-allowed;
+        }
 
-    .btn-next.active {
-        background-color: #28a745;
-        border-color: #28a745;
-        cursor: pointer;
-    }
+        .btn-next.active {
+            background-color: #28a745;
+            border-color: #28a745;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -190,9 +192,9 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
             <div class="card-body">
                 <div class="text-center mb-4">
                     <?php if (str_starts_with($metode, 'qris_')): ?>
-                    <h5 class="text-success"><i class="bi bi-qr-code-scan"></i> Pembayaran QRIS</h5>
+                        <h5 class="text-success"><i class="bi bi-qr-code-scan"></i> Pembayaran QRIS</h5>
                     <?php else: ?>
-                    <h5 class="text-primary"><i class="bi bi-credit-card"></i> Pembayaran <?= $metodeLabel ?></h5>
+                        <h5 class="text-primary"><i class="bi bi-credit-card"></i> Pembayaran <?= $metodeLabel ?></h5>
                     <?php endif; ?>
                 </div>
 
@@ -236,27 +238,27 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
                 </div>
 
                 <?php if (!str_starts_with($metode, 'qris_')): ?>
-                <div class="payment-steps">
-                    <h5>Langkah Pembayaran:</h5>
-                    <ol>
-                        <li>Buka aplikasi mobile banking atau e-wallet Anda</li>
-                        <li>Pilih metode pembayaran <strong><?= $metodeLabel ?></strong></li>
-                        <li>Masukkan kode pembayaran: <strong><?= $kodePembayaran ?></strong></li>
-                        <li>Transfer sejumlah <strong>Rp <?= number_format($total, 0, ',', '.') ?></strong></li>
-                        <li>Simpan bukti pembayaran Anda</li>
-                    </ol>
-                </div>
+                    <div class="payment-steps">
+                        <h5>Langkah Pembayaran:</h5>
+                        <ol>
+                            <li>Buka aplikasi mobile banking atau e-wallet Anda</li>
+                            <li>Pilih metode pembayaran <strong><?= $metodeLabel ?></strong></li>
+                            <li>Masukkan kode pembayaran: <strong><?= $kodePembayaran ?></strong></li>
+                            <li>Transfer sejumlah <strong>Rp <?= number_format($total, 0, ',', '.') ?></strong></li>
+                            <li>Simpan bukti pembayaran Anda</li>
+                        </ol>
+                    </div>
                 <?php endif; ?>
             </div>
             <div class="card-footer text-center">
                 <div class="d-flex justify-content-between">
                     <a href="home.php" class="btn btn-primary">Kembali ke Beranda</a>
                     <div>
-                        <button id="printBtn" class="btn btn-success me-2">
-                            <i class="bi bi-printer"></i> Cetak Instruksi
+                        <button id="printBtn" class="btn btn-secondary me-2">
+                            <i class="bi bi-printer"></i> Cetak QR
                         </button>
-                        <a href="struk.php" id="nextBtn" class="btn btn-next disabled">
-                            Selanjutnya
+                        <a href="struk.php" class="btn btn-success">
+                            <i class="bi bi-file-earmark-text"></i> Cetak Struk
                         </a>
                     </div>
                 </div>
@@ -264,21 +266,36 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
         </div>
     </div>
 
+    <footer class="bg-light text-center text-lg-start border-top mt-5">
+        <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+                reserved.</p>
+
+            <div class="d-flex align-items-center">
+                <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
+                        class="bi bi-instagram fs-5"></i></a>
+                <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
+                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const printBtn = document.getElementById('printBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        document.addEventListener('DOMContentLoaded', function () {
+            const printBtn = document.getElementById('printBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
-        printBtn.addEventListener('click', function() {
-            // Trigger print dialog
-            window.print();
+            printBtn.addEventListener('click', function () {
+                // Trigger print dialog
+                window.print();
 
-            // Enable the next button
-            nextBtn.classList.remove('disabled', 'btn-next');
-            nextBtn.classList.add('btn-success');
+                // Enable the next button
+                nextBtn.classList.remove('disabled', 'btn-next');
+                nextBtn.classList.add('btn-success');
+            });
         });
-    });
     </script>
 </body>
 
