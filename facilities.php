@@ -69,7 +69,7 @@ $activePages = ['facilities'];
         </div>
     </div>
 
-    <footer class="bg-light text-center text-lg-start border-top mt-5">
+    <footer class="text-center text-lg-start border-top mt-5" style="background: #41c1ba;">
         <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
             <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
                 reserved.</p>

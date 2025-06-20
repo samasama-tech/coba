@@ -64,7 +64,7 @@ while ($row = $result->fetch_assoc()) {
 
 </head>
 
-<body>
+<body class="bg-dark">
     <!-- alert review -->
     <?php if (isset($_SESSION['flash_review'])): ?>
         <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3"
@@ -91,7 +91,7 @@ while ($row = $result->fetch_assoc()) {
 
     <!-- Booking Form -->
     <div class="container my-4">
-        <div class="bg-light p-4 rounded shadow">
+        <div class="text-white p-4 rounded shadow" style="background:rgb(44, 44, 44);">
             <h4>Check Booking Availability</h4>
             <form action="kamar.php" id="bookingForm" method="POST"
                 class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-3">
@@ -120,7 +120,7 @@ while ($row = $result->fetch_assoc()) {
                     </select>
                 </div>
                 <div class="col d-flex align-items-end">
-                    <button type="submit" id="bookingSubmit" class="btn btn-success w-100">Submit</button>
+                    <button type="submit" id="bookingSubmit" class="btn btn-outline-info w-100 text-white">Submit</button>
                 </div>
             </form>
         </div>
@@ -131,7 +131,7 @@ while ($row = $result->fetch_assoc()) {
             <!-- Kamar&review -->
             <div class="col-md-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-secondary text-white">
+                    <div class="card-header text-white" style="background: #41c1ba;">
                         <h4 class="mb-0 text-center">Rekomendasi Kamar & Review</h4>
                     </div>
                     <div class="card-body">
@@ -220,7 +220,7 @@ while ($row = $result->fetch_assoc()) {
             <!-- Lokasi -->
             <div class="col-md-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-secondary text-white">
+                    <div class="card-header text-white" style="background: #41c1ba;">
                         <h4 class="mb-0 text-center">Lokasi Kami</h4>
                     </div>
                     <div class="card-body">
@@ -264,7 +264,7 @@ while ($row = $result->fetch_assoc()) {
 
 
 
-    <footer class="bg-light text-center text-lg-start border-top mt-5">
+    <footer class="text-center text-lg-start border-top mt-5" style="background: #41c1ba;">
         <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
             <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
                 reserved.</p>

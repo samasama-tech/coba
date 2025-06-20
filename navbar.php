@@ -9,7 +9,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 <style>
     .custom-navbar {
-        background-color: #d9d9d9;
+        background-color: #41c1ba;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
     }
@@ -28,12 +28,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     .nav-pills .nav-link {
         padding: 4px 10px;
         border-radius: 6px;
-        color: black;
+        color: white;
     }
 
     .nav-pills .nav-link.active {
-        background-color: #898989;
-        color: black !important;
+        background-color: rgb(0, 0, 0);
+        color: white !important;
         padding: 4px 10px;
         border-radius: 6px;
     }
@@ -74,8 +74,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <nav class="navbar navbar-expand-lg custom-navbar px-4 py-2">
     <a class="navbar-brand d-flex align-items-center gap-2" href="index.php">
         <img src="img/favicon.ico" alt="Nexus Hotels Logo" class="img-fluid" style="width: 40px; height: 40px;">
-        <span class="fs-5 fw-bold">Nexus Hotels</span>
+        <span class="fs-5 fw-bold text-white">Nexus Hotels</span>
     </a>
+    <div class="col-2 form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+        <label class="form-check-label text-white" for="darkModeSwitch">Mode</label>
+    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -83,7 +87,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav nav-pills me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link <?= in_array('home', $activePages ?? []) ? 'active' : '' ?>" href="index.php">Home</a>
+                <a class="nav-link <?= in_array('home', $activePages ?? []) ? 'active' : '' ?>"
+                    href="index.php">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <?= in_array('rooms', $activePages ?? []) ? 'active' : '' ?>"
@@ -116,8 +121,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 </ul>
             </div>
         <?php else: ?>
-            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+            <button class="btn btn-outline-dark btn-secondary me-2 text-white" data-bs-toggle="modal"
+                data-bs-target="#loginModal">Login</button>
+            <button class="btn btn-dark text" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
         <?php endif; ?>
     </div>
 </nav>
@@ -130,7 +136,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <h5 class="modal-title" id="loginModalLabel">
                     <i class="bi bi-box-arrow-in-right me-2"></i> User Login
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
             <form action="login.php" method="POST">
                 <div class="modal-body bg-light rounded-bottom-4">
@@ -144,7 +151,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         <input type="password" name="password" id="passwordInput"
                             class="form-control form-control-lg rounded-3 pe-5" placeholder="Masukkan password"
                             required>
-                        <i class="bi bi-eye-slash" id="togglePassword" style="position: absolute; right: 15px; top: 42px; cursor: pointer;"></i>
+                        <i class="bi bi-eye-slash" id="togglePassword"
+                            style="position: absolute; right: 15px; top: 42px; cursor: pointer;"></i>
                     </div>
                     <div class="text-end mb-3">
                         <a href="lupa_password.php" class="text-decoration-none text-primary small">Lupa Password?</a>

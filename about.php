@@ -96,22 +96,21 @@ $activePages = ['about'];
                 </div>
             </div>
         </div>
+    </div>
 
-        <footer class="bg-light text-center text-lg-start border-top mt-5">
-            <div class="container py-3">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-                    <p class="mb-2 mb-md-0 text-muted mb-0">
-                        &copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights reserved.
-                    </p>
-                    <img src="img/favicon.ico" alt="Nexus Hotels Logo" class="img-fluid ms-md-3"
-                        style="width: 40px; height: 40px;">
-                </div>
-            </div>
-        </footer>
+    <footer class="text-center text-lg-start border-top mt-5" style="background: #41c1ba;">
+        <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+                reserved.</p>
+            <img src="img/favicon.ico" alt="Nexus Hotels Logo" class="img-fluid ms-md-3"
+                style="width: 40px; height: 40px;">
+        </div>
+        </div>
+    </footer>
 
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
