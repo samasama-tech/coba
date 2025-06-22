@@ -2,7 +2,6 @@
 session_start();
 require('koneksi.php');
 
-$_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
 $username = $_SESSION['username'] ?? 'Guest';
 $displayName = $_SESSION['nama'] ?? $username;
 $loggedIn = isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true;
