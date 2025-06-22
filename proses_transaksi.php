@@ -77,16 +77,16 @@ $metode = $_SESSION['payment_data']['metode'];
 $metodeLabels = [
     'qris_shopeepay' => 'ShopeePay (QRIS)',
     'qris_dana' => 'Dana (QRIS)',
-    'qris_ovo' => 'OVO (QRIS)',
-    'va_bca' => 'Virtual Account BCA',
-    'va_bni' => 'Virtual Account BNI',
-    'va_mandiri' => 'Virtual Account Mandiri',
-    'bank_bca' => 'Transfer Bank BCA',
-    'bank_seabank' => 'Transfer ke SeaBank',
-    'bank_bni' => 'Transfer ke BNI',
-    'bank_bri' => 'Transfer ke BRI',
-    'cs_alfamart' => 'Alfamart',
-    'cs_indomaret' => 'Indomaret'
+    'qris_gopay' => 'Gopay (QRIS)',
+    // 'va_bca' => 'Virtual Account BCA',
+    // 'va_bni' => 'Virtual Account BNI',
+    // 'va_mandiri' => 'Virtual Account Mandiri',
+    // 'bank_bca' => 'Transfer Bank BCA',
+    // 'bank_seabank' => 'Transfer ke SeaBank',
+    // 'bank_bni' => 'Transfer ke BNI',
+    // 'bank_bri' => 'Transfer ke BRI',
+    // 'cs_alfamart' => 'Alfamart',
+    // 'cs_indomaret' => 'Indomaret'
 ];
 
 $metodeLabel = $metodeLabels[$metode] ?? 'Metode tidak dikenal';
@@ -102,37 +102,7 @@ switch ($metode) {
         $isi_qr = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012022050100222768 ";
         break;
     case 'qris_gopay':
-        $isi_qr = "https://gopay.co.id/app/scanqr?deeplink_source=request_money";
-        break;
-    case 'va_bca':
-        $isi_qr = "https://va.bca.co.id/pay?va=500215190369";
-        break;
-    case 'va_bni':
-        $isi_qr = "https://va.bni.co.id/pay?va=$kodePembayaran";
-        break;
-    case 'va_mandiri':
-        $isi_qr = "https://va.mandiri.co.id/pay?va=$kodePembayaran";
-        break;
-    case 'bank_bca':
-        $isi_qr = "https://transfer.bca.co.id/transfer?kode=$kodePembayaran";
-        break;
-    case 'bank_seabank':
-        $isi_qr = "https://seabank.co.id/transfer?kode=$kodePembayaran";
-        break;
-    case 'bank_bni':
-        $isi_qr = "https://bni.co.id/transfer?kode=$kodePembayaran";
-        break;
-    case 'bank_bri':
-        $isi_qr = "https://bri.co.id/transfer?kode=$kodePembayaran";
-        break;
-    case 'cs_alfamart':
-        $isi_qr = "https://pay.alfamart.co.id/?kode=$kodePembayaran";
-        break;
-    case 'cs_indomaret':
-        $isi_qr = "https://pay.indomaret.co.id/?kode=$kodePembayaran";
-        break;
-    default:
-        $isi_qr = "Metode pembayaran tidak dikenali.";
+        $isi_qr = "soon";
         break;
 }
 
