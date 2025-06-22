@@ -3,7 +3,6 @@ session_start();
 require('koneksi.php');
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
-$_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
 
 // Check if payment data exists in session
 if (!isset($_SESSION['payment_data'])) {
