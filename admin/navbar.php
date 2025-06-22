@@ -77,7 +77,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand ms-2" href="#">Nexus Hotel</a>
+            <a class="navbar-brand ms-2" href="dashboard.php">Nexus Hotel</a>
         </div>
     </nav>
 

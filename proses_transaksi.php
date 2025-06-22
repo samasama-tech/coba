@@ -3,113 +3,87 @@ session_start();
 require('koneksi.php');
 
 // Validasi data POST
-if (!isset($_POST['room'], $_POST['tipe'], $_POST['ci'], $_POST['co'], $_POST['total'], $_POST['metode_pembayaran'])) {
+if (!isset($_POST['room'], $_POST['tipe'], $_POST['ci'], $_POST['co'], $_POST['harga_permalam'], $_POST['total'], $_POST['metode_pembayaran'])) {
     die("Data tidak lengkap.");
 }
 
-// ---- PENAMBAHAN KODE SIMPAN KE DATABASE TRANSAKSI ----
-
-// Pastikan user sudah login
+// Cek apakah user sudah login
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     header("Location: login.php");
     exit();
 }
 
-// Ambil id_cust dari session berdasarkan email
+// Ambil data user berdasarkan email dari session
 $email = $_SESSION['email'];
-$stmt = $conn->prepare("SELECT id_cust FROM cust WHERE email = ?");
+$stmt = $conn->prepare("SELECT id_cust, no_hp FROM cust WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $id_cust = $user['id_cust'];
+$no_hp = $user['no_hp'];
 $stmt->close();
 
-// Ambil no_hp user dari database
-$stmt = $conn->prepare("SELECT no_hp FROM cust WHERE id_cust = ?");
-$stmt->bind_param("i", $id_cust);
-$stmt->execute();
-$result = $stmt->get_result();
-$cust_data = $result->fetch_assoc();
-$no_hp = $cust_data['no_hp'];
-$stmt->close();
-
-// Ambil data yang sudah di POST
+// Ambil data dari POST
 $room = $_POST['room'];
 $tipe = $_POST['tipe'];
-$total = $_POST['total'];
 $ci = $_POST['ci'];
 $co = $_POST['co'];
+$harga_permalam = (int)$_POST['harga_permalam'];
+$total = (int)$_POST['total'];
+$metode = $_POST['metode_pembayaran'];
 
-// Simpan ke tabel transaksi
-$stmt = $conn->prepare("INSERT INTO transaksi (nokmr, no_hp, harga, id_cust, tipe, check_out) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssisss", $room, $no_hp, $total, $id_cust, $tipe, $co);
+// Simpan transaksi ke database
+$stmt = $conn->prepare("INSERT INTO transaksi (nokmr, no_hp, harga, total, id_cust, tipe, check_in, check_out) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssiiisss", $room, $no_hp, $harga_permalam, $total, $id_cust, $tipe, $ci, $co);
 $stmt->execute();
 $stmt->close();
 
-// Update status kamar menjadi 'Terisi'
+// Update status kamar
 $stmt = $conn->prepare("UPDATE kmr SET status = 'Terisi' WHERE nokmr = ?");
 $stmt->bind_param("s", $room);
 $stmt->execute();
 $stmt->close();
 
-// ---------------------------------------------------------
-
-// Store payment data in session for receipt page
+// Simpan data pembayaran ke session
 $_SESSION['payment_data'] = [
-    'room' => htmlspecialchars($_POST['room']),
-    'tipe' => htmlspecialchars($_POST['tipe']),
-    'ci' => htmlspecialchars($_POST['ci']),
-    'co' => htmlspecialchars($_POST['co']),
-    'total' => (float) $_POST['total'],
-    'metode' => htmlspecialchars($_POST['metode_pembayaran'])
+    'room' => htmlspecialchars($room),
+    'tipe' => htmlspecialchars($tipe),
+    'ci' => $ci,
+    'co' => $co,
+    'harga' => $harga_permalam,
+    'total' => $total,
+    'metode' => htmlspecialchars($metode)
 ];
 
-// --- lanjut kode kamu di bawah ini ---
-$room = $_SESSION['payment_data']['room'];
-$tipe = $_SESSION['payment_data']['tipe'];
-$ci = $_SESSION['payment_data']['ci'];
-$co = $_SESSION['payment_data']['co'];
-$total = $_SESSION['payment_data']['total'];
-$metode = $_SESSION['payment_data']['metode'];
-
-// Mapping metode pembayaran ke label yang lebih deskriptif
+// Mapping metode pembayaran
 $metodeLabels = [
     'qris_shopeepay' => 'ShopeePay (QRIS)',
     'qris_dana' => 'Dana (QRIS)',
     'qris_gopay' => 'Gopay (QRIS)',
-    // 'va_bca' => 'Virtual Account BCA',
-    // 'va_bni' => 'Virtual Account BNI',
-    // 'va_mandiri' => 'Virtual Account Mandiri',
-    // 'bank_bca' => 'Transfer Bank BCA',
-    // 'bank_seabank' => 'Transfer ke SeaBank',
-    // 'bank_bni' => 'Transfer ke BNI',
-    // 'bank_bri' => 'Transfer ke BRI',
-    // 'cs_alfamart' => 'Alfamart',
-    // 'cs_indomaret' => 'Indomaret'
 ];
 
 $metodeLabel = $metodeLabels[$metode] ?? 'Metode tidak dikenal';
 
-// Generate kode pembayaran unik
-$kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
-
+// QR Code berdasarkan metode
 switch ($metode) {
-    case 'qris_shopeepay':
-        $isi_qr = "soon ";
-        break;
     case 'qris_dana':
-        $isi_qr = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012022050100222768 ";
+        $isi_qr = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012012022050100222768";
         break;
+    case 'qris_shopeepay':
     case 'qris_gopay':
+    default:
         $isi_qr = "soon";
         break;
 }
 
 $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . urlencode($isi_qr);
+
+// Buat kode pembayaran unik
+$kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
 ?>
 
-
+<!-- Tampilan HTML -->
 <!DOCTYPE html>
 <html lang="id">
 
@@ -123,7 +97,6 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
             max-width: 600px;
             margin: 0 auto;
         }
-
         .qr-container {
             background: white;
             padding: 20px;
@@ -131,142 +104,67 @@ $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . 
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: inline-block;
         }
-
-        .payment-steps {
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        .btn-next {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            cursor: not-allowed;
-        }
-
-        .btn-next.active {
-            background-color: #28a745;
-            border-color: #28a745;
-            cursor: pointer;
-        }
     </style>
 </head>
 
 <body>
-    <?php include 'navbar.php'; ?>
+<?php include 'navbar.php'; ?>
 
-    <div class="container mt-5">
-        <div class="card payment-card shadow">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Instruksi Pembayaran</h4>
+<div class="container mt-5">
+    <div class="card payment-card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Instruksi Pembayaran</h4>
+        </div>
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <h5 class="<?= str_starts_with($metode, 'qris_') ? 'text-success' : 'text-primary' ?>">
+                    <i class="bi bi-qr-code-scan"></i> Pembayaran <?= $metodeLabel ?>
+                </h5>
             </div>
-            <div class="card-body">
-                <div class="text-center mb-4">
-                    <?php if (str_starts_with($metode, 'qris_')): ?>
-                        <h5 class="text-success"><i class="bi bi-qr-code-scan"></i> Pembayaran QRIS</h5>
-                    <?php else: ?>
-                        <h5 class="text-primary"><i class="bi bi-credit-card"></i> Pembayaran <?= $metodeLabel ?></h5>
-                    <?php endif; ?>
-                </div>
 
-                <div class="text-center">
-                    <div class="qr-container mb-3">
-                        <img src="<?= $qrCodeUrl ?>" alt="QR Pembayaran" class="img-fluid">
-                    </div>
-                    <p class="text-muted">Scan QR code di atas untuk melakukan pembayaran</p>
+            <div class="text-center">
+                <div class="qr-container mb-3">
+                    <img src="<?= $qrCodeUrl ?>" alt="QR Pembayaran" class="img-fluid">
                 </div>
-
-                <div class="payment-details mt-4">
-                    <h5>Detail Pembayaran</h5>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>No. Kamar</th>
-                                <td><?= $room ?></td>
-                            </tr>
-                            <tr>
-                                <th>Tipe Kamar</th>
-                                <td><?= $tipe ?></td>
-                            </tr>
-                            <tr>
-                                <th>Check-in</th>
-                                <td><?= date('d F Y', strtotime($ci)) ?></td>
-                            </tr>
-                            <tr>
-                                <th>Check-out</th>
-                                <td><?= date('d F Y', strtotime($co)) ?></td>
-                            </tr>
-                            <tr>
-                                <th>Total Pembayaran</th>
-                                <td class="fw-bold">Rp <?= number_format($total, 0, ',', '.') ?></td>
-                            </tr>
-                            <tr>
-                                <th>Kode Pembayaran</th>
-                                <td class="text-danger fw-bold"><?= $kodePembayaran ?></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <?php if (!str_starts_with($metode, 'qris_')): ?>
-                    <div class="payment-steps">
-                        <h5>Langkah Pembayaran:</h5>
-                        <ol>
-                            <li>Buka aplikasi mobile banking atau e-wallet Anda</li>
-                            <li>Pilih metode pembayaran <strong><?= $metodeLabel ?></strong></li>
-                            <li>Masukkan kode pembayaran: <strong><?= $kodePembayaran ?></strong></li>
-                            <li>Transfer sejumlah <strong>Rp <?= number_format($total, 0, ',', '.') ?></strong></li>
-                            <li>Simpan bukti pembayaran Anda</li>
-                        </ol>
-                    </div>
-                <?php endif; ?>
+                <p class="text-muted">Scan QR code di atas untuk melakukan pembayaran</p>
             </div>
-            <div class="card-footer text-center">
-                <div class="d-flex justify-content-between">
-                    <a href="index.php" class="btn btn-primary">Kembali ke Beranda</a>
-                    <div>
-                        <button id="printBtn" class="btn btn-secondary me-2">
-                            <i class="bi bi-printer"></i> Cetak QR
-                        </button>
-                        <a href="struk.php" class="btn btn-success">
-                            <i class="bi bi-file-earmark-text"></i> Cetak Struk
-                        </a>
-                    </div>
-                </div>
+
+            <div class="payment-details mt-4">
+                <h5>Detail Pembayaran</h5>
+                <table class="table table-bordered">
+                    <tr><th>No. Kamar</th><td><?= $room ?></td></tr>
+                    <tr><th>Tipe Kamar</th><td><?= $tipe ?></td></tr>
+                    <tr><th>Harga per Malam</th><td>Rp <?= number_format($harga_permalam, 0, ',', '.') ?></td></tr>
+                    <tr><th>Check-in</th><td><?= date('d F Y', strtotime($ci)) ?></td></tr>
+                    <tr><th>Check-out</th><td><?= date('d F Y', strtotime($co)) ?></td></tr>
+                    <tr><th>Total Pembayaran</th><td class="fw-bold">Rp <?= number_format($total, 0, ',', '.') ?></td></tr>
+                    <tr><th>Kode Pembayaran</th><td class="text-danger fw-bold"><?= $kodePembayaran ?></td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer text-center d-flex justify-content-between">
+            <a href="index.php" class="btn btn-primary">Kembali ke Beranda</a>
+            <div>
+                <button onclick="window.print()" class="btn btn-secondary me-2"><i class="bi bi-printer"></i> Cetak QR</button>
+                <a href="struk.php" class="btn btn-success"><i class="bi bi-file-earmark-text"></i> Cetak Struk</a>
             </div>
         </div>
     </div>
+</div>
 
-    <footer class="bg-light text-center text-lg-start border-top mt-5">
-        <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
-                reserved.</p>
-
-            <div class="d-flex align-items-center">
-                <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
-                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
-                        class="bi bi-instagram fs-5"></i></a>
-                <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
-                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
-            </div>
+<footer class="bg-light text-center text-lg-start border-top mt-5">
+    <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights reserved.</p>
+        <div class="d-flex align-items-center">
+            <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+            <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i class="bi bi-instagram fs-5"></i></a>
+            <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
+            <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const printBtn = document.getElementById('printBtn');
-            const nextBtn = document.getElementById('nextBtn');
-
-            printBtn.addEventListener('click', function () {
-                // Trigger print dialog
-                window.print();
-
-                // Enable the next button
-                nextBtn.classList.remove('disabled', 'btn-next');
-                nextBtn.classList.add('btn-success');
-            });
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -128,7 +128,7 @@ $stats = [
                             <div>
                                 <h5>Jumlah Transaksi</h5>
                                 <h2><?= $stats['transaksi'] ?></h2>
-                                <a href="#" class="text-dark small">More info <i
+                                <a href="dttransaksi.php" class="text-dark small">More info <i
                                         class="fas fa-arrow-right ms-1"></i></a>
                             </div>
                             <i class="fas fa-receipt fa-3x opacity-50"></i>
