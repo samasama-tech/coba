@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Jun 2025 pada 11.21
+-- Waktu pembuatan: 22 Jun 2025 pada 13.58
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -41,7 +41,6 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id_admin`, `username`, `email`, `password`, `no_hp`) VALUES
 (1, 'Keysa', 'keysa@gmail.com', '1', 123),
-(3, 'irul', 'irul@gmail.com', '123', 989887678),
 (19, 'adnan', 'adonan@gmail.com', '1', 897654389),
 (23, 'admin', 'admin@gmail.com', 'admin123', 8898978678);
 
@@ -66,7 +65,6 @@ CREATE TABLE `cust` (
 
 INSERT INTO `cust` (`id_cust`, `username`, `email`, `password`, `no_hp`, `role`) VALUES
 (1, 'Keysa', 'keysa@gmail.com', '1', '123', 'admin'),
-(3, 'irul', 'irul@gmail.com', '123', '0989887678', 'admin'),
 (12, 'alek', 'hhaihdijw@knjec.knscs', '1', '1234', 'customer'),
 (13, 'ajojing', 'ppp@gamil.com', '1', '12', 'customer'),
 (19, 'adnan', 'adonan@gmail.com', '1', '897654389', 'admin'),
@@ -96,7 +94,7 @@ CREATE TABLE `kmr` (
 INSERT INTO `kmr` (`idkmr`, `nokmr`, `tipe`, `harga`, `kap`, `status`, `fasilitas`) VALUES
 (12, '001', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
 (13, '002', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
-(14, '003', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
+(14, '003', 'Deluxe Room', 600000, '2', 'Maintenance', 'double bed,wifi,ac,luas 28m²'),
 (15, '004', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
 (16, '005', 'Deluxe Room', 600000, '2', 'Kosong', 'double bed,wifi,ac,luas 28m²'),
 (17, '011', 'Suite Room', 500000, '1', 'Kosong', 'twin bed,wifi,ac,luas 20m²'),
@@ -134,13 +132,22 @@ CREATE TABLE `review` (
 
 CREATE TABLE `transaksi` (
   `id_trans` int(11) NOT NULL,
+  `id_cust` int(12) NOT NULL,
   `nokmr` int(11) NOT NULL,
   `no_hp` varchar(15) NOT NULL,
   `harga` bigint(20) NOT NULL,
-  `id_cust` int(12) NOT NULL,
   `tipe` varchar(25) NOT NULL,
+  `total` bigint(20) NOT NULL,
+  `check_in` date DEFAULT NULL,
   `check_out` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `transaksi`
+--
+
+INSERT INTO `transaksi` (`id_trans`, `id_cust`, `nokmr`, `no_hp`, `harga`, `tipe`, `total`, `check_in`, `check_out`) VALUES
+(51, 13, 5, '12', 600000, 'Deluxe Room', 1800000, '2025-06-22', '2025-06-25');
 
 --
 -- Indexes for dumped tables
@@ -204,13 +211,13 @@ ALTER TABLE `kmr`
 -- AUTO_INCREMENT untuk tabel `review`
 --
 ALTER TABLE `review`
-  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
