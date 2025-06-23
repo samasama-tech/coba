@@ -16,12 +16,16 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
     @media (max-width: 576px) {
         .navbar-brand {
-            padding-top: 0.3rem;
-            padding-bottom: 0.3rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
         }
-
         .navbar-toggler {
-            padding: 0.25rem 0.5rem;
+            padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+        }
+        #togglePassword {
+            right: 15px;
+            font-size: 1.1rem;
         }
     }
 
@@ -62,13 +66,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         /* Ruang untuk icon */
     }
 
-    /* Responsive untuk layar kecil */
-    @media (max-width: 576px) {
-        #togglePassword {
-            right: 15px;
-            font-size: 1.1rem;
-        }
-    }
 </style>
 
 <nav class="navbar navbar-expand-lg custom-navbar px-4 py-2">
@@ -76,10 +73,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <img src="img/favicon.ico" alt="Nexus Hotels Logo" class="img-fluid" style="width: 40px; height: 40px;">
         <span class="fs-5 fw-bold text-white">Nexus Hotels</span>
     </a>
-    <div class="col-2 form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="darkModeSwitch">
-        <label class="form-check-label text-white" for="darkModeSwitch">Mode</label>
-    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
     </button>
