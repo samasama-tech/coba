@@ -106,10 +106,10 @@ $result = $conn->query($sql);
                         data-bs-target="#editModal<?= $row['nokmr'] ?>">
                         <i class="fas fa-edit"></i> Edit
                       </button>
-                      <a href="hapus.php?nokmr=<?= htmlspecialchars($row['nokmr']) ?>"
-                        onclick="return confirm('Yakin ingin menghapus kamar ini?')" class="btn btn-danger btn-sm">
+                      <button class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#hapusModal<?= $row['nokmr'] ?>">
                         <i class="fas fa-trash"></i> Hapus
-                      </a>
+                      </button>
 
                       <!-- Modal Edit -->
                       <div class="modal fade" id="editModal<?= $row['nokmr'] ?>" tabindex="-1"
@@ -162,6 +162,28 @@ $result = $conn->query($sql);
                                   <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                               </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Modal Hapus -->
+                      <div class="modal fade" id="hapusModal<?= $row['nokmr'] ?>" tabindex="-1"
+                        aria-labelledby="hapusModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header bg-danger text-white">
+                              <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              Apakah Anda yakin ingin menghapus kamar
+                              <strong><?= htmlspecialchars($row['nokmr']) ?></strong>?
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                              <a href="hapus.php?nokmr=<?= htmlspecialchars($row['nokmr']) ?>"
+                                class="btn btn-danger">Hapus</a>
                             </div>
                           </div>
                         </div>

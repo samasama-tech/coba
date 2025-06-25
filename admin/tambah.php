@@ -5,12 +5,13 @@ $currentPage = 'tambah';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $nokmr = $_POST['nokmr'];
   $tipe = ($_POST['tipe'] === "Other") ? $_POST['tipe_lain'] : $_POST['tipe'];
+  $kapasitas = $_POST['kapasitas'];
   $fasilitas = $_POST['fasilitas'];
   $status = $_POST['status'];
   $harga = $_POST['harga'];
 
-  $stmt = $conn->prepare("INSERT INTO kmr (nokmr, tipe, fasilitas, status, harga) VALUES (?, ?, ?, ?, ?)");
-  $stmt->bind_param("ssssd", $nokmr, $tipe, $fasilitas, $status, $harga);
+  $stmt = $conn->prepare("INSERT INTO kmr (nokmr, tipe, harga, kap, status, fasilitas) VALUES (?, ?, ?, ?, ?, ?)");
+  $stmt->bind_param("ssdsss", $nokmr, $tipe, $harga, $kapasitas, $status, $fasilitas);
 
   if ($stmt->execute()) {
     header("Location: kamar.php");
@@ -85,6 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <div class="mb-3" id="tipeLainField">
             <label>Tipe Kamar Lainnya</label>
             <input type="text" name="tipe_lain" class="form-control" placeholder="Tulis tipe kamar lain...">
+          </div>
+
+          <div class="mb-3">
+            <label>Kapasitas</label>
+            <input type="text" name="kapasitas" class="form-control" rows="3" required></input>
           </div>
 
           <div class="mb-3">

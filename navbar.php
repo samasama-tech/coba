@@ -9,23 +9,19 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 <style>
     .custom-navbar {
-        background-color: #41c1ba;
+        background-color: #261fb3;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
     }
 
     @media (max-width: 576px) {
         .navbar-brand {
-            padding-top: 0.5rem;
-            padding-bottom: 0.5rem;
+            padding-top: 0.3rem;
+            padding-bottom: 0.3rem;
         }
+
         .navbar-toggler {
-            padding: 0.5rem 0.75rem;
-        font-size: 1rem;
-        }
-        #togglePassword {
-            right: 15px;
-            font-size: 1.1rem;
+            padding: 0.25rem 0.5rem;
         }
     }
 
@@ -36,23 +32,16 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-pills .nav-link.active {
-        background-color: rgb(0, 0, 0);
+        background-color: #3d90d7;
         color: white !important;
         padding: 4px 10px;
         border-radius: 6px;
     }
 
-    .btn-gradient {
-        background: linear-gradient(135deg, #141E30, #243B55);
-        color: white;
-        border: none;
-        transition: 0.3s;
-    }
 
     #togglePassword {
         position: absolute;
         top: 43px;
-        /* FIX MANUAL - sejajar tengah input */
         right: 20px;
         cursor: pointer;
         color: #6c757d;
@@ -66,6 +55,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         /* Ruang untuk icon */
     }
 
+    /* Responsive untuk layar kecil */
+    @media (max-width: 576px) {
+        #togglePassword {
+            right: 15px;
+            font-size: 1.1rem;
+        }
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg custom-navbar px-4 py-2">
@@ -73,9 +69,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <img src="img/favicon.ico" alt="Nexus Hotels Logo" class="img-fluid" style="width: 40px; height: 40px;">
         <span class="fs-5 fw-bold text-white">Nexus Hotels</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <button class="navbar-toggler bg-white border border-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+  <span class="navbar-toggler-icon"></span>
+</button>
+
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav nav-pills me-auto mb-2 mb-lg-0">
@@ -114,9 +111,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 </ul>
             </div>
         <?php else: ?>
-            <button class="btn btn-outline-dark btn-secondary me-2 text-white" data-bs-toggle="modal"
+            <button class="btn btn-light me-2 text-dark" data-bs-toggle="modal"
                 data-bs-target="#loginModal">Login</button>
-            <button class="btn btn-dark text" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+            <button class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
         <?php endif; ?>
     </div>
 </nav>
@@ -125,7 +122,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4">
-            <div class="modal-header text-white" style="background: linear-gradient(135deg, #141E30, #243B55);">
+            <div class="modal-header text-white" style="background: #261fb3;">
                 <h5 class="modal-title" id="loginModalLabel">
                     <i class="bi bi-box-arrow-in-right me-2"></i> User Login
                 </h5>
@@ -152,7 +149,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </div>
                 </div>
                 <div class="modal-footer bg-light rounded-bottom-4">
-                    <button type="submit" class="btn btn-dark w-100">LOGIN</button>
+                    <button type="submit" class="btn btn-primary w-100">LOGIN</button>
                 </div>
             </form>
         </div>
@@ -164,7 +161,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header text-white" style="background: linear-gradient(135deg, #141E30, #243B55);">
+            <div class="modal-header text-white" style="background: #261fb3;">
                 <h5 class="modal-title" id="registerModalLabel">
                     <i class="bi bi-person-plus me-2"></i> User Registration
                 </h5>
@@ -198,7 +195,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-dark w-100">REGISTER</button>
+                    <button type="submit" class="btn btn-primary w-100">REGISTER</button>
                 </div>
             </form>
         </div>

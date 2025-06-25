@@ -5,7 +5,8 @@ $_SESSION['last_page'] = $_SERVER['REQUEST_URI'];
 $activePages = ['home'];
 require('koneksi.php');
 
-$query = "SELECT MIN(idkmr) as idkmr, tipe, fasilitas FROM kmr GROUP BY tipe";
+// $query = "SELECT MIN(idkmr) as idkmr, tipe, fasilitas FROM kmr GROUP BY tipe";
+$query = "SELECT MIN(idkmr) as idkmr, tipe, GROUP_CONCAT(fasilitas SEPARATOR ', ') as fasilitas FROM kmr GROUP BY tipe";
 $result = $conn->query($query);
 $rooms = [];
 while ($row = $result->fetch_assoc()) {
@@ -47,6 +48,11 @@ while ($row = $result->fetch_assoc()) {
         'gambar' => $gambar
     ];
 }
+// Ambil data kapasitas unik untuk dropdown
+$q_kap = mysqli_query($conn, "SELECT DISTINCT kap FROM kmr ORDER BY kap ASC");
+
+// Ambil data tipe kamar unik untuk dropdown
+$q_tipe = mysqli_query($conn, "SELECT DISTINCT tipe FROM kmr ORDER BY tipe ASC");
 ?>
 
 
@@ -62,11 +68,9 @@ while ($row = $result->fetch_assoc()) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel='shortcut icon' href="img/favicon.ico" type="image/x-icon">
 
-    
-
 </head>
 
-<body class="bg-dark">
+<body>
     <!-- alert review -->
     <?php if (isset($_SESSION['flash_review'])): ?>
         <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3"
@@ -92,37 +96,41 @@ while ($row = $result->fetch_assoc()) {
         ?>
 
     <!-- Booking Form -->
-    <div class="container my-4">
-        <div class="text-white p-4 rounded shadow" style="background:rgb(44, 44, 44);">
+    <div class="container my-4 ">
+        <div class="text-black p-4 rounded shadow border border-dark">
             <h4>Check Booking Availability</h4>
             <form action="kamar.php" id="bookingForm" method="POST"
                 class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-3">
                 <div class="col">
                     <label class="form-label">Check-in</label>
-                    <input type="date" name="ci" id="ci" class="form-control" required>
+                    <input type="date" name="ci" id="ci" class="form-control border border-dark" required>
                 </div>
                 <div class="col">
                     <label class="form-label">Check-out</label>
-                    <input type="date" name="co" id="co" class="form-control" required>
+                    <input type="date" name="co" id="co" class="form-control border border-dark" required>
                 </div>
                 <div class="col">
                     <label class="form-label">Kapasitas</label>
-                    <select name="kap" class="form-select">
-                        <?php for ($i = 1; $i <= 2; $i++)
-                            echo "<option>$i</option>"; ?>
+                    <select name="kap" class="form-select border border-dark" required>
+                        <option value="">Pilih Kapasitas</option>
+                        <?php while ($row = mysqli_fetch_assoc($q_kap)) {
+                            $kapasitas = $row['kap'];
+                            $label = $kapasitas . ' orang';
+                            echo "<option value='$kapasitas'>$label</option>";
+                        } ?>
                     </select>
                 </div>
                 <div class="col">
                     <label class="form-label">Tipe Kamar</label>
-                    <select name="tipe" class="form-select" required>
+                    <select name="tipe" class="form-select border border-dark" required>
                         <option value="">Pilih Tipe</option>
-                        <option value="Deluxe Room">Deluxe Room</option>
-                        <option value="Suite Room">Suite Room</option>
-                        <option value="Executive Room">Executive Room</option>
+                        <?php while ($row = mysqli_fetch_assoc($q_tipe)) {
+                            echo "<option value='{$row['tipe']}'>{$row['tipe']}</option>";
+                        } ?>
                     </select>
                 </div>
                 <div class="col d-flex align-items-end">
-                    <button type="submit" id="bookingSubmit" class="btn btn-outline-info w-100 text-white">Submit</button>
+                    <button type="submit" id="bookingSubmit" class="btn btn-primary w-100 text-white">Submit</button>
                 </div>
             </form>
         </div>
@@ -133,7 +141,7 @@ while ($row = $result->fetch_assoc()) {
             <!-- Kamar&review -->
             <div class="col-md-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header text-white" style="background: #41c1ba;">
+                    <div class="card-header text-white" style="background: #261fb3;">
                         <h4 class="mb-0 text-center">Rekomendasi Kamar & Review</h4>
                     </div>
                     <div class="card-body">
@@ -222,7 +230,7 @@ while ($row = $result->fetch_assoc()) {
             <!-- Lokasi -->
             <div class="col-md-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header text-white" style="background: #41c1ba;">
+                    <div class="card-header text-white" style="background: #261fb3;">
                         <h4 class="mb-0 text-center">Lokasi Kami</h4>
                     </div>
                     <div class="card-body">
@@ -266,17 +274,18 @@ while ($row = $result->fetch_assoc()) {
 
 
 
-    <footer class="text-center text-lg-start border-top mt-5" style="background: #41c1ba;">
+    <footer class="text-center text-lg-start border-top mt-5" style="background: #261fb3;">
         <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+            <p class="mb-2 mb-md-0 text-white">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
                 reserved.</p>
 
             <div class="d-flex align-items-center">
-                <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+                <a class="text-white me-4 text-decoration-none fw-medium">Hubungi Kami</a>
                 <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
                         class="bi bi-instagram fs-5"></i></a>
                 <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
-                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i
+                        class="bi bi-facebook fs-5"></i></a>
             </div>
         </div>
     </footer>
