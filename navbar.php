@@ -186,7 +186,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" required>
+                            <input type="password" name="password" class="form-control" minlength="3" required>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Confirm Password</label>

@@ -127,7 +127,7 @@ $stmt->close();
 
       <div class="mb-3">
         <label for="password" class="form-label">Password Baru (kosongkan jika tidak ingin ganti)</label>
-        <input type="password" class="form-control" id="password" name="password" autocomplete="new-password" />
+        <input type="password" class="form-control" id="password" name="password" minlength="3" autocomplete="new-password" />
       </div>
 
       <div class="mb-3">

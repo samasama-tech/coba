@@ -19,12 +19,24 @@ if (isset($_POST['edit'])) {
 if (isset($_POST['ubah_password'])) {
   $id = $_POST['id_cust'];
   $password = $_POST['password'];
+  $confirm = $_POST['password_confirm'];
 
-  $stmt = $conn->prepare("UPDATE cust SET password=? WHERE id_cust=? AND role='customer'");
-  $stmt->bind_param("si", $password, $id);
-  $stmt->execute();
-  $stmt->close();
+  if ($password !== $confirm) {
+    $custPasswordError = 'Password dan konfirmasi tidak cocok.';
+    echo "<script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var modal = new bootstrap.Modal(document.getElementById('modalPassword'));
+        modal.show();
+      });
+    </script>";
+  } else {
+    $stmt = $conn->prepare("UPDATE cust SET password=? WHERE id_cust=? AND role='customer'");
+    $stmt->bind_param("si", $password, $id);
+    $stmt->execute();
+    $stmt->close();
+  }
 }
+
 
 if (isset($_GET['hapus'])) {
   $id = $_GET['hapus'];
@@ -58,7 +70,8 @@ $result = $conn->query("SELECT * FROM cust WHERE role='customer'");
       color: #0d6efd !important;
     }
 
-    td, th {
+    td,
+    th {
       font-size: 0.85rem;
       white-space: nowrap;
     }
@@ -111,23 +124,20 @@ $result = $conn->query("SELECT * FROM cust WHERE role='customer'");
                     <td><?= htmlspecialchars($cust['no_hp']) ?></td>
                     <td><?= htmlspecialchars($cust['email']) ?></td>
                     <td>
-                      <button class="btn btn-warning btn-sm" title="Edit Customer"
-                        data-bs-toggle="modal" data-bs-target="#modalEdit"
-                        data-id="<?= $cust['id_cust'] ?>"
+                      <button class="btn btn-warning btn-sm" title="Edit Customer" data-bs-toggle="modal"
+                        data-bs-target="#modalEdit" data-id="<?= $cust['id_cust'] ?>"
                         data-username="<?= htmlspecialchars($cust['username']) ?>"
                         data-no_hp="<?= htmlspecialchars($cust['no_hp']) ?>"
                         data-email="<?= htmlspecialchars($cust['email']) ?>">
                         <i class="fas fa-pen-to-square"></i>
                       </button>
 
-                      <button class="btn btn-info btn-sm" title="Ubah Password"
-                        data-bs-toggle="modal" data-bs-target="#modalPassword"
-                        data-id="<?= $cust['id_cust'] ?>">
+                      <button class="btn btn-info btn-sm" title="Ubah Password" data-bs-toggle="modal"
+                        data-bs-target="#modalPassword" data-id="<?= $cust['id_cust'] ?>">
                         <i class="fas fa-key"></i>
                       </button>
 
-                      <a href="?hapus=<?= $cust['id_cust'] ?>" class="btn btn-danger btn-sm"
-                        title="Hapus Customer"
+                      <a href="?hapus=<?= $cust['id_cust'] ?>" class="btn btn-danger btn-sm" title="Hapus Customer"
                         onclick="return confirm('Yakin hapus?')">
                         <i class="fas fa-trash"></i>
                       </a>
@@ -173,9 +183,10 @@ $result = $conn->query("SELECT * FROM cust WHERE role='customer'");
   </div>
 
   <!-- Modal Password -->
+  <!-- Modal Password -->
   <div class="modal fade" id="modalPassword" tabindex="-1">
     <div class="modal-dialog">
-      <form method="post" class="modal-content">
+      <form method="post" class="modal-content" onsubmit="return validateCustPassword()">
         <div class="modal-header">
           <h5 class="modal-title">Ubah Password</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -184,8 +195,16 @@ $result = $conn->query("SELECT * FROM cust WHERE role='customer'");
           <input type="hidden" name="id_cust" id="passwordId">
           <div class="mb-3">
             <label>Password Baru</label>
-            <input type="password" name="password" class="form-control" required>
+            <input type="password" name="password" id="cust_password" class="form-control" minlength="3" required>
           </div>
+          <div class="mb-3">
+            <label>Konfirmasi Password</label>
+            <input type="password" name="password_confirm" id="cust_password_confirm" class="form-control" minlength="3"
+              required>
+          </div>
+          <?php if (!empty($custPasswordError)): ?>
+            <div class="text-danger small mb-2"><?= $custPasswordError ?></div>
+          <?php endif; ?>
         </div>
         <div class="modal-footer">
           <button type="submit" name="ubah_password" class="btn btn-warning">Ubah Password</button>
@@ -194,7 +213,36 @@ $result = $conn->query("SELECT * FROM cust WHERE role='customer'");
     </div>
   </div>
 
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function validateCustPassword() {
+      const pass = document.getElementById("cust_password");
+      const confirm = document.getElementById("cust_password_confirm");
+
+      if (pass.value !== confirm.value) {
+        confirm.setCustomValidity("Password dan konfirmasi tidak cocok.");
+        confirm.reportValidity();
+        return false;
+      } else {
+        confirm.setCustomValidity("");
+        return true;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const pass = document.getElementById("cust_password");
+      const confirm = document.getElementById("cust_password_confirm");
+
+      [pass, confirm].forEach(input => {
+        input.addEventListener('input', function () {
+          confirm.setCustomValidity('');
+        });
+      });
+    });
+  </script>
+
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -222,4 +270,5 @@ $result = $conn->query("SELECT * FROM cust WHERE role='customer'");
   </script>
 
 </body>
+
 </html>

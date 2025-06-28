@@ -75,6 +75,7 @@ $result = $conn->query($sql);
               <tr>
                 <th>No Kamar</th>
                 <th>Type</th>
+                <th>Kapasitas</th>
                 <th>Fasilitas</th>
                 <th>Status</th>
                 <th>Harga</th>
@@ -87,6 +88,7 @@ $result = $conn->query($sql);
                   <tr>
                     <td><?= htmlspecialchars($row['nokmr']) ?></td>
                     <td><?= htmlspecialchars($row['tipe']) ?></td>
+                    <td><?= htmlspecialchars($row['kap']) ?> orang</td>
                     <td><?= htmlspecialchars($row['fasilitas']) ?></td>
                     <td>
                       <?php
@@ -133,6 +135,12 @@ $result = $conn->query($sql);
                                     <option value="Executive Room" <?= $row['tipe'] == 'Executive Room' ? 'selected' : '' ?>>
                                       Executive Room</option>
                                   </select>
+                                </div>
+
+                                <div class="mb-3">
+                                  <label for="kapasitas" class="form-label">Kapasitas:</label>
+                                  <input type="number" class="form-control" name="kapasitas"
+                                    value="<?= htmlspecialchars($row['kap']) ?>" required>
                                 </div>
 
                                 <div class="mb-3">

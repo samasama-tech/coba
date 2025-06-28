@@ -2,6 +2,9 @@
 session_start();
 require_once '../koneksi.php';
 $currentPage = 'dtadmin';
+$tambahError = '';
+$showModalTambah = false;
+
 
 // === CRUD ===
 // Tambah
@@ -10,19 +13,44 @@ if (isset($_POST['tambah'])) {
   $no_hp = $_POST['no_hp'];
   $email = $_POST['email'];
   $password = $_POST['password'];
+  $confirm = $_POST['password_confirm'];
   $role = 'admin';
 
-  $stmt = $conn->prepare("INSERT INTO cust (username, no_hp, email, password, role) VALUES (?, ?, ?, ?, ?)");
-  $stmt->bind_param("sssss", $username, $no_hp, $email, $password, $role);
-  $stmt->execute();
-  $id_cust = $conn->insert_id;
-  $stmt->close();
+  // Cek apakah email sudah digunakan
+  $cek = $conn->prepare("SELECT email FROM cust WHERE email = ?");
+  $cek->bind_param("s", $email);
+  $cek->execute();
+  $cek->store_result();
 
-  $stmt2 = $conn->prepare("INSERT INTO admin (id_admin, username, email, password, no_hp) VALUES (?, ?, ?, ?, ?)");
-  $stmt2->bind_param("issss", $id_cust, $username, $email, $password, $no_hp);
-  $stmt2->execute();
-  $stmt2->close();
+  if ($cek->num_rows > 0) {
+    $tambahError = 'Email sudah digunakan. Silakan gunakan email lain.';
+    $showModalTambah = true;
+  } elseif ($password !== $confirm) {
+    $tambahError = 'Password dan konfirmasi tidak cocok.';
+    $showModalTambah = true;
+  } else {
+    // Insert ke tabel cust
+    $stmt = $conn->prepare("INSERT INTO cust (username, no_hp, email, password, role) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $no_hp, $email, $password, $role);
+    $stmt->execute();
+    $id_cust = $conn->insert_id;
+    $stmt->close();
+
+    // Insert ke tabel admin
+    $stmt2 = $conn->prepare("INSERT INTO admin (id_admin, username, email, password, no_hp) VALUES (?, ?, ?, ?, ?)");
+    $stmt2->bind_param("issss", $id_cust, $username, $email, $password, $no_hp);
+    $stmt2->execute();
+    $stmt2->close();
+
+    echo "<script>alert('Admin berhasil ditambahkan');</script>";
+  }
+
+  $cek->close();
+  if (!isset($showModalTambah)) {
+    $showModalTambah = false;
+  }
 }
+
 
 // Edit
 if (isset($_POST['edit'])) {
@@ -46,16 +74,21 @@ if (isset($_POST['edit'])) {
 if (isset($_POST['ubah_password'])) {
   $id = $_POST['id_admin'];
   $password = $_POST['password'];
+  $confirm = $_POST['password_confirm'];
 
-  $stmt = $conn->prepare("UPDATE cust SET password=? WHERE id_cust=? AND role='admin'");
-  $stmt->bind_param("si", $password, $id);
-  $stmt->execute();
-  $stmt->close();
+  if ($password !== $confirm) {
+    echo "<script>alert('Password dan konfirmasi tidak cocok.');</script>";
+  } else {
+    $stmt = $conn->prepare("UPDATE cust SET password=? WHERE id_cust=? AND role='admin'");
+    $stmt->bind_param("si", $password, $id);
+    $stmt->execute();
+    $stmt->close();
 
-  $stmt2 = $conn->prepare("UPDATE admin SET password=? WHERE id_admin=?");
-  $stmt2->bind_param("si", $password, $id);
-  $stmt2->execute();
-  $stmt2->close();
+    $stmt2 = $conn->prepare("UPDATE admin SET password=? WHERE id_admin=?");
+    $stmt2->bind_param("si", $password, $id);
+    $stmt2->execute();
+    $stmt2->close();
+  }
 }
 
 // Hapus
@@ -184,7 +217,7 @@ $result = $conn->query("SELECT * FROM cust WHERE role='admin'");
   <!-- Modal Tambah -->
   <div class="modal fade" id="modalTambah" tabindex="-1">
     <div class="modal-dialog">
-      <form method="post" class="modal-content">
+      <form method="post" class="modal-content" onsubmit="return validateTambahPassword()">
         <div class="modal-header">
           <h5 class="modal-title">Tambah Admin</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -204,8 +237,15 @@ $result = $conn->query("SELECT * FROM cust WHERE role='admin'");
           </div>
           <div class="mb-3">
             <label>Password</label>
-            <input type="password" name="password" class="form-control" required>
+            <input type="password" name="password" id="tambah_password" class="form-control" required>
           </div>
+          <div class="mb-3">
+            <label>Konfirmasi Password</label>
+            <input type="password" name="password_confirm" id="tambah_password_confirm" class="form-control" required>
+          </div>
+          <?php if (!empty($tambahError)): ?>
+            <div class="text-danger small mb-2"><?= $tambahError ?></div>
+          <?php endif; ?>
         </div>
         <div class="modal-footer">
           <button type="submit" name="tambah" class="btn btn-primary">Simpan</button>
@@ -247,24 +287,45 @@ $result = $conn->query("SELECT * FROM cust WHERE role='admin'");
   <!-- Modal Ubah Password -->
   <div class="modal fade" id="modalPassword" tabindex="-1">
     <div class="modal-dialog">
-      <form method="post" class="modal-content">
+      <form method="post" class="modal-content" onsubmit="return validatePasswordMatch()">
         <div class="modal-header">
           <h5 class="modal-title">Ubah Password</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <input type="hidden" name="id_admin" id="passwordId">
+
           <div class="mb-3">
             <label>Password Baru</label>
-            <input type="password" name="password" class="form-control" required>
+            <input type="password" name="password" id="password" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Konfirmasi Password</label>
+            <input type="password" name="password_confirm" id="password_confirm" class="form-control" required>
+          </div>
+
+          <div id="passwordMismatch" class="text-danger small d-none">
+            Password dan konfirmasi tidak cocok.
           </div>
         </div>
+
         <div class="modal-footer">
           <button type="submit" name="ubah_password" class="btn btn-warning">Ubah Password</button>
         </div>
       </form>
     </div>
   </div>
+
+  <?php if ($showModalTambah): ?>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var modalTambah = new bootstrap.Modal(document.getElementById('modalTambah'));
+        modalTambah.show();
+      });
+    </script>
+  <?php endif; ?>
+
 
   <!-- <footer class="mt-4 text-center text-muted">
     <p>&copy; 2025 ?= isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Admin' ? - Admin Nexus
@@ -273,14 +334,59 @@ $result = $conn->query("SELECT * FROM cust WHERE role='admin'");
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    function validateTambahPassword() {
+      const pass = document.getElementById("tambah_password");
+      const confirm = document.getElementById("tambah_password_confirm");
+
+      if (pass.value !== confirm.value) {
+        confirm.setCustomValidity("Password dan konfirmasi tidak cocok.");
+        confirm.reportValidity();
+        return false;
+      } else {
+        confirm.setCustomValidity("");
+        return true;
+      }
+    }
+
+    function validatePasswordMatch() {
+      const pass = document.getElementById("password");
+      const confirm = document.getElementById("password_confirm");
+
+      if (pass.value !== confirm.value) {
+        confirm.setCustomValidity("Password dan konfirmasi tidak cocok.");
+        confirm.reportValidity();
+        return false;
+      } else {
+        confirm.setCustomValidity("");
+        return true;
+      }
+    }
+
+    // Hapus pesan error saat user mengetik ulang
     document.addEventListener('DOMContentLoaded', function () {
-      // Inisialisasi semua tooltip
+      const confirmTambah = document.getElementById("tambah_password_confirm");
+      const passTambah = document.getElementById("tambah_password");
+      const confirmEdit = document.getElementById("password_confirm");
+      const passEdit = document.getElementById("password");
+
+      [confirmTambah, passTambah].forEach(input => {
+        input.addEventListener('input', function () {
+          confirmTambah.setCustomValidity('');
+        });
+      });
+
+      [confirmEdit, passEdit].forEach(input => {
+        input.addEventListener('input', function () {
+          confirmEdit.setCustomValidity('');
+        });
+      });
+
+      // Tooltip & modal script kamu tetap di sini
       var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
       tooltipTriggerList.forEach(function (tooltipTriggerEl) {
         new bootstrap.Tooltip(tooltipTriggerEl)
       });
 
-      // Modal Edit
       var modalEdit = document.getElementById('modalEdit');
       modalEdit.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
@@ -290,15 +396,14 @@ $result = $conn->query("SELECT * FROM cust WHERE role='admin'");
         document.getElementById('editEmail').value = button.getAttribute('data-email');
       });
 
-      // Modal Ubah Password
       var modalPassword = document.getElementById('modalPassword');
       modalPassword.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
         document.getElementById('passwordId').value = button.getAttribute('data-id');
       });
     });
-
   </script>
+
 
 </body>
 
