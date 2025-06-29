@@ -15,23 +15,7 @@ $activePages = ['about'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Font Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        .custom-navbar {
-            background-color: #ced4da;
-            /* Abu-abu terang agak gelap */
-        }
-
-        .nav-pills .nav-link {
-            color: black;
-        }
-
-        .nav-pills .nav-link.active {
-            background-color: #adb5bd;
-            /* Abu-abu lebih gelap untuk tab aktif */
-            color: black !important;
-        }
-    </style>
-
+    <link rel='shortcut icon' href="img/favicon.ico" type="image/x-icon">
 </head>
 
 <body>

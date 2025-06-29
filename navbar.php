@@ -32,7 +32,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     }
 
     .nav-pills .nav-link.active {
-        background-color: #3d90d7;
+        background-color: $primary;
         color: white !important;
         padding: 4px 10px;
         border-radius: 6px;

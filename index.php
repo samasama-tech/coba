@@ -241,9 +241,6 @@ $q_tipe = mysqli_query($conn, "SELECT DISTINCT tipe FROM kmr ORDER BY tipe ASC")
                                 <i class="bi bi-geo-alt-fill text-primary"></i>
                                 Jl. Karang Mas Sejahtera, Jimbaran, Kuta Sel., Kabupaten Badung, Bali
                             </p>
-                            <p class="mb-3">
-                                <i class="bi bi-star-fill text-warning"></i> 4,7 (9.799 review)
-                            </p>
                         </div>
 
                         <!-- Map -->

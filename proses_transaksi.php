@@ -29,8 +29,8 @@ $room = $_POST['room'];
 $tipe = $_POST['tipe'];
 $ci = $_POST['ci'];
 $co = $_POST['co'];
-$harga_permalam = (int)$_POST['harga_permalam'];
-$total = (int)$_POST['total'];
+$harga_permalam = (int) $_POST['harga_permalam'];
+$total = (int) $_POST['total'];
 $metode = $_POST['metode_pembayaran'];
 
 // Simpan transaksi ke database
@@ -89,7 +89,9 @@ $kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pembayaran</title>
+    <link rel='shortcut icon' href="img/favicon.ico" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
@@ -97,6 +99,7 @@ $kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
             max-width: 600px;
             margin: 0 auto;
         }
+
         .qr-container {
             background: white;
             padding: 20px;
@@ -108,63 +111,105 @@ $kodePembayaran = strtoupper(bin2hex(random_bytes(5)));
 </head>
 
 <body>
-<?php include 'navbar.php'; ?>
+    <?php include 'navbar.php'; ?>
 
-<div class="container mt-5">
-    <div class="card payment-card shadow">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Instruksi Pembayaran</h4>
-        </div>
-        <div class="card-body">
-            <div class="text-center mb-4">
-                <h5 class="<?= str_starts_with($metode, 'qris_') ? 'text-success' : 'text-primary' ?>">
-                    <i class="bi bi-qr-code-scan"></i> Pembayaran <?= $metodeLabel ?>
-                </h5>
+    <div class="container mt-5">
+        <div class="card payment-card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Instruksi Pembayaran</h4>
             </div>
-
-            <div class="text-center">
-                <div class="qr-container mb-3">
-                    <img src="<?= $qrCodeUrl ?>" alt="QR Pembayaran" class="img-fluid">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <h5 class="<?= str_starts_with($metode, 'qris_') ? 'text-success' : 'text-primary' ?>">
+                        <i class="bi bi-qr-code-scan"></i> Pembayaran <?= $metodeLabel ?>
+                    </h5>
                 </div>
-                <p class="text-muted">Scan QR code di atas untuk melakukan pembayaran</p>
-            </div>
 
-            <div class="payment-details mt-4">
-                <h5>Detail Pembayaran</h5>
-                <table class="table table-bordered">
-                    <tr><th>No. Kamar</th><td><?= $room ?></td></tr>
-                    <tr><th>Tipe Kamar</th><td><?= $tipe ?></td></tr>
-                    <tr><th>Harga per Malam</th><td>Rp <?= number_format($harga_permalam, 0, ',', '.') ?></td></tr>
-                    <tr><th>Check-in</th><td><?= date('d F Y', strtotime($ci)) ?></td></tr>
-                    <tr><th>Check-out</th><td><?= date('d F Y', strtotime($co)) ?></td></tr>
-                    <tr><th>Total Pembayaran</th><td class="fw-bold">Rp <?= number_format($total, 0, ',', '.') ?></td></tr>
-                    <tr><th>Kode Pembayaran</th><td class="text-danger fw-bold"><?= $kodePembayaran ?></td></tr>
-                </table>
+                <div class="text-center">
+                    <div class="qr-container mb-3">
+                        <img src="<?= $qrCodeUrl ?>" alt="QR Pembayaran" class="img-fluid">
+                    </div>
+                    <p class="text-muted">Scan QR code di atas untuk melakukan pembayaran</p>
+                </div>
+
+                <div class="payment-details mt-4">
+                    <h5>Detail Pembayaran</h5>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>No. Kamar</th>
+                            <td><?= $room ?></td>
+                        </tr>
+                        <tr>
+                            <th>Tipe Kamar</th>
+                            <td><?= $tipe ?></td>
+                        </tr>
+                        <tr>
+                            <th>Harga per Malam</th>
+                            <td>Rp <?= number_format($harga_permalam, 0, ',', '.') ?></td>
+                        </tr>
+                        <tr>
+                            <th>Check-in</th>
+                            <td><?= date('d F Y', strtotime($ci)) ?></td>
+                        </tr>
+                        <tr>
+                            <th>Check-out</th>
+                            <td><?= date('d F Y', strtotime($co)) ?></td>
+                        </tr>
+                        <tr>
+                            <th>Total Pembayaran</th>
+                            <td class="fw-bold">Rp <?= number_format($total, 0, ',', '.') ?></td>
+                        </tr>
+                        <tr>
+                            <th>Kode Pembayaran</th>
+                            <td class="text-danger fw-bold"><?= $kodePembayaran ?></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="card-footer text-center d-flex justify-content-between">
-            <a href="index.php" class="btn btn-primary">Kembali ke Beranda</a>
-            <div>
-                <button onclick="window.print()" class="btn btn-secondary me-2"><i class="bi bi-printer"></i> Cetak QR</button>
-                <a href="struk.php" class="btn btn-success"><i class="bi bi-file-earmark-text"></i> Cetak Struk</a>
+            <div class="card-footer text-center d-flex flex-column flex-md-row justify-content-between gap-2">
+                <a href="index.php" class="btn btn-primary w-100 w-md-auto mb-2 mb-md-0">Kembali ke Beranda</a>
+                <div class="d-flex flex-column flex-md-row gap-2 w-100 w-md-auto">
+                    <button onclick="window.print()" class="btn btn-secondary"><i class="bi bi-printer"></i> Cetak
+                        QR</button>
+                    <a href="struk.php" class="btn btn-success"><i class="bi bi-file-earmark-text"></i> Cetak Struk</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<footer class="bg-light text-center text-lg-start border-top mt-5">
-    <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
-        <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights reserved.</p>
-        <div class="d-flex align-items-center">
-            <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
-            <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i class="bi bi-instagram fs-5"></i></a>
-            <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
-            <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+    <footer class="text-center text-lg-start border-top mt-5" style="background: #261fb3;">
+        <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-2 mb-md-0 text-white">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+                reserved.</p>
+
+            <div class="d-flex align-items-center">
+                <a class="text-white me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
+                        class="bi bi-instagram fs-5"></i></a>
+                <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
+                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Tambahkan dummy state ke history
+      history.pushState(null, null, location.href);
+    
+      // Jika user tekan tombol back (popstate terpicu)
+      window.addEventListener('popstate', function () {
+        location.replace("index.php");
+      });
+    
+      // Tambahan cadangan: jika browser minimize atau pindah tab
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') {
+          history.pushState(null, null, location.href);
+        }
+      });
+    </script>
+
 </body>
 
 </html>

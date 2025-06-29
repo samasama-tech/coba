@@ -31,6 +31,7 @@ $total_harga = $harga_permalam * $lama_menginap;
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Transaksi Pemesanan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
@@ -95,14 +96,18 @@ $total_harga = $harga_permalam * $lama_menginap;
         </form>
     </div>
 
-    <footer class="bg-light text-center text-lg-start border-top mt-5">
+    <footer class="text-center text-lg-start border-top mt-5" style="background: #261fb3;">
         <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <p class="mb-2 mb-md-0 text-muted">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights reserved.</p>
+            <p class="mb-2 mb-md-0 text-white">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
+                reserved.</p>
+
             <div class="d-flex align-items-center">
-                <a class="text-muted me-4 text-decoration-none fw-medium">Hubungi Kami</a>
-                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i class="bi bi-instagram fs-5"></i></a>
+                <a class="text-white me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
+                        class="bi bi-instagram fs-5"></i></a>
                 <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
-                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
+                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i
+                        class="bi bi-facebook fs-5"></i></a>
             </div>
         </div>
     </footer>

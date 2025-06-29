@@ -22,16 +22,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bintang = $_POST['bintang'];
     $komen = $_POST['komen'];
 
+    // Simpan review ke database
     $stmt = $conn->prepare("INSERT INTO review (idkmr, nokmr, id_cust, bintang, komen, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
     $stmt->bind_param("isiss", $idkmr, $nokmr, $id_cust, $bintang, $komen);
     $stmt->execute();
     $stmt->close();
 
-    // Redirect dengan query string
-    $_SESSION['flash_review'] = true;
-    header("Location: index.php");
-    exit();
+    // Cek apakah masih ada review yang belum dibuat
+    $stmt = $conn->prepare("
+        SELECT COUNT(*) AS sisa
+        FROM transaksi t
+        JOIN kmr k ON t.nokmr = k.nokmr
+        LEFT JOIN review r ON r.nokmr = t.nokmr AND r.id_cust = t.id_cust
+        WHERE t.id_cust = ? AND r.id_review IS NULL
+    ");
+    $stmt->bind_param("i", $id_cust);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_assoc();
+    $sisa = $res['sisa'];
+    $stmt->close();
 
+    if ($sisa > 0) {
+        // Masih ada kamar yang belum direview → tetap di halaman review
+        $_SESSION['review_success'] = true;
+        header("Location: review.php");
+    } else {
+        // Semua review selesai → ke index
+        $_SESSION['flash_review'] = true;
+        header("Location: index.php");
+    }
+    exit();
 }
 
 $stmt = $conn->prepare("
@@ -53,6 +73,7 @@ $result = $stmt->get_result();
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Review Kamar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -69,7 +90,13 @@ $result = $stmt->get_result();
     </style>
 </head>
 
-<body class="bg-light">
+<body>
+    <?php if (isset($_SESSION['review_success'])): ?>
+        <div class="alert alert-success text-center">
+            Review berhasil dikirim!
+        </div>
+        <?php unset($_SESSION['review_success']); ?>
+    <?php endif; ?>
 
     <div class="container pt-4">
         <a href="rooms.php" class="btn btn-outline-dark px-4 py-2 rounded-pill shadow-sm">

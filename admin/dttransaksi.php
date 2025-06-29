@@ -7,8 +7,13 @@ $resultJumlah = $conn->query("SELECT COUNT(*) AS total_transaksi FROM transaksi"
 $dataJumlah = $resultJumlah->fetch_assoc();
 $jumlahTransaksi = $dataJumlah['total_transaksi'] ?? 0;
 
-// Ambil data transaksi dengan kolom yang benar
-$resultTransaksi = $conn->query("SELECT id_trans, id_cust, nokmr, harga, tipe, total, check_in, check_out FROM transaksi ORDER BY id_trans DESC");
+// Ambil data transaksi + username customer
+$resultTransaksi = $conn->query("
+    SELECT t.id_trans, c.username AS nama_cust, t.nokmr, t.harga, t.tipe, t.total, t.check_in, t.check_out
+    FROM transaksi t
+    JOIN cust c ON t.id_cust = c.id_cust
+    ORDER BY t.id_trans DESC
+");
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +47,7 @@ $resultTransaksi = $conn->query("SELECT id_trans, id_cust, nokmr, harga, tipe, t
           <thead class="table-light">
             <tr>
               <th>ID Transaksi</th>
-              <th>ID Customer</th>
+              <th>Username</th>
               <th>No. Kamar</th>
               <th>Harga</th>
               <th>Tipe</th>
@@ -55,7 +60,7 @@ $resultTransaksi = $conn->query("SELECT id_trans, id_cust, nokmr, harga, tipe, t
             <?php while ($row = $resultTransaksi->fetch_assoc()): ?>
               <tr>
                 <td><?= $row['id_trans'] ?></td>
-                <td><?= $row['id_cust'] ?></td>
+                <td><?= htmlspecialchars($row['nama_cust']) ?></td>
                 <td><?= $row['nokmr'] ?></td>
                 <td>Rp <?= number_format($row['harga'], 0, ',', '.') ?></td>
                 <td><?= $row['tipe'] ?></td>

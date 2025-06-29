@@ -27,28 +27,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Hotels - Room Search</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-    .btn-booking {
-        white-space: nowrap;
-    }
-    </style>
     <link rel="shortcut icon" href="img/icon.ico" type="image/x-icon">
+    <style>
+        .btn-booking { white-space: nowrap; }
+    </style>
 </head>
-
 <body>
-    <?php include 'navbar.php'; ?>
+<?php include 'navbar.php'; ?>
 
-    <?php if ($_SERVER["REQUEST_METHOD"] == "POST"): ?>
+<?php if ($_SERVER["REQUEST_METHOD"] == "POST"): ?>
     <div class="search-results-container mb-5" style="margin-left: 30px;">
         <h4 class="mb-4">Hasil Pencarian</h4>
 
@@ -73,87 +68,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </thead>
                 <tbody>
                     <?php if ($result && $result->num_rows > 0): ?>
-                    <?php
-                            // Hitung jumlah malam
-                            $checkin_date = new DateTime($ci);
-                            $checkout_date = new DateTime($co);
-                            $interval = $checkin_date->diff($checkout_date);
-                            $nights = $interval->days;
 
-                            while ($row = $result->fetch_assoc()):
-                                $harga = 0;
-                                if ($row['tipe'] == 'Deluxe Room') {
-                                    $harga = 600000;
-                                } elseif ($row['tipe'] == 'Suite Room') {
-                                    $harga = 500000;
-                                } elseif ($row['tipe'] == 'Executive Room') {
-                                    $harga = 700000;
-                                }
+                        <?php
+                        $checkin_date = new DateTime($ci);
+                        $checkout_date = new DateTime($co);
+                        $interval = $checkin_date->diff($checkout_date);
+                        $nights = $interval->days;
+                        ?>
 
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <?php
+                                $harga = $row['harga'];
                                 $total_harga = $harga * $nights;
-                                ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['nokmr']) ?></td>
-                        <td><?= htmlspecialchars($row['tipe']) ?></td>
-                        <td><?= htmlspecialchars($row['fasilitas']) ?></td>
-                        <td>
-                            <span class="badge <?= $row['status'] == 'Kosong' ? 'bg-success' : 'bg-danger' ?>">
-                                <?= htmlspecialchars($row['status']) ?>
-                            </span>
-                        </td>
-                        <td>
-                            Rp <?= number_format($harga, 0, ',', '.') ?> / malam
-                            <br><small class="text-muted">Total: Rp <?= number_format($total_harga, 0, ',', '.') ?>
-                                (<?= $nights ?> malam)</small>
-                        </td>
-                        <td>
-                            <?php if ($row['status'] == 'Kosong'): ?>
-                            <?php if ($loggedIn): ?>
-                            <a href="transaksi.php?room=<?= $row['nokmr'] ?>&tipe=<?= urlencode($row['tipe']) ?>&ci=<?= $ci ?>&co=<?= $co ?>&price=<?= $harga ?>&total=<?= $total_harga ?>"
-                                class="btn btn-success btn-sm btn-booking w-100">
-                                Pesan Sekarang
-                            </a>
-                            <?php else: ?>
-                            <button class="btn btn-warning btn-sm btn-booking w-100" data-bs-toggle="modal"
-                                data-bs-target="#loginModal">
-                                Login untuk Pesan
-                            </button>
-                            <?php endif; ?>
-                            <?php else: ?>
-                            <button class="btn btn-secondary btn-sm btn-booking w-100" disabled>
-                                Tidak Tersedia
-                            </button>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                    <?php endwhile; ?>
-                    <?php elseif ($result): ?>
-                    <tr>
-                        <td colspan="6" class="text-center py-3">Tidak ada kamar tersedia sesuai pencarian Anda.</td>
-                    </tr>
+                            ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['nokmr']) ?></td>
+                                <td><?= htmlspecialchars($row['tipe']) ?></td>
+                                <td><?= htmlspecialchars($row['fasilitas']) ?></td>
+                                <td>
+                                    <span class="badge <?= $row['status'] == 'Kosong' ? 'bg-success' : 'bg-danger' ?>">
+                                        <?= htmlspecialchars($row['status']) ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    Rp <?= number_format($harga, 0, ',', '.') ?> / malam
+                                    <br>
+                                    <small class="text-muted">Total: Rp <?= number_format($total_harga, 0, ',', '.') ?> (<?= $nights ?> malam)</small>
+                                </td>
+                                <td>
+                                    <?php if ($row['status'] == 'Kosong'): ?>
+                                        <?php if ($loggedIn): ?>
+                                            <a href="transaksi.php?room=<?= $row['nokmr'] ?>&tipe=<?= urlencode($row['tipe']) ?>&ci=<?= $ci ?>&co=<?= $co ?>&price=<?= $harga ?>&total=<?= $total_harga ?>"
+                                               class="btn btn-success btn-sm btn-booking w-100">
+                                                Pesan Sekarang
+                                            </a>
+                                        <?php else: ?>
+                                            <button class="btn btn-warning btn-sm btn-booking w-100" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                                Login untuk Pesan
+                                            </button>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <button class="btn btn-secondary btn-sm btn-booking w-100" disabled>
+                                            Tidak Tersedia
+                                        </button>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center py-3">
+                                Tidak ada kamar tersedia sesuai pencarian Anda.
+                            </td>
+                        </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </div>
-    <?php endif; ?>
+<?php endif; ?>
 
-    <footer class="text-center text-lg-start border-top mt-5" style="background: #261fb3;">
-        <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <p class="mb-2 mb-md-0 text-white">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights
-                reserved.</p>
-
-            <div class="d-flex align-items-center">
-                <a class="text-white me-4 text-decoration-none fw-medium">Hubungi Kami</a>
-                <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i
-                        class="bi bi-instagram fs-5"></i></a>
-                <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
-                <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
-            </div>
+<footer class="text-center text-lg-start border-top mt-5" style="background: #261fb3;">
+    <div class="container py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <p class="mb-2 mb-md-0 text-white">&copy; <?= date("Y") ?> <strong>Nexus Hotels</strong>. All rights reserved.</p>
+        <div class="d-flex align-items-center">
+            <a class="text-white me-4 text-decoration-none fw-medium">Hubungi Kami</a>
+            <a href="https://www.instagram.com/nexushotel" class="text-danger me-3"><i class="bi bi-instagram fs-5"></i></a>
+            <a href="https://wa.me/" class="text-success me-3"><i class="bi bi-whatsapp fs-5"></i></a>
+            <a href="https://web.facebook.com/share/p/1BM9sLY2A2/" class="text-primary"><i class="bi bi-facebook fs-5"></i></a>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
