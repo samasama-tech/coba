@@ -232,12 +232,12 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Password Baru</label>
-                        <input type="password" name="password_baru" id="reset_password"
+                        <input type="password" name="password_baru" id="reset_password" minlength="3"
                             class="form-control form-control-lg rounded-3" placeholder="Password baru" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Konfirmasi Password</label>
-                        <input type="password" name="confirm_password" id="reset_cpassword"
+                        <input type="password" name="confirm_password" id="reset_cpassword" minlength="3"
                             class="form-control form-control-lg rounded-3" placeholder="Konfirmasi password" required>
                         <div id="resetPasswordMismatch" class="text-danger small d-none mt-1">
                             Password dan konfirmasi tidak cocok.
