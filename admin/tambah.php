@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -52,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   </style>
 </head>
+
 <body>
 
   <?php include 'navbar.php'; ?>
@@ -76,11 +78,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label>Tipe Kamar</label>
             <select name="tipe" id="tipeKamar" class="form-select" required onchange="toggleTipeLain()">
               <option value="">-- Pilih Tipe --</option>
-              <option value="Deluxe">Deluxe Room</option>
-              <option value="Suite">Suite Room</option>
-              <option value="Executive">Executive Room</option>
+              <?php
+              $tipe_result = $conn->query("SELECT DISTINCT tipe FROM kmr ORDER BY tipe ASC");
+              while ($row = $tipe_result->fetch_assoc()):
+                ?>
+                <option value="<?= htmlspecialchars($row['tipe']) ?>"><?= htmlspecialchars($row['tipe']) ?></option>
+              <?php endwhile; ?>
               <option value="Other">Lainnya...</option>
             </select>
+
           </div>
 
           <div class="mb-3" id="tipeLainField">
@@ -134,4 +140,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </script>
 
 </body>
+
 </html>
